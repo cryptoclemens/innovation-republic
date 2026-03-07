@@ -63,6 +63,19 @@
 
     .nav-logo img { height: 44px; }
 
+    .version-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 3px 9px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+      font-family: 'SF Mono', 'Fira Mono', monospace;
+      white-space: nowrap;
+    }
+
     .nav-links {
       display: flex; align-items: center; gap: 32px;
       list-style: none;
@@ -143,12 +156,10 @@
 
     .hero-logo {
       margin-bottom: 48px;
-      filter: brightness(0) invert(1); /* Logo weiß auf dunklem Hintergrund */
     }
 
     .hero-logo img {
       height: 80px;
-      filter: brightness(10); /* SVG auf weißem Fond invertieren */
     }
 
     .hero-badge {
@@ -734,7 +745,7 @@
       flex-wrap: wrap; gap: 24px;
     }
 
-    .footer-logo img { height: 36px; filter: brightness(10); }
+    .footer-logo img { height: 36px; }
 
     .footer-links {
       display: flex; gap: 28px; list-style: none; flex-wrap: wrap;
@@ -807,7 +818,7 @@
      ============================================================ -->
 <nav>
   <a href="#" class="nav-logo">
-    <img src="assets/logo.svg" alt="Innovation Republic" id="nav-logo-img"/>
+    <img src="assets/logo-light.png" alt="Innovation Republic" id="nav-logo-img"/>
   </a>
   <ul class="nav-links">
     <li><a href="#demo" data-i18n="nav-demo">Demo</a></li>
@@ -815,6 +826,7 @@
     <li><a href="#kategorien" data-i18n="nav-kat">Kategorien</a></li>
     <li><a href="#onboarding" class="nav-cta" data-i18n="nav-cta">Startup eintragen</a></li>
   </ul>
+  <span class="version-badge">v1.0.0</span>
   <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇬🇧 EN</button>
 </nav>
 
@@ -825,9 +837,9 @@
 <section class="hero" id="top">
   <div class="hero-content">
 
-    <!-- Logo (weiß auf dunklem Hintergrund) -->
+    <!-- Logo (dark version für dunklen Hero-Hintergrund) -->
     <div class="hero-logo">
-      <img src="assets/logo.svg" alt="Innovation Republic Logo" style="filter: brightness(10) saturate(0); height:90px;"/>
+      <img src="assets/logo-dark.png" alt="Innovation Republic Logo" style="height:90px;"/>
     </div>
 
     <div class="hero-badge">
@@ -1111,7 +1123,7 @@
      ============================================================ -->
 <footer>
   <div class="footer-logo">
-    <img src="assets/logo.svg" alt="Innovation Republic"/>
+    <img src="assets/logo-dark.png" alt="Innovation Republic"/>
   </div>
 
   <ul class="footer-links">
