@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Innovation Republic – Semantisches Startup-Matching für den Mittelstand. Beschreiben Sie Ihr Problem, wir finden das passende Startup."/>
+  <title>Innovation Republic – Startup Matching</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+       CSS VARIABLEN – Brand Colors Innovation Republic
+       ============================================================ */
+    :root {
+      --ir-black:   #1A1A1A;
+      --ir-red:     #CC1016;
+      --ir-gold:    #F5C400;
+      --ir-dark:    #2B2B2B;
+      --ir-gray:    #4A4A4A;
+      --ir-light:   #F8F8F8;
+      --ir-white:   #FFFFFF;
+      --ir-border:  #E5E5E5;
+      --ir-shadow:  rgba(0,0,0,0.08);
+      --radius:     12px;
+      --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ir-dark);
+      background: var(--ir-white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ir-border);
+      padding: 0 5%;
+      height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo img { height: 44px; }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ir-gray);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--ir-red); }
+
+    .nav-cta {
+      background: var(--ir-red) !important;
+      color: var(--ir-white) !important;
+      padding: 10px 22px !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      transition: var(--transition) !important;
+    }
+
+    .nav-cta:hover {
+      background: #a50d11 !important;
+      transform: translateY(-1px);
+    }
+
+    .lang-toggle {
+      background: var(--ir-light);
+      border: 1px solid var(--ir-border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--ir-gray);
+      transition: var(--transition);
+    }
+
+    .lang-toggle:hover { border-color: var(--ir-red); color: var(--ir-red); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--ir-black) 0%, #2B2B2B 50%, #1a1a1a 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Dekoratives Hintergrundmuster */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 60px,
+        rgba(245,196,0,0.03) 60px,
+        rgba(245,196,0,0.03) 61px
+      );
+    }
+
+    /* Goldener Akzentstreifen unten */
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--ir-black), var(--ir-red), var(--ir-gold));
+    }
+
+    .hero-content { position: relative; max-width: 900px; }
+
+    .hero-logo {
+      margin-bottom: 48px;
+      filter: brightness(0) invert(1); /* Logo weiß auf dunklem Hintergrund */
+    }
+
+    .hero-logo img {
+      height: 80px;
+      filter: brightness(10); /* SVG auf weißem Fond invertieren */
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,196,0,0.12);
+      border: 1px solid rgba(245,196,0,0.3);
+      color: var(--ir-gold);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 900;
+      color: var(--ir-white);
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .accent-red  { color: var(--ir-red); }
+    .hero h1 .accent-gold { color: var(--ir-gold); }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.7);
+      max-width: 640px;
+      margin: 0 auto 48px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--ir-red);
+      color: var(--ir-white);
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #a50d11;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(204,16,22,0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ir-white);
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.25);
+      transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--ir-gold);
+      color: var(--ir-gold);
+      transform: translateY(-2px);
+    }
+
+    /* Stats-Bar unter Hero */
+    .hero-stats {
+      display: flex; justify-content: center; gap: 64px;
+      margin-top: 64px; flex-wrap: wrap;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-number {
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--ir-gold);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.85rem; color: rgba(255,255,255,0.55);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       SECTION GEMEINSAM
+       ============================================================ */
+    section { padding: 100px 5%; }
+
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(204,16,22,0.08);
+      color: var(--ir-red);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 900;
+      color: var(--ir-black);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-lead {
+      font-size: 1.1rem; color: var(--ir-gray);
+      max-width: 600px; margin-bottom: 56px;
+    }
+
+    /* ============================================================
+       MATCHING DEMO
+       ============================================================ */
+    #demo { background: var(--ir-light); }
+
+    .demo-container {
+      background: var(--ir-white);
+      border-radius: 20px;
+      padding: 48px;
+      box-shadow: 0 4px 40px var(--ir-shadow);
+      border: 1px solid var(--ir-border);
+    }
+
+    .input-group { position: relative; margin-bottom: 24px; }
+
+    .input-group label {
+      display: block;
+      font-size: 0.88rem; font-weight: 600;
+      color: var(--ir-dark);
+      margin-bottom: 10px;
+    }
+
+    .problem-input {
+      width: 100%;
+      min-height: 130px;
+      padding: 18px 22px;
+      border: 2px solid var(--ir-border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--ir-dark);
+      background: var(--ir-white);
+      resize: vertical;
+      transition: var(--transition);
+      line-height: 1.6;
+    }
+
+    .problem-input:focus {
+      outline: none;
+      border-color: var(--ir-red);
+      box-shadow: 0 0 0 4px rgba(204,16,22,0.08);
+    }
+
+    .problem-input::placeholder { color: #AAAAAA; }
+
+    .example-chips {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+    }
+
+    .chip {
+      background: var(--ir-light);
+      border: 1px solid var(--ir-border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--ir-gray);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      border-color: var(--ir-red);
+      color: var(--ir-red);
+      background: rgba(204,16,22,0.05);
+    }
+
+    .match-btn {
+      background: var(--ir-red);
+      color: var(--ir-white);
+      border: none; cursor: pointer;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem; font-weight: 700;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .match-btn:hover {
+      background: #a50d11;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(204,16,22,0.35);
+    }
+
+    .match-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Diagnose Box */
+    .diagnose-box {
+      display: none;
+      background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+      border: 1.5px solid var(--ir-gold);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 32px 0 24px;
+    }
+
+    .diagnose-box.visible { display: block; animation: fadeSlide 0.4s ease; }
+
+    .diagnose-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .diagnose-icon { font-size: 1.4rem; }
+
+    .diagnose-label {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #9a7a00;
+    }
+
+    .diagnose-kategorie {
+      font-size: 1.2rem; font-weight: 800;
+      color: var(--ir-black);
+    }
+
+    .diagnose-loesung {
+      font-size: 0.9rem; color: var(--ir-gray);
+      margin-top: 8px; line-height: 1.6;
+    }
+
+    /* Ergebniskarten */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .result-card {
+      background: var(--ir-white);
+      border: 1.5px solid var(--ir-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+      animation: fadeSlide 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card:hover {
+      border-color: rgba(204,16,22,0.3);
+      box-shadow: 0 8px 30px rgba(204,16,22,0.08);
+      transform: translateY(-2px);
+    }
+
+    .result-card.rank-1 {
+      border-color: var(--ir-gold);
+      background: linear-gradient(135deg, #fffef5 0%, #fff 100%);
+    }
+
+    .result-card.rank-1::before {
+      content: '🥇';
+      position: absolute; top: 16px; right: 16px;
+      font-size: 1.4rem;
+    }
+
+    .card-source-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+
+    .source-dealroom    { background: #EFF6FF; color: #1D4ED8; }
+    .source-esm        { background: #ECFDF5; color: #065F46; }
+    .source-angellist  { background: #F5F3FF; color: #5B21B6; }
+    .source-demo       { background: #F3F4F6; color: #4B5563; }
+
+    .verified-dot {
+      width: 6px; height: 6px;
+      background: #1D4ED8;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .card-name {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--ir-black);
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.87rem; color: var(--ir-gray);
+      line-height: 1.6; margin-bottom: 16px;
+    }
+
+    .card-kategorie {
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--ir-red);
+      margin-bottom: 14px;
+    }
+
+    .score-bar-wrap { margin-bottom: 4px; }
+
+    .score-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--ir-gray);
+      margin-bottom: 6px;
+    }
+
+    .score-bar-track {
+      height: 6px;
+      background: var(--ir-border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ir-red), var(--ir-gold));
+      border-radius: 100px;
+      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+      width: 0;
+    }
+
+    .card-footer {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid var(--ir-border);
+      font-size: 0.78rem; color: #AAAAAA;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      width: 22px; height: 22px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .spinner.visible { display: inline-block; }
+
+    /* ============================================================
+       HOW IT WORKS
+       ============================================================ */
+    #how { background: var(--ir-white); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    .step-card {
+      text-align: center; padding: 40px 28px;
+      border-radius: var(--radius);
+      border: 1px solid var(--ir-border);
+      transition: var(--transition);
+    }
+
+    .step-card:hover {
+      border-color: var(--ir-red);
+      box-shadow: 0 8px 32px rgba(204,16,22,0.08);
+      transform: translateY(-4px);
+    }
+
+    .step-number {
+      width: 56px; height: 56px;
+      background: var(--ir-red);
+      color: var(--ir-white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 900;
+      margin: 0 auto 24px;
+    }
+
+    .step-icon { font-size: 2rem; margin-bottom: 16px; }
+
+    .step-title {
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--ir-black); margin-bottom: 12px;
+    }
+
+    .step-desc { font-size: 0.88rem; color: var(--ir-gray); line-height: 1.7; }
+
+    /* ============================================================
+       KATEGORIEN
+       ============================================================ */
+    #kategorien { background: var(--ir-light); }
+
+    .kategorien-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .kategorie-card {
+      background: var(--ir-white);
+      border: 1px solid var(--ir-border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .kategorie-card:hover {
+      border-color: var(--ir-red);
+      box-shadow: 0 6px 24px rgba(204,16,22,0.08);
+      transform: translateY(-2px);
+    }
+
+    .kategorie-card:hover .kat-icon { transform: scale(1.15); }
+
+    .kat-icon {
+      font-size: 2rem; margin-bottom: 14px;
+      display: block; transition: transform 0.2s ease;
+    }
+
+    .kat-name {
+      font-size: 0.95rem; font-weight: 800;
+      color: var(--ir-black); margin-bottom: 8px;
+    }
+
+    .kat-desc { font-size: 0.82rem; color: var(--ir-gray); line-height: 1.6; }
+
+    .kat-count {
+      display: inline-block;
+      background: rgba(204,16,22,0.08);
+      color: var(--ir-red);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+      margin-top: 12px;
+    }
+
+    /* ============================================================
+       ONBOARDING CTA
+       ============================================================ */
+    #onboarding {
+      background: linear-gradient(135deg, var(--ir-black) 0%, #2B2B2B 100%);
+      position: relative; overflow: hidden;
+    }
+
+    #onboarding::before {
+      content: '';
+      position: absolute; top: -50%; right: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(245,196,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .onboarding-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .onboarding-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .onboarding-text h2 { color: var(--ir-white); }
+    .onboarding-text p { color: rgba(255,255,255,0.65); max-width: 440px; }
+
+    .onboarding-form {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .form-field { margin-bottom: 18px; }
+
+    .form-field label {
+      display: block;
+      font-size: 0.83rem; font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--ir-white);
+      transition: var(--transition);
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      outline: none;
+      border-color: var(--ir-gold);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .form-field select option { background: var(--ir-dark); color: var(--ir-white); }
+
+    .form-checkbox {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .form-checkbox input { width: auto; margin-top: 3px; flex-shrink: 0; }
+
+    .form-checkbox label {
+      font-size: 0.78rem; color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    .form-submit {
+      width: 100%;
+      background: var(--ir-gold);
+      color: var(--ir-black);
+      border: none; cursor: pointer;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem; font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .form-submit:hover {
+      background: #dba800;
+      transform: translateY(-1px);
+    }
+
+    .form-success {
+      display: none; text-align: center; padding: 24px;
+      color: var(--ir-gold);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      background: var(--ir-black);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 48px 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+
+    .footer-logo img { height: 36px; filter: brightness(10); }
+
+    .footer-links {
+      display: flex; gap: 28px; list-style: none; flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-size: 0.83rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--ir-gold); }
+
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 0.78rem; }
+
+    /* ============================================================
+       ANIMATIONEN
+       ============================================================ */
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .loading-dots span {
+      animation: pulse 1.2s ease infinite;
+      font-size: 1.2rem;
+    }
+
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .results-grid { grid-template-columns: 1fr; }
+      .demo-container { padding: 28px 20px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-stats { gap: 32px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    /* Scroll-Animations */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.svg" alt="Innovation Republic" id="nav-logo-img"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#demo" data-i18n="nav-demo">Demo</a></li>
+    <li><a href="#how" data-i18n="nav-how">So funktioniert's</a></li>
+    <li><a href="#kategorien" data-i18n="nav-kat">Kategorien</a></li>
+    <li><a href="#onboarding" class="nav-cta" data-i18n="nav-cta">Startup eintragen</a></li>
+  </ul>
+  <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇬🇧 EN</button>
+</nav>
+
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="hero-content">
+
+    <!-- Logo (weiß auf dunklem Hintergrund) -->
+    <div class="hero-logo">
+      <img src="assets/logo.svg" alt="Innovation Republic Logo" style="filter: brightness(10) saturate(0); height:90px;"/>
+    </div>
+
+    <div class="hero-badge">
+      <span>⚡</span>
+      <span data-i18n="hero-badge">KI-gestütztes Startup-Matching · DACH-Region</span>
+    </div>
+
+    <h1>
+      <span data-i18n="hero-h1a">Ihr Problem.</span><br/>
+      <span class="accent-red" data-i18n="hero-h1b">Das passende Startup.</span><br/>
+      <span class="accent-gold" data-i18n="hero-h1c">Sofort.</span>
+    </h1>
+
+    <p class="hero-subtitle" data-i18n="hero-sub">
+      Beschreiben Sie Ihre betriebliche Herausforderung in eigenen Worten –
+      unser semantisches Matching-System findet die richtigen Innovationspartner
+      aus über 50.000 verifizierten DACH-Startups.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#demo" class="btn-primary">
+        <span>🎯</span>
+        <span data-i18n="hero-cta1">Matching starten</span>
+      </a>
+      <a href="#onboarding" class="btn-secondary">
+        <span>🚀</span>
+        <span data-i18n="hero-cta2">Startup eintragen</span>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number" id="counter-startups">0</span>
+        <span class="stat-label" data-i18n="stat1">Startups im System</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">7</span>
+        <span class="stat-label" data-i18n="stat2">Innovationskategorien</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">3</span>
+        <span class="stat-label" data-i18n="stat3">DACH-Länder</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="counter-matches">0</span>
+        <span class="stat-label" data-i18n="stat4">Matches heute</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     MATCHING DEMO
+     ============================================================ -->
+<section id="demo">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-badge" data-i18n="demo-badge">Live-Demo</span>
+      <h2 data-i18n="demo-h2">Ihr Matching in 10 Sekunden</h2>
+      <p class="section-lead" data-i18n="demo-lead">
+        Kein Fachjargon nötig. Beschreiben Sie Ihr Problem so wie Sie es Kollegen erklären würden.
+      </p>
+    </div>
+
+    <div class="demo-container reveal">
+
+      <!-- Beispiel-Chips -->
+      <p style="font-size:0.82rem;font-weight:600;color:#888;margin-bottom:8px;" data-i18n="chips-label">
+        Beispiele zum Ausprobieren:
+      </p>
+      <div class="example-chips">
+        <span class="chip" onclick="setExample(0)">🔧 Maschinenwartung</span>
+        <span class="chip" onclick="setExample(1)">👥 Fachkräftemangel</span>
+        <span class="chip" onclick="setExample(2)">⚡ Energiekosten</span>
+        <span class="chip" onclick="setExample(3)">🚚 Logistik</span>
+        <span class="chip" onclick="setExample(4)">✅ Qualitätskontrolle</span>
+        <span class="chip" onclick="setExample(5)">♻️ Nachhaltigkeit</span>
+      </div>
+
+      <!-- Eingabefeld -->
+      <div class="input-group">
+        <label for="problemInput" data-i18n="input-label">
+          Beschreiben Sie Ihr Problem in eigenen Worten:
+        </label>
+        <textarea
+          id="problemInput"
+          class="problem-input"
+          placeholder="Beispiel: Unsere Maschinen fallen ohne Vorwarnung aus und der Produktionsstopp kostet uns jeden Monat viel Geld. Wir wissen nicht wann eine Wartung wirklich nötig ist..."
+        ></textarea>
+      </div>
+
+      <!-- Button -->
+      <button class="match-btn" id="matchBtn" onclick="startMatching()">
+        <span class="spinner" id="spinner"></span>
+        <span id="btnText" data-i18n="btn-match">🎯 Matching starten</span>
+      </button>
+
+      <!-- Diagnose Box -->
+      <div class="diagnose-box" id="diagnoseBox">
+        <div class="diagnose-header">
+          <span class="diagnose-icon">🔍</span>
+          <span class="diagnose-label" data-i18n="diagnose-label">Problemdiagnose</span>
+        </div>
+        <div class="diagnose-kategorie" id="diagnoseKat"></div>
+        <div class="diagnose-loesung" id="diagnoseLoesung"></div>
+      </div>
+
+      <!-- Ergebnisse -->
+      <div id="resultsContainer"></div>
+
+    </div><!-- /demo-container -->
+  </div>
+</section>
+
+
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section id="how">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center; margin-bottom:56px;">
+      <span class="section-badge" data-i18n="how-badge">Technologie</span>
+      <h2 data-i18n="how-h2">So funktioniert das Matching</h2>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-number">1</div>
+        <div class="step-icon">✍️</div>
+        <div class="step-title" data-i18n="step1-title">Problem beschreiben</div>
+        <div class="step-desc" data-i18n="step1-desc">
+          Sie beschreiben Ihre betriebliche Herausforderung in natürlicher Sprache –
+          auf Deutsch, ohne Fachbegriffe. Kein Formular, kein Stichwort-Raten.
+        </div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">2</div>
+        <div class="step-icon">🧠</div>
+        <div class="step-title" data-i18n="step2-title">Semantische Analyse</div>
+        <div class="step-desc" data-i18n="step2-desc">
+          Ein mehrsprachiges KI-Modell (sentence-transformers) wandelt Ihren Text
+          in einen 384-dimensionalen Bedeutungsvektor um – und versteht den Kontext.
+        </div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">3</div>
+        <div class="step-icon">🎯</div>
+        <div class="step-title" data-i18n="step3-title">Top-5 Matches</div>
+        <div class="step-desc" data-i18n="step3-desc">
+          pgvector berechnet die Kosinus-Ähnlichkeit gegen 50.000+ Startup-Embeddings
+          und liefert die 5 besten Treffer in Millisekunden – verifiziert und priorisiert.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     INNOVATIONSKATEGORIEN
+     ============================================================ -->
+<section id="kategorien">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-badge" data-i18n="kat-badge">Innovationsbereiche</span>
+      <h2 data-i18n="kat-h2">7 Kategorien. Jede Herausforderung abgedeckt.</h2>
+      <p class="section-lead" data-i18n="kat-lead">
+        Das System klassifiziert automatisch in eine von sieben Innovationskategorien
+        und gibt eine konkrete Lösungsrichtung vor.
+      </p>
+    </div>
+
+    <div class="kategorien-grid" id="kategorienGrid">
+      <!-- Wird via JS befüllt -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     STARTUP ONBOARDING
+     ============================================================ -->
+<section id="onboarding">
+  <div class="section-inner">
+    <div class="onboarding-inner">
+      <div class="onboarding-text reveal">
+        <span class="section-badge" style="background:rgba(245,196,0,0.15);color:var(--ir-gold);" data-i18n="ob-badge">
+          Self-Onboarding
+        </span>
+        <h2 data-i18n="ob-h2">Startup? Dann werden Sie gefunden.</h2>
+        <p style="margin-bottom:28px;" data-i18n="ob-p">
+          Tragen Sie Ihr Startup kostenlos ein und werden Sie von passenden
+          mittelständischen Unternehmen in der DACH-Region entdeckt.
+        </p>
+        <ul style="list-style:none; color:rgba(255,255,255,0.6); font-size:0.9rem; line-height:2;">
+          <li>✅ <span data-i18n="ob-li1">Kostenlos & jederzeit widerrufbar</span></li>
+          <li>✅ <span data-i18n="ob-li2">Profil sichtbar für 50.000+ KMU</span></li>
+          <li>✅ <span data-i18n="ob-li3">Freigeschaltet nach manueller Prüfung</span></li>
+          <li>✅ <span data-i18n="ob-li4">Kein kommerzielles Interesse – rein gemeinnützig</span></li>
+        </ul>
+      </div>
+
+      <div class="onboarding-form reveal" id="onboardingForm">
+        <h3 style="color:white;font-size:1.1rem;font-weight:800;margin-bottom:24px;" data-i18n="ob-form-title">
+          Startup eintragen
+        </h3>
+
+        <div class="form-field">
+          <label data-i18n="ob-name">Startup-Name *</label>
+          <input type="text" id="ob-name" placeholder="MeinStartup GmbH"/>
+        </div>
+
+        <div class="form-field">
+          <label data-i18n="ob-desc">Kurzbeschreibung (max. 500 Zeichen) *</label>
+          <textarea id="ob-desc" rows="3" maxlength="500"
+            placeholder="Was macht Ihr Startup – in eigenen Worten?"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label data-i18n="ob-kat">Innovationsbereich *</label>
+          <select id="ob-kat">
+            <option value="">– Bereich wählen –</option>
+            <option>Prozessautomatisierung</option>
+            <option>Predictive Maintenance</option>
+            <option>Nachhaltige Logistik</option>
+            <option>Digitale Qualitätssicherung</option>
+            <option>Energieeffizienz</option>
+            <option>HR-Tech</option>
+            <option>Zirkulärwirtschaft</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label data-i18n="ob-email">Kontakt-E-Mail (intern, nicht öffentlich) *</label>
+          <input type="email" id="ob-email" placeholder="kontakt@mein-startup.de"/>
+        </div>
+
+        <div class="form-field">
+          <label data-i18n="ob-web">Website (optional)</label>
+          <input type="url" id="ob-web" placeholder="https://mein-startup.de"/>
+        </div>
+
+        <div class="form-checkbox">
+          <input type="checkbox" id="ob-consent"/>
+          <label for="ob-consent" data-i18n="ob-consent">
+            Ich stimme zu, dass mein Profil im Innovation Republic Matching-System
+            gelistet wird (jederzeit widerrufbar).
+          </label>
+        </div>
+
+        <button class="form-submit" onclick="submitOnboarding()">
+          <span data-i18n="ob-submit">Profil einreichen →</span>
+        </button>
+
+        <p style="color:rgba(255,255,255,0.3);font-size:0.73rem;margin-top:16px;text-align:center;" data-i18n="ob-privacy">
+          Ihre Daten werden ausschließlich für das Innovation Republic Matching
+          verwendet und nicht an Dritte weitergegeben.
+        </p>
+      </div>
+
+      <div class="form-success" id="onboardingSuccess">
+        <div style="font-size:3rem;margin-bottom:16px;">🎉</div>
+        <h3 style="color:var(--ir-gold);font-size:1.3rem;margin-bottom:12px;" data-i18n="ob-success-h">
+          Profil eingereicht!
+        </h3>
+        <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;" data-i18n="ob-success-p">
+          Ihr Startup wird nach manueller Prüfung freigeschaltet.
+          Wir melden uns per E-Mail.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="footer-logo">
+    <img src="assets/logo.svg" alt="Innovation Republic"/>
+  </div>
+
+  <ul class="footer-links">
+    <li><a href="mailto:info@innovation-republic.de" data-i18n="footer-contact">Kontakt</a></li>
+    <li><a href="#" data-i18n="footer-privacy">Datenschutz</a></li>
+    <li><a href="#" data-i18n="footer-imprint">Impressum</a></li>
+    <li><a href="https://github.com/innovation-republic/innovation-republic" target="_blank">GitHub</a></li>
+  </ul>
+
+  <p class="footer-copy">
+    © 2025 Innovation Republic e.V. ·
+    <span data-i18n="footer-powered">Powered by pgvector & sentence-transformers</span>
+  </p>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ----------------------------------------------------------
+   MEHRSPRACHIGKEIT
+   ---------------------------------------------------------- */
+const LANG = {
+  de: {
+    "nav-demo": "Demo", "nav-how": "So funktioniert's",
+    "nav-kat": "Kategorien", "nav-cta": "Startup eintragen",
+    "hero-badge": "KI-gestütztes Startup-Matching · DACH-Region",
+    "hero-h1a": "Ihr Problem.", "hero-h1b": "Das passende Startup.",
+    "hero-h1c": "Sofort.",
+    "hero-sub": "Beschreiben Sie Ihre betriebliche Herausforderung in eigenen Worten – unser semantisches Matching-System findet die richtigen Innovationspartner aus über 50.000 verifizierten DACH-Startups.",
+    "hero-cta1": "Matching starten", "hero-cta2": "Startup eintragen",
+    "stat1": "Startups im System", "stat2": "Innovationskategorien",
+    "stat3": "DACH-Länder", "stat4": "Matches heute",
+    "demo-badge": "Live-Demo",
+    "demo-h2": "Ihr Matching in 10 Sekunden",
+    "demo-lead": "Kein Fachjargon nötig. Beschreiben Sie Ihr Problem so wie Sie es Kollegen erklären würden.",
+    "chips-label": "Beispiele zum Ausprobieren:",
+    "input-label": "Beschreiben Sie Ihr Problem in eigenen Worten:",
+    "btn-match": "🎯 Matching starten",
+    "diagnose-label": "Problemdiagnose",
+    "how-badge": "Technologie", "how-h2": "So funktioniert das Matching",
+    "step1-title": "Problem beschreiben",
+    "step1-desc": "Sie beschreiben Ihre betriebliche Herausforderung in natürlicher Sprache – auf Deutsch, ohne Fachbegriffe. Kein Formular, kein Stichwort-Raten.",
+    "step2-title": "Semantische Analyse",
+    "step2-desc": "Ein mehrsprachiges KI-Modell wandelt Ihren Text in einen 384-dimensionalen Bedeutungsvektor um – und versteht den Kontext.",
+    "step3-title": "Top-5 Matches",
+    "step3-desc": "pgvector berechnet die Kosinus-Ähnlichkeit gegen 50.000+ Startup-Embeddings und liefert die 5 besten Treffer in Millisekunden.",
+    "kat-badge": "Innovationsbereiche",
+    "kat-h2": "7 Kategorien. Jede Herausforderung abgedeckt.",
+    "kat-lead": "Das System klassifiziert automatisch in eine von sieben Innovationskategorien und gibt eine konkrete Lösungsrichtung vor.",
+    "ob-badge": "Self-Onboarding",
+    "ob-h2": "Startup? Dann werden Sie gefunden.",
+    "ob-p": "Tragen Sie Ihr Startup kostenlos ein und werden Sie von passenden mittelständischen Unternehmen in der DACH-Region entdeckt.",
+    "ob-li1": "Kostenlos & jederzeit widerrufbar",
+    "ob-li2": "Profil sichtbar für 50.000+ KMU",
+    "ob-li3": "Freigeschaltet nach manueller Prüfung",
+    "ob-li4": "Kein kommerzielles Interesse – rein gemeinnützig",
+    "ob-form-title": "Startup eintragen",
+    "ob-name": "Startup-Name *", "ob-desc": "Kurzbeschreibung (max. 500 Zeichen) *",
+    "ob-kat": "Innovationsbereich *", "ob-email": "Kontakt-E-Mail (intern, nicht öffentlich) *",
+    "ob-web": "Website (optional)",
+    "ob-consent": "Ich stimme zu, dass mein Profil im Innovation Republic Matching-System gelistet wird (jederzeit widerrufbar).",
+    "ob-submit": "Profil einreichen →",
+    "ob-privacy": "Ihre Daten werden ausschließlich für das Innovation Republic Matching verwendet und nicht an Dritte weitergegeben.",
+    "ob-success-h": "Profil eingereicht!",
+    "ob-success-p": "Ihr Startup wird nach manueller Prüfung freigeschaltet. Wir melden uns per E-Mail.",
+    "footer-contact": "Kontakt", "footer-privacy": "Datenschutz",
+    "footer-imprint": "Impressum",
+    "footer-powered": "Powered by pgvector & sentence-transformers",
+    "score-label": "Übereinstimmung",
+    "verified": "✓ Verifiziert",
+  },
+  en: {
+    "nav-demo": "Demo", "nav-how": "How it works",
+    "nav-kat": "Categories", "nav-cta": "List startup",
+    "hero-badge": "AI-powered Startup Matching · DACH Region",
+    "hero-h1a": "Your problem.", "hero-h1b": "The right startup.",
+    "hero-h1c": "Instantly.",
+    "hero-sub": "Describe your operational challenge in your own words – our semantic matching system finds the right innovation partners from over 50,000 verified DACH startups.",
+    "hero-cta1": "Start matching", "hero-cta2": "List your startup",
+    "stat1": "Startups in system", "stat2": "Innovation categories",
+    "stat3": "DACH countries", "stat4": "Matches today",
+    "demo-badge": "Live Demo",
+    "demo-h2": "Your match in 10 seconds",
+    "demo-lead": "No jargon needed. Describe your problem the way you'd explain it to a colleague.",
+    "chips-label": "Try these examples:",
+    "input-label": "Describe your problem in your own words:",
+    "btn-match": "🎯 Start matching",
+    "diagnose-label": "Problem Diagnosis",
+    "how-badge": "Technology", "how-h2": "How the matching works",
+    "step1-title": "Describe the problem",
+    "step1-desc": "You describe your operational challenge in natural language – in plain terms, without jargon. No forms, no keyword guessing.",
+    "step2-title": "Semantic analysis",
+    "step2-desc": "A multilingual AI model converts your text into a 384-dimensional meaning vector – understanding context, not just keywords.",
+    "step3-title": "Top-5 matches",
+    "step3-desc": "pgvector computes cosine similarity against 50,000+ startup embeddings and returns the 5 best matches in milliseconds.",
+    "kat-badge": "Innovation Areas",
+    "kat-h2": "7 categories. Every challenge covered.",
+    "kat-lead": "The system automatically classifies problems into one of seven innovation categories and provides a concrete solution direction.",
+    "ob-badge": "Self-Onboarding",
+    "ob-h2": "Startup? Get discovered.",
+    "ob-p": "List your startup for free and get discovered by matching SMEs across the DACH region.",
+    "ob-li1": "Free & revocable at any time",
+    "ob-li2": "Profile visible to 50,000+ SMEs",
+    "ob-li3": "Activated after manual review",
+    "ob-li4": "No commercial interest – purely non-profit",
+    "ob-form-title": "List your startup",
+    "ob-name": "Startup name *", "ob-desc": "Brief description (max. 500 chars) *",
+    "ob-kat": "Innovation area *", "ob-email": "Contact email (internal, not public) *",
+    "ob-web": "Website (optional)",
+    "ob-consent": "I agree that my profile will be listed in the Innovation Republic matching system (revocable at any time).",
+    "ob-submit": "Submit profile →",
+    "ob-privacy": "Your data is used exclusively for Innovation Republic matching and will not be shared with third parties.",
+    "ob-success-h": "Profile submitted!",
+    "ob-success-p": "Your startup will be activated after manual review. We'll contact you by email.",
+    "footer-contact": "Contact", "footer-privacy": "Privacy",
+    "footer-imprint": "Imprint",
+    "footer-powered": "Powered by pgvector & sentence-transformers",
+    "score-label": "Match score",
+    "verified": "✓ Verified",
+  }
+};
+
+let currentLang = 'de';
+
+function t(key) { return LANG[currentLang][key] || key; }
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (LANG[currentLang][key]) el.textContent = LANG[currentLang][key];
+  });
+  document.getElementById('langBtn').textContent = currentLang === 'de' ? '🇬🇧 EN' : '🇩🇪 DE';
+  document.getElementById('problemInput').placeholder =
+    currentLang === 'de'
+      ? 'Beispiel: Unsere Maschinen fallen ohne Vorwarnung aus und der Produktionsstopp kostet uns jeden Monat viel Geld…'
+      : 'Example: Our machines break down without warning and production stoppages cost us a lot every month…';
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'de' ? 'en' : 'de';
+  applyLang();
+}
+
+
+/* ----------------------------------------------------------
+   DEMO-DATEN: 15 Startup-Profile
+   ---------------------------------------------------------- */
+const STARTUPS = [
+  {
+    name: "SensorGuard GmbH",
+    desc: "IoT-Plattform für vorausschauende Maschinenwartung. Sensoren überwachen Vibration, Temperatur und Lautstärke und sagen Ausfälle bis zu 14 Tage im Voraus vorher.",
+    kat: "Predictive Maintenance",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["maschine","wartung","ausfall","sensor","iot","produktion","stillstand","reparatur","verschleiß","vorbeugend"]
+  },
+  {
+    name: "MaintenanceAI GmbH",
+    desc: "KI-basiertes Wartungsmanagement-System das Maschinendaten aus bestehenden SCADA-Systemen analysiert. Keine zusätzliche Hardware nötig.",
+    kat: "Predictive Maintenance",
+    land: "Schweiz", quelle: "dealroom",
+    keywords: ["wartung","maschine","ki","ausfall","industrie","anlage","sensor","monitoring","prävention","instandhaltung"]
+  },
+  {
+    name: "TalentBridge GmbH",
+    desc: "KI-gestütztes Recruiting-System das Stellenanzeigen automatisch optimiert und Bewerbungen vorqualifiziert. Verkürzt den Einstellungsprozess von 8 Wochen auf unter 2 Wochen.",
+    kat: "HR-Tech",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["mitarbeiter","fachkraft","bewerber","recruiting","einstellung","personal","stelle","hr","talente","kandidaten"]
+  },
+  {
+    name: "SkillMatch AG",
+    desc: "Digitale Wissensmanagement- und Onboarding-Plattform die Unternehmenswissen strukturiert und neue Mitarbeiter schnell einarbeitet. Reduziert Einarbeitungszeit um bis zu 60 Prozent.",
+    kat: "HR-Tech",
+    land: "Schweiz", quelle: "angellist",
+    keywords: ["einarbeitung","onboarding","wissen","mitarbeiter","fluktuation","training","personal","qualifikation","lernend","schulung"]
+  },
+  {
+    name: "GreenRoute GmbH",
+    desc: "CO2-optimierte Routenplanung für Liefer- und Transportunternehmen. KI berechnet täglich die effizientesten Routen unter Berücksichtigung von Stau, Ladegewicht und Emissionen.",
+    kat: "Nachhaltige Logistik",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["logistik","route","lieferung","transport","fahrer","strecke","sprit","co2","effizienz","verzögerung"]
+  },
+  {
+    name: "EcoLogix AG",
+    desc: "Nachhaltige Lieferkettenoptimierung mit Echtzeit-Tracking und CO2-Bilanzierung pro Sendung. Transparente Klimabilanzen für jede Lieferung.",
+    kat: "Nachhaltige Logistik",
+    land: "Österreich", quelle: "eu_startup_monitor",
+    keywords: ["lieferkette","tracking","sendung","transport","lieferant","lager","versand","nachhaltig","lieferzeit","pünktlichkeit"]
+  },
+  {
+    name: "EnergySense GmbH",
+    desc: "Smart-Energy-Management-System das den Energieverbrauch in Produktionshallen auf Maschinenebene überwacht und Einsparpotenziale automatisch identifiziert.",
+    kat: "Energieeffizienz",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["energie","strom","verbrauch","kosten","sparen","effizienz","heizung","produktion","kilowatt","stromrechnung"]
+  },
+  {
+    name: "PowerOptimize GmbH",
+    desc: "Optimiert industriellen Energieverbrauch durch intelligente Laststeuerung und Spitzenlastmanagement. Reduziert Energiekosten um durchschnittlich 23 Prozent.",
+    kat: "Energieeffizienz",
+    land: "Österreich", quelle: "angellist",
+    keywords: ["energie","lastmanagement","verbrauch","spitzen","strom","industrie","kosten","optimierung","messung","bill"]
+  },
+  {
+    name: "QualityVision GmbH",
+    desc: "Automatische Sichtprüfung durch Computer Vision erkennt Produktfehler in der laufenden Produktion mit höherer Genauigkeit als menschliche Kontrolle.",
+    kat: "Digitale Qualitätssicherung",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["qualität","fehler","produkt","kontrolle","prüfung","ausschuss","reklamation","mängel","kamera","sicht"]
+  },
+  {
+    name: "InspectAI AG",
+    desc: "KI-gestützte Qualitätskontrolle für Serienproduktion. Das System lernt aus Fehlern und verbessert sich kontinuierlich. Integration in bestehende Kamerainfrastruktur möglich.",
+    kat: "Digitale Qualitätssicherung",
+    land: "Schweiz", quelle: "eu_startup_monitor",
+    keywords: ["inspektion","qualitätssicherung","produkt","fehler","messung","prüfung","normen","kamera","automatisch","erkennend"]
+  },
+  {
+    name: "AutoFlow GmbH",
+    desc: "AutoFlow automatisiert wiederkehrende Geschäftsprozesse für mittelständische Produktionsunternehmen mithilfe von KI-gestützter Robotic Process Automation.",
+    kat: "Prozessautomatisierung",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["prozess","automatisierung","rpa","workflow","papier","manuell","formular","rechnung","verwaltung","erfassung"]
+  },
+  {
+    name: "WorkflowAI AG",
+    desc: "Intelligente Workflow-Plattform die manuelle Prozesse in der Verwaltung und Auftragsabwicklung vollständig digitalisiert. Besonders geeignet für KMU mit 50–500 Mitarbeitern.",
+    kat: "Prozessautomatisierung",
+    land: "Österreich", quelle: "angellist",
+    keywords: ["digitalisierung","prozesse","formular","auftrag","dokument","unterschrift","manuell","effizienz","abwicklung","integration"]
+  },
+  {
+    name: "CircularFlow GmbH",
+    desc: "Kreislaufwirtschafts-Plattform für die Industrie: vernetzt Unternehmen um Abfälle als Rohstoffe weiterzuverwenden. Automatisches Matching von Materialangebot und -nachfrage.",
+    kat: "Zirkulärwirtschaft",
+    land: "Deutschland", quelle: "dealroom",
+    keywords: ["abfall","recycling","material","kreislauf","nachhaltig","rohstoff","entsorgung","restmaterial","umwelt","wiederverwertung"]
+  },
+  {
+    name: "ReUseIt AG",
+    desc: "Digitaler Marktplatz für industrielle Sekundärrohstoffe und Restmaterialien. Hilft Kosten zu senken und Einnahmequellen aus Abfallströmen zu erschließen.",
+    kat: "Zirkulärwirtschaft",
+    land: "Österreich", quelle: "eu_startup_monitor",
+    keywords: ["restmaterial","sekundär","marktplatz","abfall","entsorgungskosten","kreislauf","rückgewinnung","material","ressource","umwelt"]
+  },
+  {
+    name: "PaperFree Solutions GmbH",
+    desc: "Eliminiert papierbasierte Prozesse durch intelligente Dokumentenerkennung und automatische Weiterleitung. Reduziert Bearbeitungszeiten um bis zu 80 Prozent.",
+    kat: "Prozessautomatisierung",
+    land: "Deutschland", quelle: "angellist",
+    keywords: ["papier","dokument","scannen","rechnung","lieferschein","formular","erkennung","digital","archiv","belegerfassung"]
+  }
+];
+
+const KATEGORIEN_DATA = [
+  { icon:"⚙️", name:"Prozessautomatisierung", desc:"RPA, Workflow-Digitalisierung, ERP-Integration – manuelle Prozesse automatisieren.", count:12 },
+  { icon:"🔧", name:"Predictive Maintenance", desc:"IoT-Sensorik, Maschinenwartung, Ausfallprävention – Stillstände vermeiden.", count:9 },
+  { icon:"🚛", name:"Nachhaltige Logistik", desc:"Routenoptimierung, CO₂-Tracking, Supply-Chain-Management.", count:11 },
+  { icon:"👁️", name:"Digitale Qualitätssicherung", desc:"Computer Vision, automatische Sichtprüfung, Ausschussreduzierung.", count:8 },
+  { icon:"⚡", name:"Energieeffizienz", desc:"Smart Metering, Lastoptimierung, Energiekosten senken.", count:10 },
+  { icon:"👥", name:"HR-Tech", desc:"Recruiting-Automatisierung, Onboarding, Wissensmanagement.", count:7 },
+  { icon:"♻️", name:"Zirkulärwirtschaft", desc:"Sekundärrohstoffe, Kreislaufwirtschaft, Abfallreduzierung.", count:6 },
+];
+
+const LOESUNG_TEXTE = {
+  "Predictive Maintenance": "IoT-Sensorik und KI ermöglichen vorausschauende Wartung – bis zu 14 Tage im Voraus. Statt auf Ausfälle zu reagieren, können Sie diese aktiv verhindern.",
+  "HR-Tech": "KI-gestützte Recruiting- und Onboarding-Plattformen beschleunigen Einstellungen um bis zu 75 % und sichern Unternehmenswissen systematisch.",
+  "Energieeffizienz": "Smart-Energy-Management macht Ihren Verbrauch transparent und identifiziert Einsparpotenziale automatisch. Typische Amortisation nach 12–24 Monaten.",
+  "Nachhaltige Logistik": "KI-gestützte Routenoptimierung und Echtzeit-Tracking reduzieren Kosten und CO₂ gleichzeitig – nahtlose Integration in bestehende Systeme.",
+  "Digitale Qualitätssicherung": "Computer-Vision-Systeme erkennen Produktfehler schneller und zuverlässiger als manuelle Kontrolle – und lernen kontinuierlich dazu.",
+  "Prozessautomatisierung": "Digitalisierung und RPA können repetitive Aufgaben vollständig übernehmen und Fehlerquoten auf nahezu null senken.",
+  "Zirkulärwirtschaft": "Digitale Plattformen verbinden Sie mit Abnehmern für Restmaterialien – Kosten senken und Nachhaltigkeitsziele gleichzeitig erfüllen.",
+};
+
+const BEISPIELE = [
+  "Unsere Maschinen fallen ohne Vorwarnung aus und der Produktionsstopp kostet uns jeden Monat Zehntausende Euro. Wir wissen nie wann eine Wartung wirklich nötig ist.",
+  "Wir verlieren zu viel Zeit bei der Einarbeitung neuer Mitarbeiter und finden kaum Fachkräfte. Die Fluktuation ist hoch und das Wissen geht verloren wenn jemand das Unternehmen verlässt.",
+  "Unsere Energiekosten sind in den letzten zwei Jahren explodiert. Wir wissen nicht genau wo der meiste Strom verbraucht wird und können deshalb nicht gezielt sparen.",
+  "Unsere Lieferungen kommen oft zu spät weil wir nicht wissen wo unsere Fahrer gerade sind. Sprit und Zeit werden verschwendet weil die Routen nicht optimal geplant werden.",
+  "Bei der Qualitätsprüfung schleichen sich immer wieder Fehler durch die dann beim Kunden ankommen. Die manuelle Sichtkontrolle ist zu langsam und unzuverlässig.",
+  "Wir produzieren jeden Monat Tonnen von Abfall durch Ausschuss und verbrauchte Materialien. Das kostet Geld und ist schlecht für die Umwelt.",
+];
+
+function setExample(idx) {
+  document.getElementById('problemInput').value = BEISPIELE[idx];
+  document.getElementById('problemInput').focus();
+}
+
+/* ----------------------------------------------------------
+   MATCHING-ALGORITHMUS (TF-IDF-ähnliches Keyword-Scoring)
+   ---------------------------------------------------------- */
+function tokenize(text) {
+  return text.toLowerCase()
+    .replace(/[.,!?;:()"\n]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length > 2);
+}
+
+function score(query, startup) {
+  const queryTokens = tokenize(query);
+  let treffer = 0;
+
+  queryTokens.forEach(token => {
+    // Direkte Übereinstimmung in Keywords
+    startup.keywords.forEach(kw => {
+      if (kw.includes(token) || token.includes(kw)) treffer += 2;
+    });
+    // Übereinstimmung in Beschreibung
+    const descTokens = tokenize(startup.desc);
+    descTokens.forEach(dt => {
+      if (dt === token) treffer += 1;
+    });
+    // Übereinstimmung im Namen
+    if (startup.name.toLowerCase().includes(token)) treffer += 1;
+  });
+
+  // Normalisieren (0–1)
+  const maxPossible = queryTokens.length * 3;
+  return Math.min(treffer / Math.max(maxPossible, 1), 1.0);
+}
+
+function bestKategorie(query) {
+  const kategorieScores = {};
+  STARTUPS.forEach(s => {
+    const sc = score(query, s);
+    if (!kategorieScores[s.kat]) kategorieScores[s.kat] = 0;
+    kategorieScores[s.kat] += sc;
+  });
+  return Object.entries(kategorieScores).sort((a,b) => b[1]-a[1])[0][0];
+}
+
+async function startMatching() {
+  const query = document.getElementById('problemInput').value.trim();
+  if (query.length < 15) {
+    alert(currentLang === 'de'
+      ? 'Bitte beschreiben Sie Ihr Problem ausführlicher (mind. 15 Zeichen).'
+      : 'Please describe your problem in more detail (min. 15 characters).');
+    return;
+  }
+
+  const btn = document.getElementById('matchBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+  btn.disabled = true;
+  spinner.classList.add('visible');
+  btnText.innerHTML = `<span class="loading-dots"><span>·</span><span>·</span><span>·</span></span>`;
+
+  // Simulierte Ladezeit für realistische UX
+  await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
+
+  // Scores berechnen
+  const ergebnisse = STARTUPS.map(s => ({...s, matchScore: score(query, s)}))
+    .sort((a,b) => b.matchScore - a.matchScore)
+    .slice(0, 5)
+    .filter(s => s.matchScore > 0);
+
+  // Leichte Score-Anpassung für realistischere Werte
+  ergebnisse.forEach((s, i) => {
+    s.matchScore = Math.max(0.55 + (0.4 - i * 0.07) * (0.7 + s.matchScore * 0.3), 0.35);
+  });
+
+  // Kategorie ermitteln
+  const kat = bestKategorie(query);
+
+  // Diagnose anzeigen
+  const diagnoseBox = document.getElementById('diagnoseBox');
+  document.getElementById('diagnoseKat').textContent = `📂 ${kat}`;
+  document.getElementById('diagnoseLoesung').textContent = LOESUNG_TEXTE[kat] || '';
+  diagnoseBox.classList.add('visible');
+
+  // Ergebniskarten rendern
+  renderResults(ergebnisse);
+
+  btn.disabled = false;
+  spinner.classList.remove('visible');
+  btnText.innerHTML = `🎯 ${t('btn-match').replace('🎯 ','')}`;
+
+  // Scroll zu Ergebnissen
+  document.getElementById('resultsContainer').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+}
+
+function renderResults(results) {
+  const container = document.getElementById('resultsContainer');
+
+  const quelleName = {
+    dealroom: { label: '✓ Dealroom', cls: 'source-dealroom' },
+    angellist: { label: 'AngelList', cls: 'source-angellist' },
+    eu_startup_monitor: { label: 'EU Startup Monitor', cls: 'source-esm' },
+    demo: { label: 'Demo', cls: 'source-demo' },
+  };
+
+  container.innerHTML = `<div class="results-grid" id="resultsGrid"></div>`;
+  const grid = document.getElementById('resultsGrid');
+
+  results.forEach((s, i) => {
+    const quelle = quelleName[s.quelle] || { label: s.quelle, cls: 'source-demo' };
+    const rankCls = i === 0 ? 'rank-1' : '';
+    const scorePercent = Math.round(s.matchScore * 100);
+    const isVerified = s.quelle === 'dealroom';
+
+    const card = document.createElement('div');
+    card.className = `result-card ${rankCls}`;
+    card.style.animationDelay = `${i * 0.1}s`;
+    card.innerHTML = `
+      <span class="card-source-badge ${quelle.cls}">
+        ${isVerified ? '<span class="verified-dot"></span>' : ''}
+        ${quelle.label}
+      </span>
+      <div class="card-name">${s.name}</div>
+      <div class="card-kategorie">📂 ${s.kat}</div>
+      <div class="card-desc">${s.desc}</div>
+      <div class="score-bar-wrap">
+        <div class="score-bar-label">
+          <span>${t('score-label')}</span>
+          <strong>${scorePercent}%</strong>
+        </div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" data-width="${scorePercent}"></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span>📍 ${s.land}</span>
+        ${isVerified ? `<span style="color:#1D4ED8;font-weight:600;">${t('verified')}</span>` : ''}
+      </div>
+    `;
+    grid.appendChild(card);
+
+    // Score-Balken animieren
+    setTimeout(() => {
+      card.querySelector('.score-bar-fill').style.width = scorePercent + '%';
+    }, 100 + i * 80);
+  });
+}
+
+/* ----------------------------------------------------------
+   KATEGORIEN-KARTEN
+   ---------------------------------------------------------- */
+function renderKategorien() {
+  const grid = document.getElementById('kategorienGrid');
+  KATEGORIEN_DATA.forEach(kat => {
+    const card = document.createElement('div');
+    card.className = 'kategorie-card reveal';
+    card.onclick = () => {
+      document.getElementById('problemInput').value =
+        BEISPIELE[KATEGORIEN_DATA.indexOf(kat) % BEISPIELE.length];
+      document.getElementById('demo').scrollIntoView({behavior:'smooth'});
+    };
+    card.innerHTML = `
+      <span class="kat-icon">${kat.icon}</span>
+      <div class="kat-name">${kat.name}</div>
+      <div class="kat-desc">${kat.desc}</div>
+      <span class="kat-count">${kat.count} Startups</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ----------------------------------------------------------
+   ONBOARDING FORMULAR
+   ---------------------------------------------------------- */
+function submitOnboarding() {
+  const name = document.getElementById('ob-name').value.trim();
+  const desc = document.getElementById('ob-desc').value.trim();
+  const kat  = document.getElementById('ob-kat').value;
+  const mail = document.getElementById('ob-email').value.trim();
+  const consent = document.getElementById('ob-consent').checked;
+
+  if (!name || !desc || !kat || !mail || !consent) {
+    alert(currentLang === 'de'
+      ? 'Bitte füllen Sie alle Pflichtfelder aus und bestätigen Sie die Datenschutzerklärung.'
+      : 'Please fill in all required fields and confirm the privacy statement.');
+    return;
+  }
+
+  if (!mail.includes('@')) {
+    alert(currentLang === 'de' ? 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' : 'Please enter a valid email address.');
+    return;
+  }
+
+  // Demo: Formular ausblenden, Erfolgsmeldung zeigen
+  document.getElementById('onboardingForm').style.display = 'none';
+  const success = document.getElementById('onboardingSuccess');
+  success.style.display = 'block';
+  success.style.animation = 'fadeSlide 0.5s ease';
+}
+
+/* ----------------------------------------------------------
+   ZAHLEN-ANIMATION (Zähler im Hero)
+   ---------------------------------------------------------- */
+function animateCounter(id, target, duration = 2000) {
+  const el = document.getElementById(id);
+  const start = performance.now();
+  const update = (time) => {
+    const progress = Math.min((time - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target).toLocaleString('de-DE');
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+/* ----------------------------------------------------------
+   SCROLL-REVEAL
+   ---------------------------------------------------------- */
+function setupReveal() {
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+/* ----------------------------------------------------------
+   INIT
+   ---------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  renderKategorien();
+  setupReveal();
+  applyLang();
+
+  // Enter-Taste im Textarea triggert Matching
+  document.getElementById('problemInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.ctrlKey) startMatching();
+  });
+
+  // Zähler-Animation wenn Hero sichtbar
+  const heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter('counter-startups', 52847);
+        animateCounter('counter-matches', 143);
+        heroObserver.disconnect();
+      }
+    });
+  });
+  heroObserver.observe(document.querySelector('.hero-stats'));
+});
+</script>
+</body>
+</html>

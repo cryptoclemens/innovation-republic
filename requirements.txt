@@ -1,0 +1,38 @@
+# ============================================================
+# Innovation Republic – Python-Abhängigkeiten
+# Installation: pip install -r requirements.txt
+# ============================================================
+
+# --- Web-Framework & API ---
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.4.0
+
+# --- Streamlit Frontend ---
+streamlit>=1.28.0
+
+# --- Datenbank ---
+psycopg2-binary>=2.9.9
+pgvector>=0.2.4
+
+# --- Sprachmodell (lokal, kein API-Key nötig) ---
+sentence-transformers>=2.2.2
+torch>=2.0.0
+transformers>=4.30.0
+
+# --- Datenabruf & Parsing ---
+httpx>=0.25.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# --- Übersetzung (kostenlos, kein API-Key nötig) ---
+deep-translator>=1.11.4
+
+# --- Datenverarbeitung ---
+numpy>=1.24.0
+pandas>=2.0.0
+
+# --- Konfiguration & Utilities ---
+python-dotenv>=1.0.0
+tenacity>=8.2.0
+loguru>=0.7.0

@@ -1,0 +1,29 @@
+version: '3.8'
+
+# Innovation Republic – Docker-Compose-Konfiguration
+# Startet PostgreSQL mit pgvector-Erweiterung für semantisches Matching
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: innovation_republic_db
+    environment:
+      POSTGRES_DB: innovation_republic
+      POSTGRES_USER: ir_user
+      POSTGRES_PASSWORD: ir_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Schema wird beim ersten Start automatisch eingespielt
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ir_user -d innovation_republic"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local
