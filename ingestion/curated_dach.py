@@ -20,8 +20,8 @@ from ingestion.base import BasisConnector, StartupRohDaten
 
 
 # ============================================================
-# Kuratierte DACH-Startup-Daten (Stand: 2024/2025)
-# ~75 reale B2B-Startups aus DE, AT, CH
+# Kuratierte DACH-Startup-Daten (Stand: 2025)
+# ~150 reale B2B-Startups aus DE, AT, CH
 # ============================================================
 CURATED_STARTUPS: List[dict] = [
 
@@ -154,6 +154,160 @@ CURATED_STARTUPS: List[dict] = [
         "gruendungsjahr": 2016,
         "teamgroesse": "50-200",
     },
+    {
+        "name": "Caya GmbH",
+        "beschreibung": (
+            "Digitaler Briefkasten für Unternehmen: empfängt, scannt und "
+            "kategorisiert physische Post automatisch. Dokumente werden per KI "
+            "klassifiziert und direkt an Buchhaltungs- oder DMS-Systeme weitergeleitet."
+        ),
+        "tags": ["Postdigitalisierung", "DMS", "KI", "OCR", "Buchhaltung"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.getcaya.com",
+        "gruendungsjahr": 2017,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Candis GmbH",
+        "beschreibung": (
+            "Automatisierte Rechnungsverarbeitung und Buchhaltungssoftware: "
+            "liest Eingangsrechnungen per KI aus, prüft sie gegen Bestellungen "
+            "und leitet sie durch digitale Freigabe-Workflows bis zur DATEV-Übergabe."
+        ),
+        "tags": ["Rechnungsverarbeitung", "Buchhaltung", "DATEV", "KI", "Automatisierung"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.candis.io",
+        "gruendungsjahr": 2015,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Moss GmbH",
+        "beschreibung": (
+            "Corporate-Spend-Management-Plattform: kombiniert virtuelle und "
+            "physische Firmenkarten mit digitalem Ausgabencontrolling, "
+            "automatischen Belegspeicherungen und DATEV-Export für den Mittelstand."
+        ),
+        "tags": ["Corporate Cards", "Ausgabenmanagement", "Fintech", "DATEV", "SaaS"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.getmoss.com",
+        "gruendungsjahr": 2019,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "Yokoy Group AG",
+        "beschreibung": (
+            "KI-gestütztes Spend-Management für Konzerne: automatisiert "
+            "Spesenabrechnungen, Rechnungsverarbeitung und Firmenkarten in "
+            "einer einheitlichen Plattform mit ERP-Integration."
+        ),
+        "tags": ["Spend Management", "Spesen", "KI", "ERP", "Fintech"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Schweiz",
+        "website": "https://www.yokoy.com",
+        "gruendungsjahr": 2019,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "sevDesk GmbH",
+        "beschreibung": (
+            "Cloud-Buchhaltungssoftware für Selbständige und KMU: "
+            "digitalisiert Rechnungsschreibung, Belegerfassung und Buchhaltung "
+            "mit automatischem DATEV-Export und Steuerberater-Zugang."
+        ),
+        "tags": ["Buchhaltung", "Rechnungsschreibung", "KMU", "Cloud", "DATEV"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.sevdesk.de",
+        "gruendungsjahr": 2013,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "Fabasoft AG",
+        "beschreibung": (
+            "Enterprise-Content-Management und digitale Akten für öffentliche "
+            "Verwaltung und Großunternehmen: vollständig konform mit EU-Datenschutz "
+            "und eIDAS. Cloud-Plattform made in Austria."
+        ),
+        "tags": ["ECM", "E-Government", "Digitale Akte", "Cloud", "DSGVO"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Österreich",
+        "website": "https://www.fabasoft.com",
+        "gruendungsjahr": 1988,
+        "teamgroesse": "500-1000",
+    },
+    {
+        "name": "Flowable AG",
+        "beschreibung": (
+            "Open-Source BPM- und Case-Management-Plattform: orchestriert "
+            "strukturierte und unstrukturierte Geschäftsprozesse mit BPMN, "
+            "CMMN und DMN – ideal für Banken, Versicherungen und Behörden."
+        ),
+        "tags": ["BPM", "BPMN", "Case Management", "Workflow", "Open Source"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Schweiz",
+        "website": "https://www.flowable.com",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "SEEBURGER AG",
+        "beschreibung": (
+            "B2B-Integrationsplattform und API-Management: vernetzt Unternehmen "
+            "weltweit über EDI, AS2 und APIs – für Automotive, Handel und "
+            "Finanzwesen mit SAP-nativer Integration."
+        ),
+        "tags": ["EDI", "B2B Integration", "API Management", "SAP", "Supply Chain"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.seeburger.com",
+        "gruendungsjahr": 1986,
+        "teamgroesse": "500-1000",
+    },
+    {
+        "name": "Stackfield GmbH",
+        "beschreibung": (
+            "DSGVO-konformes Projektmanagement und Team-Kollaborationstool: "
+            "kombiniert Aufgaben, Chat, Videocalls und Dokumentenmanagement "
+            "auf Servern in Deutschland – ohne US-Cloud-Abhängigkeit."
+        ),
+        "tags": ["Projektmanagement", "Kollaboration", "DSGVO", "Made in Germany", "Team"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.stackfield.com",
+        "gruendungsjahr": 2012,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Bilendo GmbH",
+        "beschreibung": (
+            "Automatisiertes Forderungsmanagement und Mahnwesen: überwacht "
+            "offene Forderungen, versendet Mahnungen automatisch und ermöglicht "
+            "Kunden digitale Zahlungen und Ratenvereinbarungen."
+        ),
+        "tags": ["Forderungsmanagement", "Mahnwesen", "Buchhaltung", "Automatisierung"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Deutschland",
+        "website": "https://www.bilendo.de",
+        "gruendungsjahr": 2014,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "tenfold Software GmbH",
+        "beschreibung": (
+            "Access-Governance-Plattform: automatisiert die Vergabe, Überprüfung "
+            "und Rücknahme von Benutzerrechten in Active Directory, Azure AD "
+            "und M365 – ohne Programmierung, konform mit ISO 27001."
+        ),
+        "tags": ["IAM", "Access Governance", "Active Directory", "Security", "Compliance"],
+        "kategorie": "Prozessautomatisierung",
+        "land": "Österreich",
+        "website": "https://www.tenfold-security.com",
+        "gruendungsjahr": 2007,
+        "teamgroesse": "50-200",
+    },
 
     # ── Predictive Maintenance / Industrial IoT ────────────────────────────
     {
@@ -267,6 +421,104 @@ CURATED_STARTUPS: List[dict] = [
         "website": "https://www.daedalean.ai",
         "gruendungsjahr": 2016,
         "teamgroesse": "50-200",
+    },
+    {
+        "name": "Kinexon GmbH",
+        "beschreibung": (
+            "Real-Time-Location-System (RTLS) für Fertigung und Sport: "
+            "verfolgt Werkzeuge, Fahrzeuge und Personen in Echtzeit per UWB-Funk, "
+            "optimiert Materialflüsse und erhöht Arbeitssicherheit."
+        ),
+        "tags": ["RTLS", "IIoT", "Ortung", "Materialfluss", "UWB"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Deutschland",
+        "website": "https://www.kinexon.com",
+        "gruendungsjahr": 2012,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "ProGlove GmbH",
+        "beschreibung": (
+            "Wearable Barcode-Scanner als Handschuh für die Fertigung: "
+            "scannt Codes ohne manuelle Handhabung, verbessert Ergonomie "
+            "und steigert Scanrate in Logistik, Automotive und E-Commerce."
+        ),
+        "tags": ["Wearable", "Barcode", "Fertigung", "Logistik", "Ergonomie"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Deutschland",
+        "website": "https://www.proglove.com",
+        "gruendungsjahr": 2014,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "NavVis GmbH",
+        "beschreibung": (
+            "Digital-Factory-Twin-Plattform: scannt Produktionshallen mit "
+            "mobilen 3D-Scannern, erstellt zentimetergenaue digitale Zwillinge "
+            "und ermöglicht Remote-Inspektion sowie Anlagen-Dokumentation."
+        ),
+        "tags": ["Digital Twin", "3D-Scan", "Fabrik", "Indoor Mapping", "Industry 4.0"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Deutschland",
+        "website": "https://www.navvis.com",
+        "gruendungsjahr": 2013,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "Wandelbots GmbH",
+        "beschreibung": (
+            "No-Code-Roboterprogrammierung: Mitarbeiter programmieren Industrieroboter "
+            "ohne Expertenwissen per intuitiver Tablet-Oberfläche und "
+            "Demonstration – kompatibel mit allen gängigen Robotermarken."
+        ),
+        "tags": ["Roboterprogrammierung", "No-Code", "Robotik", "Automation", "Industrie"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Deutschland",
+        "website": "https://www.wandelbots.com",
+        "gruendungsjahr": 2017,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Sensirion AG",
+        "beschreibung": (
+            "Präzisionssensoren für Umwelt- und Durchflussparameter: "
+            "misst CO₂, Feuchtigkeit, Temperatur und Partikel in Industrie, "
+            "Medizintechnik und IoT-Anwendungen mit höchster Genauigkeit."
+        ),
+        "tags": ["Sensor", "IoT", "Umweltmonitoring", "Medizintechnik", "Industrie"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Schweiz",
+        "website": "https://www.sensirion.com",
+        "gruendungsjahr": 1998,
+        "teamgroesse": "500-1000",
+    },
+    {
+        "name": "ToolSense GmbH",
+        "beschreibung": (
+            "IoT-Asset-Management für Baumaschinen und Werkzeuge: "
+            "verfolgt Standort, Zustand und Nutzung per GPS und Sensor, "
+            "plant Wartungen vorausschauend und reduziert Werkzeugverluste."
+        ),
+        "tags": ["Asset Management", "IoT", "Bauwesen", "Werkzeugverwaltung", "Predictive"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Österreich",
+        "website": "https://www.toolsense.io",
+        "gruendungsjahr": 2018,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "5Analytics GmbH",
+        "beschreibung": (
+            "KI-Plattform für industrielle Prozessoptimierung: analysiert "
+            "Maschinendaten in Echtzeit, erstellt Predictive-Quality-Modelle "
+            "und reduziert Ausschuss und Energieverbrauch in der Fertigung."
+        ),
+        "tags": ["Industrial AI", "Predictive Quality", "KI", "Fertigung", "Anomalieerkennung"],
+        "kategorie": "Predictive Maintenance",
+        "land": "Deutschland",
+        "website": "https://www.5analytics.com",
+        "gruendungsjahr": 2015,
+        "teamgroesse": "10-50",
     },
 
     # ── Nachhaltige Logistik ────────────────────────────────────────────────
@@ -396,6 +648,118 @@ CURATED_STARTUPS: List[dict] = [
         "gruendungsjahr": 1997,
         "teamgroesse": "200-500",
     },
+    {
+        "name": "Shipzero GmbH",
+        "beschreibung": (
+            "CO2-Transparenz für Logistik: berechnet und dokumentiert "
+            "Treibhausgasemissionen für jede Sendung, liefert Scope-3-Daten "
+            "für Nachhaltigkeitsberichte und hilft beim Vergleich grüner Carrier."
+        ),
+        "tags": ["CO2", "Nachhaltigkeit", "Scope 3", "Logistik", "ESG"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.shipzero.com",
+        "gruendungsjahr": 2020,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "fulfillmenttools GmbH",
+        "beschreibung": (
+            "Omnichannel-Fulfillment-Software für den Einzelhandel: orchestriert "
+            "Store-Fulfillment, Ship-from-Store und Click-and-Collect aus "
+            "einem zentralen System – nahtlos in bestehende OMS und ERP integriert."
+        ),
+        "tags": ["Fulfillment", "Omnichannel", "Retail", "Lager", "OMS"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.fulfillmenttools.com",
+        "gruendungsjahr": 2019,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Greenplan GmbH",
+        "beschreibung": (
+            "KI-gestützte Tourenplanung für Last-Mile-Logistik: optimiert "
+            "Lieferrouten in Echtzeit, reduziert Kilometer und CO2-Ausstoß "
+            "um bis zu 30 Prozent – als DHL-Spinoff mit Logistik-DNA."
+        ),
+        "tags": ["Routenoptimierung", "Last Mile", "KI", "CO2", "Logistik"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.greenplan.de",
+        "gruendungsjahr": 2020,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "parcelLab GmbH",
+        "beschreibung": (
+            "Post-Purchase-Experience-Plattform: automatisiert Versandbenachrichtigungen "
+            "und Retourenmanagement für Online-Händler. Kunden bleiben über "
+            "alle Carrier hinweg informiert und kehren häufiger zurück."
+        ),
+        "tags": ["E-Commerce", "Versandtracking", "Retoure", "Customer Experience", "Logistik"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.parcellab.com",
+        "gruendungsjahr": 2015,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "byrd GmbH",
+        "beschreibung": (
+            "E-Commerce-Fulfillment-Netzwerk für Online-Händler in Europa: "
+            "übernimmt Lagerung, Kommissionierung und Versand aus Fulfillment-"
+            "Centern in Deutschland, Österreich und weiteren EU-Ländern."
+        ),
+        "tags": ["Fulfillment", "E-Commerce", "Lager", "Europa", "D2C"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Österreich",
+        "website": "https://www.getbyrd.com",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Onomotion GmbH",
+        "beschreibung": (
+            "Elektrische Lastenfahrräder für City-Logistik: modulares System "
+            "aus E-Cargo-Bikes und Wechselcontainern ermöglicht emissionsfreie "
+            "Paketzustellung auf der letzten Meile in Innenstädten."
+        ),
+        "tags": ["Cargo Bike", "Last Mile", "Emissionsfrei", "Urban Logistics", "E-Mobilität"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.onomotion.com",
+        "gruendungsjahr": 2017,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Klarx GmbH",
+        "beschreibung": (
+            "Digitaler Marktplatz für Baumaschinen-Miete: Bauunternehmen "
+            "finden und buchen Kräne, Bagger und Stapler online – "
+            "transparent, schnell und ohne Verhandlung mit Händlern."
+        ),
+        "tags": ["Baumaschinen", "Marktplatz", "Miete", "Bauwesen", "Plattform"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.klarx.de",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Saloodo! GmbH",
+        "beschreibung": (
+            "Digitale Frachtplattform von DHL: vernetzt Verlader und Spediteure "
+            "für europaweite Komplettladungen – mit Echtzeit-Tracking, "
+            "automatischer Dokumentenverwaltung und CO2-Emissionsrechner."
+        ),
+        "tags": ["Freight", "DHL", "Plattform", "FTL", "Europa"],
+        "kategorie": "Nachhaltige Logistik",
+        "land": "Deutschland",
+        "website": "https://www.saloodo.com",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "50-200",
+    },
 
     # ── Digitale Qualitätssicherung ─────────────────────────────────────────
     {
@@ -495,6 +859,90 @@ CURATED_STARTUPS: List[dict] = [
         "website": "https://www.qarma.com",
         "gruendungsjahr": 2017,
         "teamgroesse": "10-50",
+    },
+    {
+        "name": "MVTec Software GmbH",
+        "beschreibung": (
+            "Standard-Software für maschinelles Sehen: HALCON und MERLIC "
+            "ermöglichen KI-basierte Bildverarbeitung für automatisierte "
+            "Qualitätsprüfung, Roboterführung und Identifikation in der Industrie."
+        ),
+        "tags": ["Machine Vision", "Bildverarbeitung", "KI", "Qualitätsprüfung", "HALCON"],
+        "kategorie": "Digitale Qualitätssicherung",
+        "land": "Deutschland",
+        "website": "https://www.mvtec.com",
+        "gruendungsjahr": 1996,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "Vitronic GmbH",
+        "beschreibung": (
+            "Automatische Inline-Inspektionssysteme für Industrie und Logistik: "
+            "prüft Oberflächen, liest Codes und vermisst Objekte mit "
+            "Hochgeschwindigkeitskameras – 24/7, nahezu fehlerfrei."
+        ),
+        "tags": ["Inline-Inspektion", "Bildverarbeitung", "Logistik", "Oberfläche", "Vision"],
+        "kategorie": "Digitale Qualitätssicherung",
+        "land": "Deutschland",
+        "website": "https://www.vitronic.com",
+        "gruendungsjahr": 1984,
+        "teamgroesse": "500-1000",
+    },
+    {
+        "name": "Testbirds GmbH",
+        "beschreibung": (
+            "Crowdtesting-Plattform: echte Nutzer auf allen Geräten testen "
+            "Software, Apps und Websites auf Fehler, Usability und Barrierefreiheit "
+            "– schneller und realistischer als interne QA-Teams."
+        ),
+        "tags": ["Crowdtesting", "QA", "Software-Testing", "Usability", "App-Testing"],
+        "kategorie": "Digitale Qualitätssicherung",
+        "land": "Deutschland",
+        "website": "https://www.testbirds.com",
+        "gruendungsjahr": 2011,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Pixargus GmbH",
+        "beschreibung": (
+            "Inline-Profilmessung für die Extrusionsindustrie: prüft Maßhaltigkeit "
+            "und Oberflächenqualität von Kabeln, Schläuchen und Profilen "
+            "in Echtzeit direkt in der Produktionslinie."
+        ),
+        "tags": ["Profilmessung", "Extrusion", "Inline-Prüfung", "Qualität", "Messtechnik"],
+        "kategorie": "Digitale Qualitätssicherung",
+        "land": "Deutschland",
+        "website": "https://www.pixargus.de",
+        "gruendungsjahr": 2000,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Encoway GmbH",
+        "beschreibung": (
+            "Produkt-Konfigurations-Plattform (CPQ): digitalisiert komplexe "
+            "Variantenkonfiguration für Maschinen- und Anlagenbau – von der "
+            "Anfrage über Angebot bis zur Fertigungsfreigabe ohne Fehler."
+        ),
+        "tags": ["CPQ", "Produktkonfiguration", "Maschinenbau", "Variantenkonfiguration"],
+        "kategorie": "Digitale Qualitätssicherung",
+        "land": "Deutschland",
+        "website": "https://www.encoway.de",
+        "gruendungsjahr": 2000,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Softing AG",
+        "beschreibung": (
+            "Industrielle Konnektivitätslösungen und Diagnosewerkzeuge: "
+            "verbindet Fieldbus, OPC UA und IT-Systeme nahtlos, ermöglicht "
+            "Remote-Diagnose von Industrieanlagen und steigert Verfügbarkeit."
+        ),
+        "tags": ["OPC UA", "Fieldbus", "Konnektivität", "Diagnose", "Industrie 4.0"],
+        "kategorie": "Digitale Qualitätssicherung",
+        "land": "Deutschland",
+        "website": "https://www.softing.com",
+        "gruendungsjahr": 1986,
+        "teamgroesse": "200-500",
     },
 
     # ── Energieeffizienz ────────────────────────────────────────────────────
@@ -622,6 +1070,104 @@ CURATED_STARTUPS: List[dict] = [
         "land": "Deutschland",
         "website": "https://www.smartb.energy",
         "gruendungsjahr": 2015,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Next Kraftwerke GmbH",
+        "beschreibung": (
+            "Virtuelles Kraftwerk mit über 14.000 angeschlossenen dezentralen "
+            "Anlagen: bündelt Solar, Wind, Biogas und Speicher, vermarktet "
+            "Regelenergie und Strom an Energiemärkten in ganz Europa."
+        ),
+        "tags": ["Virtuelles Kraftwerk", "Regelenergie", "Erneuerbare", "Energiemarkt"],
+        "kategorie": "Energieeffizienz",
+        "land": "Deutschland",
+        "website": "https://www.next-kraftwerke.de",
+        "gruendungsjahr": 2009,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "aWATTar GmbH",
+        "beschreibung": (
+            "Dynamischer Stromtarif: Kunden zahlen den stündlich variablen "
+            "Börsenstrompreis – intelligente Geräte laden automatisch dann, "
+            "wenn Strom günstig und erneuerbar ist."
+        ),
+        "tags": ["Dynamischer Stromtarif", "Erneuerbare", "Smart Home", "Flexibilität"],
+        "kategorie": "Energieeffizienz",
+        "land": "Österreich",
+        "website": "https://www.awattar.at",
+        "gruendungsjahr": 2012,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Lumenaza GmbH",
+        "beschreibung": (
+            "Energy-as-a-Service-Plattform für Versorger und Prosumer: "
+            "ermöglicht lokalen Energiehandel, Peer-to-Peer-Stromhandel "
+            "und White-Label-Energiedienstleistungen für Stadtwerke."
+        ),
+        "tags": ["Energieplattform", "P2P Energie", "Stadtwerke", "Prosumer", "SaaS"],
+        "kategorie": "Energieeffizienz",
+        "land": "Deutschland",
+        "website": "https://www.lumenaza.de",
+        "gruendungsjahr": 2014,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "has·to·be GmbH",
+        "beschreibung": (
+            "E-Mobilitäts-Backend für Ladenetzbetreiber: managt tausende "
+            "Ladepunkte zentral, verarbeitet Ladevorgänge in Echtzeit und "
+            "bietet White-Label-Apps für Autofahrer."
+        ),
+        "tags": ["EV Charging", "Ladeinfrastruktur", "E-Mobilität", "Backend", "SaaS"],
+        "kategorie": "Energieeffizienz",
+        "land": "Österreich",
+        "website": "https://www.has-to-be.com",
+        "gruendungsjahr": 2013,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Compleo Charging Solutions AG",
+        "beschreibung": (
+            "Hersteller von AC- und DC-Ladesäulen für Unternehmen, Kommunen "
+            "und Energieversorger: vollständige Ladesystemlösung inklusive "
+            "Backend, Servicemanagement und Smart-Charging-Funktionen."
+        ),
+        "tags": ["Ladesäule", "EV Charging", "Infrastruktur", "Smart Charging"],
+        "kategorie": "Energieeffizienz",
+        "land": "Deutschland",
+        "website": "https://www.compleo-cs.com",
+        "gruendungsjahr": 2009,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "Twaice Technologies GmbH",
+        "beschreibung": (
+            "Batterie-Analyse-Software: prognostiziert Alterung und Zustand "
+            "von Lithium-Ionen-Akkus in E-Fahrzeugen und stationären Speichern "
+            "per KI – verlängert Lebensdauer und optimiert Zweitnutzung."
+        ),
+        "tags": ["Batterie", "KI", "E-Mobilität", "Predictive Analytics", "Second Life"],
+        "kategorie": "Energieeffizienz",
+        "land": "Deutschland",
+        "website": "https://www.twaice.com",
+        "gruendungsjahr": 2018,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Rabot Charge GmbH",
+        "beschreibung": (
+            "Dynamisches Laden für E-Autos: lädt dann, wenn Strom günstig "
+            "und grün ist – vollautomatisch per App, ohne Mehrkosten und "
+            "mit garantierter Abfahrtsbereitschaft."
+        ),
+        "tags": ["EV Charging", "Dynamisch", "Erneuerbare", "Smart Charging", "App"],
+        "kategorie": "Energieeffizienz",
+        "land": "Deutschland",
+        "website": "https://www.rabot-charge.de",
+        "gruendungsjahr": 2021,
         "teamgroesse": "10-50",
     },
 
@@ -766,6 +1312,90 @@ CURATED_STARTUPS: List[dict] = [
         "gruendungsjahr": 2012,
         "teamgroesse": "50-200",
     },
+    {
+        "name": "Staffbase GmbH",
+        "beschreibung": (
+            "Mitarbeiter-Kommunikationsplattform für Konzerne und Mittelstand: "
+            "erreicht Büro- und Nicht-Schreibtischmitarbeiter über eine "
+            "personalisierte App, Intranet und E-Mail-Newsletter."
+        ),
+        "tags": ["Mitarbeiterkommunikation", "Intranet", "App", "Employee Experience"],
+        "kategorie": "HR-Tech",
+        "land": "Deutschland",
+        "website": "https://www.staffbase.com",
+        "gruendungsjahr": 2014,
+        "teamgroesse": "500-1000",
+    },
+    {
+        "name": "Beekeeper AG",
+        "beschreibung": (
+            "Frontline-Worker-Kommunikationsplattform: verbindet Mitarbeiter "
+            "ohne Büroarbeitsplatz (Produktion, Handel, Hotellerie) per "
+            "Mobil-App mit dem Unternehmen – mehrsprachig, DSGVO-konform."
+        ),
+        "tags": ["Frontline Worker", "Kommunikation", "Mobile", "Schichtarbeit", "App"],
+        "kategorie": "HR-Tech",
+        "land": "Schweiz",
+        "website": "https://www.beekeeper.io",
+        "gruendungsjahr": 2012,
+        "teamgroesse": "200-500",
+    },
+    {
+        "name": "Instaffo GmbH",
+        "beschreibung": (
+            "Tech-Talent-Marktplatz: verbindet Softwareentwickler und "
+            "IT-Spezialisten direkt mit Startups und Mittelständlern – "
+            "passgenau, transparent und provisionsfrei für Kandidaten."
+        ),
+        "tags": ["Tech Recruiting", "Marktplatz", "IT", "Softwareentwickler", "Direktansprache"],
+        "kategorie": "HR-Tech",
+        "land": "Deutschland",
+        "website": "https://www.instaffo.com",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Nilo.health GmbH",
+        "beschreibung": (
+            "Mentale Gesundheitsplattform für Unternehmen: Mitarbeiter erhalten "
+            "vertrauliche Kurzzeit-Psychotherapie, Coaching und digitale "
+            "Selbsthilfe-Tools – klinisch fundiert, DSGVO-konform."
+        ),
+        "tags": ["Mental Health", "Employee Wellbeing", "Psychologie", "Corporate Health"],
+        "kategorie": "HR-Tech",
+        "land": "Deutschland",
+        "website": "https://www.nilo.health",
+        "gruendungsjahr": 2020,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Voiio GmbH",
+        "beschreibung": (
+            "Family-Support-Benefit-Plattform: bietet Mitarbeitern Kinderbetreuung, "
+            "Pflege-Beratung und Familienservices als Corporate Benefit – "
+            "erhöht Loyalität und reduziert familienbedingte Ausfälle."
+        ),
+        "tags": ["Corporate Benefits", "Kinderbetreuung", "Family Support", "HR", "Wellbeing"],
+        "kategorie": "HR-Tech",
+        "land": "Deutschland",
+        "website": "https://www.voiio.de",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "d.vinci HR-Systems GmbH",
+        "beschreibung": (
+            "Bewerbermanagement-Software für Unternehmen aller Größen: "
+            "steuert den gesamten Recruiting-Prozess von der Stellenausschreibung "
+            "bis zum Onboarding und integriert in SAP HCM und SuccessFactors."
+        ),
+        "tags": ["ATS", "Recruiting", "Onboarding", "SAP", "Bewerbermanagement"],
+        "kategorie": "HR-Tech",
+        "land": "Deutschland",
+        "website": "https://www.dvinci.de",
+        "gruendungsjahr": 2004,
+        "teamgroesse": "50-200",
+    },
 
     # ── Zirkulärwirtschaft ──────────────────────────────────────────────────
     {
@@ -879,6 +1509,118 @@ CURATED_STARTUPS: List[dict] = [
         "website": "https://www.teqcycle.com",
         "gruendungsjahr": 2010,
         "teamgroesse": "50-200",
+    },
+    {
+        "name": "Refurbed GmbH",
+        "beschreibung": (
+            "Marktplatz für generalüberholte Elektronik: verbindet Refurbisher "
+            "mit Käufern und garantiert mindestens 40 Prozent günstiger als Neukauf. "
+            "Für jedes verkaufte Gerät wird ein Baum gepflanzt."
+        ),
+        "tags": ["Refurbishment", "Marktplatz", "Elektronik", "Kreislauf", "Nachhaltigkeit"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Österreich",
+        "website": "https://www.refurbed.de",
+        "gruendungsjahr": 2017,
+        "teamgroesse": "50-200",
+    },
+    {
+        "name": "Recup GmbH",
+        "beschreibung": (
+            "Mehrweg-System für Coffee-to-go: standardisierte Pfandbecher "
+            "und -schalen können bei tausenden Partnern zurückgegeben werden "
+            "– eliminiert Einwegplastik im Außer-Haus-Geschäft."
+        ),
+        "tags": ["Mehrweg", "Verpackung", "Coffee", "Pfand", "Kreislaufwirtschaft"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Deutschland",
+        "website": "https://www.recup.de",
+        "gruendungsjahr": 2016,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Relevo GmbH",
+        "beschreibung": (
+            "Digitales Mehrweg-System für Restaurants und Lieferdienste: "
+            "Kunden leihen Behälter per App aus und geben sie überall zurück. "
+            "Nahtlose POS-Integration und NFC-Tracking für jedes Gefäß."
+        ),
+        "tags": ["Mehrweg", "Gastronomie", "Lieferservice", "App", "Nachhaltigkeit"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Deutschland",
+        "website": "https://www.relevo.de",
+        "gruendungsjahr": 2020,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Duesenfeld GmbH",
+        "beschreibung": (
+            "Umweltschonendes Lithium-Ionen-Batterierecycling: Tieftemperatur-"
+            "Entladeanlage und mechanische Aufbereitung retten 96 Prozent der "
+            "Materialien aus Altbatterien zurück in den Rohstoffkreislauf."
+        ),
+        "tags": ["Batterierecycling", "Lithium-Ionen", "CleanTech", "Rohstoffe", "EV"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Deutschland",
+        "website": "https://www.duesenfeld.com",
+        "gruendungsjahr": 2017,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Circunomics GmbH",
+        "beschreibung": (
+            "Digitaler Marktplatz für Batterie-Second-Life: vernetzt OEMs, "
+            "Leasinggesellschaften und Energiespeicherbetreiber für den "
+            "Kauf und Verkauf ausgedienter E-Fahrzeugbatterien."
+        ),
+        "tags": ["Battery Second Life", "E-Mobilität", "Marktplatz", "Kreislauf", "EV"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Deutschland",
+        "website": "https://www.circunomics.com",
+        "gruendungsjahr": 2020,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Texaid AG",
+        "beschreibung": (
+            "Textilsammlung und Verwertung: betreibt über 30.000 Sammelcontainer "
+            "in der DACH-Region, sortiert Altkleider nach Wiederverwendung "
+            "und Recycling und entwickelt industrielle Upcycling-Prozesse."
+        ),
+        "tags": ["Textilrecycling", "Altkleider", "Kreislaufwirtschaft", "Upcycling"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Schweiz",
+        "website": "https://www.texaid.com",
+        "gruendungsjahr": 1978,
+        "teamgroesse": "500-1000",
+    },
+    {
+        "name": "Infinite Roots GmbH",
+        "beschreibung": (
+            "Myzel-basierte Biomaterialien als Kunststoff- und Schaumersatz: "
+            "Pilzwurzeln wachsen in Agrarreststoffe und bilden leichte, "
+            "stabile und vollständig kompostierbare Formteile."
+        ),
+        "tags": ["Myzel", "Biomaterial", "Verpackung", "CleanTech", "Biobased"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Deutschland",
+        "website": "https://www.infiniteroots.com",
+        "gruendungsjahr": 2020,
+        "teamgroesse": "10-50",
+    },
+    {
+        "name": "Landbell AG",
+        "beschreibung": (
+            "EPR-Compliance und Recyclingdienstleister: übernimmt Lizenzierung "
+            "und Entsorgungsorganisation für Verpackungen, Elektroschrott und "
+            "Batterien in Deutschland und 30 weiteren Ländern."
+        ),
+        "tags": ["EPR", "Compliance", "Recycling", "Verpackungslizenz", "Kreislauf"],
+        "kategorie": "Zirkulärwirtschaft",
+        "land": "Deutschland",
+        "website": "https://www.landbell.de",
+        "gruendungsjahr": 1995,
+        "teamgroesse": "200-500",
     },
 ]
 
