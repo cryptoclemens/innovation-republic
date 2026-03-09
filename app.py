@@ -4,8 +4,12 @@ Innovation Republic – Streamlit Haupt-Interface
 Semantisches Matching-System für KMU-Problembeschreibungen.
 Findet passende Startups über pgvector cosine similarity.
 
-Starten: streamlit run app.py
+Starten lokal:  streamlit run app.py
+Cloud-Hosting:  Streamlit Cloud + Supabase (pgvector)
 """
+
+import os
+from pathlib import Path
 
 import streamlit as st
 from loguru import logger
@@ -17,6 +21,90 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+
+# ============================================================
+# AUTO-INIT: Läuft einmalig pro Server-Start (Streamlit Cloud)
+# Richtet DB-Schema, Migration und Basisdaten automatisch ein.
+# ============================================================
+@st.cache_resource(show_spinner=False)
+def _initialisiere_system():
+    """
+    Einmalige Systeminitialisierung beim App-Start.
+    Sicher bei Mehrfachaufrufen (alle DDL-Statements nutzen IF NOT EXISTS).
+    """
+    import psycopg2
+    from pgvector.psycopg2 import register_vector
+
+    # Streamlit Cloud Secrets haben Vorrang vor .env
+    db_url = os.getenv(
+        "DATABASE_URL",
+        "postgresql://ir_user:ir_password@localhost:5432/innovation_republic"
+    )
+    if hasattr(st, "secrets") and "DATABASE_URL" in st.secrets:
+        db_url = st.secrets["DATABASE_URL"]
+    if hasattr(st, "secrets") and "ANTHROPIC_API_KEY" in st.secrets:
+        os.environ["ANTHROPIC_API_KEY"] = st.secrets["ANTHROPIC_API_KEY"]
+
+    try:
+        conn = psycopg2.connect(db_url)
+        register_vector(conn)
+    except Exception as e:
+        return False, f"Datenbankverbindung fehlgeschlagen: {e}"
+
+    # 1. Schema einrichten (IF NOT EXISTS – sicher bei Wiederholung)
+    schema_sql = (Path(__file__).parent / "db" / "schema.sql").read_text()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(schema_sql)
+        conn.commit()
+    except Exception:
+        conn.rollback()
+
+    # 2. Migration 002 (website_verifiziert) – falls noch nicht vorhanden
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT column_name FROM information_schema.columns
+                WHERE table_name = 'startups'
+                  AND column_name = 'website_verifiziert'
+            """)
+            if not cur.fetchone():
+                migration_sql = (
+                    Path(__file__).parent
+                    / "db" / "migrations" / "002_website_verification.sql"
+                ).read_text()
+                cur.execute(migration_sql)
+                conn.commit()
+                logger.info("Migration 002 (website_verifiziert) eingespielt")
+    except Exception as e:
+        conn.rollback()
+        logger.warning(f"Migration 002 übersprungen: {e}")
+
+    # 3. Ingestion wenn noch keine echten Daten vorhanden
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT COUNT(*) FROM startups WHERE demo_only = FALSE")
+            echte_startups = cur.fetchone()[0]
+        conn.close()
+
+        if echte_startups == 0:
+            logger.info("Keine echten Startups – starte Erstbefüllung...")
+            from ingestion import starte_alle_quellen
+            starte_alle_quellen()
+    except Exception as e:
+        logger.warning(f"Ingestion beim Start übersprungen: {e}")
+
+    return True, "OK"
+
+
+# Initialisierung ausführen (cached – läuft nur einmal pro Deploy)
+_init_ok, _init_msg = _initialisiere_system()
+if not _init_ok:
+    st.error(f"⚠️ Datenbankfehler: {_init_msg}")
+    st.info("Bitte **DATABASE_URL** in den App-Secrets konfigurieren (Supabase-URI).")
+    st.stop()
+
 
 # ---- Übersetzungen (Deutsch/Englisch) ----
 TEXTE = {
