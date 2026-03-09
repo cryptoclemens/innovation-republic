@@ -826,7 +826,7 @@
     <li><a href="#kategorien" data-i18n="nav-kat">Kategorien</a></li>
     <li><a href="#onboarding" class="nav-cta" data-i18n="nav-cta">Startup eintragen</a></li>
   </ul>
-  <span class="version-badge">v2.0.0</span>
+  <span class="version-badge">v2.1.0</span>
   <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇬🇧 EN</button>
 </nav>
 
@@ -855,8 +855,8 @@
 
     <p class="hero-subtitle" data-i18n="hero-sub">
       Beschreiben Sie Ihre betriebliche Herausforderung in eigenen Worten –
-      unser semantisches Matching-System findet die richtigen Innovationspartner
-      aus über 50.000 verifizierten DACH-Startups.
+      unsere KI findet die passenden Lösungsanbieter aus dem gesamten DACH-Raum,
+      bewertet die Relevanz und verifiziert jede Homepage automatisch.
     </p>
 
     <div class="hero-actions">
@@ -980,19 +980,21 @@
       <div class="step-card reveal">
         <div class="step-number">2</div>
         <div class="step-icon">🧠</div>
-        <div class="step-title" data-i18n="step2-title">Semantische Analyse</div>
+        <div class="step-title" data-i18n="step2-title">KI-Analyse</div>
         <div class="step-desc" data-i18n="step2-desc">
-          Ein mehrsprachiges KI-Modell (sentence-transformers) wandelt Ihren Text
-          in einen 384-dimensionalen Bedeutungsvektor um – und versteht den Kontext.
+          Claude (Anthropic) versteht den Kontext Ihrer Herausforderung und
+          durchsucht sein umfassendes Wissen über DACH-Startups und B2B-Anbieter –
+          priorisiert nach direkter Lösungsrelevanz.
         </div>
       </div>
       <div class="step-card reveal">
         <div class="step-number">3</div>
         <div class="step-icon">🎯</div>
-        <div class="step-title" data-i18n="step3-title">Top-5 Matches</div>
+        <div class="step-title" data-i18n="step3-title">Verifizierte Matches</div>
         <div class="step-desc" data-i18n="step3-desc">
-          pgvector berechnet die Kosinus-Ähnlichkeit gegen 50.000+ Startup-Embeddings
-          und liefert die 5 besten Treffer in Millisekunden – verifiziert und priorisiert.
+          Die besten Treffer werden mit Match-Score und Begründung geliefert.
+          Jede Homepage wird automatisch live geprüft – falsche Links werden
+          durch eine Google-Suche ersetzt.
         </div>
       </div>
     </div>
@@ -1193,7 +1195,7 @@ const LANG = {
     "ob-success-p": "Ihr Startup wird nach manueller Prüfung freigeschaltet. Wir melden uns per E-Mail.",
     "footer-contact": "Kontakt", "footer-privacy": "Datenschutz",
     "footer-imprint": "Impressum",
-    "footer-powered": "Powered by pgvector & sentence-transformers",
+    "footer-powered": "Powered by Claude AI (Anthropic)",
     "score-label": "Übereinstimmung",
     "verified": "✓ Verifiziert",
   },
@@ -1203,7 +1205,7 @@ const LANG = {
     "hero-badge": "AI-powered Startup Matching · DACH Region",
     "hero-h1a": "Your problem.", "hero-h1b": "The right startup.",
     "hero-h1c": "Instantly.",
-    "hero-sub": "Describe your operational challenge in your own words – our semantic matching system finds the right innovation partners from over 50,000 verified DACH startups.",
+    "hero-sub": "Describe your operational challenge in your own words – our AI finds the right solution providers across the DACH region, scores relevance and automatically verifies every homepage.",
     "hero-cta1": "Start matching", "hero-cta2": "List your startup",
     "stat1": "Startups in system", "stat2": "Innovation categories",
     "stat3": "DACH countries", "stat4": "Matches today",
@@ -1217,10 +1219,10 @@ const LANG = {
     "how-badge": "Technology", "how-h2": "How the matching works",
     "step1-title": "Describe the problem",
     "step1-desc": "You describe your operational challenge in natural language – in plain terms, without jargon. No forms, no keyword guessing.",
-    "step2-title": "Semantic analysis",
-    "step2-desc": "A multilingual AI model converts your text into a 384-dimensional meaning vector – understanding context, not just keywords.",
-    "step3-title": "Top-5 matches",
-    "step3-desc": "pgvector computes cosine similarity against 50,000+ startup embeddings and returns the 5 best matches in milliseconds.",
+    "step2-title": "AI analysis",
+    "step2-desc": "Claude (Anthropic) understands the context of your challenge and searches its extensive knowledge of DACH startups and B2B providers – prioritised by direct solution relevance.",
+    "step3-title": "Verified matches",
+    "step3-desc": "Top results are delivered with match score and reasoning. Every homepage is live-checked automatically – broken links are replaced with a Google search.",
     "kat-badge": "Innovation Areas",
     "kat-h2": "7 categories. Every challenge covered.",
     "kat-lead": "The system automatically classifies problems into one of seven innovation categories and provides a concrete solution direction.",
@@ -1242,7 +1244,7 @@ const LANG = {
     "ob-success-p": "Your startup will be activated after manual review. We'll contact you by email.",
     "footer-contact": "Contact", "footer-privacy": "Privacy",
     "footer-imprint": "Imprint",
-    "footer-powered": "Powered by pgvector & sentence-transformers",
+    "footer-powered": "Powered by Claude AI (Anthropic)",
     "score-label": "Match score",
     "verified": "✓ Verified",
   }
@@ -1271,15 +1273,20 @@ function toggleLang() {
 
 
 /* ----------------------------------------------------------
-   DEMO-DATEN: 15 Startup-Profile
+   API KONFIGURATION
    ---------------------------------------------------------- */
-const STARTUPS = [
+const API_BASE = 'https://innovation-republic-api.onrender.com';
+
+/* ----------------------------------------------------------
+   BEISPIELE FÜR DIE CHIPS
+   ---------------------------------------------------------- */
+const _UNUSED = [  // legacy demo data – not used
   {
     name: "SensorGuard GmbH",
-    desc: "IoT-Plattform für vorausschauende Maschinenwartung. Sensoren überwachen Vibration, Temperatur und Lautstärke und sagen Ausfälle bis zu 14 Tage im Voraus vorher.",
+    desc: "",
     kat: "Predictive Maintenance",
     land: "Deutschland", quelle: "dealroom",
-    keywords: ["maschine","wartung","ausfall","sensor","iot","produktion","stillstand","reparatur","verschleiß","vorbeugend"]
+    keywords: []
   },
   {
     name: "MaintenanceAI GmbH",
@@ -1391,73 +1398,9 @@ const KATEGORIEN_DATA = [
   { icon:"♻️", name:"Zirkulärwirtschaft", desc:"Sekundärrohstoffe, Kreislaufwirtschaft, Abfallreduzierung.", count:6 },
 ];
 
-const LOESUNG_TEXTE = {
-  "Predictive Maintenance": "IoT-Sensorik und KI ermöglichen vorausschauende Wartung – bis zu 14 Tage im Voraus. Statt auf Ausfälle zu reagieren, können Sie diese aktiv verhindern.",
-  "HR-Tech": "KI-gestützte Recruiting- und Onboarding-Plattformen beschleunigen Einstellungen um bis zu 75 % und sichern Unternehmenswissen systematisch.",
-  "Energieeffizienz": "Smart-Energy-Management macht Ihren Verbrauch transparent und identifiziert Einsparpotenziale automatisch. Typische Amortisation nach 12–24 Monaten.",
-  "Nachhaltige Logistik": "KI-gestützte Routenoptimierung und Echtzeit-Tracking reduzieren Kosten und CO₂ gleichzeitig – nahtlose Integration in bestehende Systeme.",
-  "Digitale Qualitätssicherung": "Computer-Vision-Systeme erkennen Produktfehler schneller und zuverlässiger als manuelle Kontrolle – und lernen kontinuierlich dazu.",
-  "Prozessautomatisierung": "Digitalisierung und RPA können repetitive Aufgaben vollständig übernehmen und Fehlerquoten auf nahezu null senken.",
-  "Zirkulärwirtschaft": "Digitale Plattformen verbinden Sie mit Abnehmern für Restmaterialien – Kosten senken und Nachhaltigkeitsziele gleichzeitig erfüllen.",
-};
-
-const BEISPIELE = [
-  "Unsere Maschinen fallen ohne Vorwarnung aus und der Produktionsstopp kostet uns jeden Monat Zehntausende Euro. Wir wissen nie wann eine Wartung wirklich nötig ist.",
-  "Wir verlieren zu viel Zeit bei der Einarbeitung neuer Mitarbeiter und finden kaum Fachkräfte. Die Fluktuation ist hoch und das Wissen geht verloren wenn jemand das Unternehmen verlässt.",
-  "Unsere Energiekosten sind in den letzten zwei Jahren explodiert. Wir wissen nicht genau wo der meiste Strom verbraucht wird und können deshalb nicht gezielt sparen.",
-  "Unsere Lieferungen kommen oft zu spät weil wir nicht wissen wo unsere Fahrer gerade sind. Sprit und Zeit werden verschwendet weil die Routen nicht optimal geplant werden.",
-  "Bei der Qualitätsprüfung schleichen sich immer wieder Fehler durch die dann beim Kunden ankommen. Die manuelle Sichtkontrolle ist zu langsam und unzuverlässig.",
-  "Wir produzieren jeden Monat Tonnen von Abfall durch Ausschuss und verbrauchte Materialien. Das kostet Geld und ist schlecht für die Umwelt.",
-];
-
-function setExample(idx) {
-  document.getElementById('problemInput').value = BEISPIELE[idx];
-  document.getElementById('problemInput').focus();
-}
-
 /* ----------------------------------------------------------
-   MATCHING-ALGORITHMUS (TF-IDF-ähnliches Keyword-Scoring)
+   MATCHING via Claude API (Backend auf Render)
    ---------------------------------------------------------- */
-function tokenize(text) {
-  return text.toLowerCase()
-    .replace(/[.,!?;:()"\n]/g, ' ')
-    .split(/\s+/)
-    .filter(w => w.length > 2);
-}
-
-function score(query, startup) {
-  const queryTokens = tokenize(query);
-  let treffer = 0;
-
-  queryTokens.forEach(token => {
-    // Direkte Übereinstimmung in Keywords
-    startup.keywords.forEach(kw => {
-      if (kw.includes(token) || token.includes(kw)) treffer += 2;
-    });
-    // Übereinstimmung in Beschreibung
-    const descTokens = tokenize(startup.desc);
-    descTokens.forEach(dt => {
-      if (dt === token) treffer += 1;
-    });
-    // Übereinstimmung im Namen
-    if (startup.name.toLowerCase().includes(token)) treffer += 1;
-  });
-
-  // Normalisieren (0–1)
-  const maxPossible = queryTokens.length * 3;
-  return Math.min(treffer / Math.max(maxPossible, 1), 1.0);
-}
-
-function bestKategorie(query) {
-  const kategorieScores = {};
-  STARTUPS.forEach(s => {
-    const sc = score(query, s);
-    if (!kategorieScores[s.kat]) kategorieScores[s.kat] = 0;
-    kategorieScores[s.kat] += sc;
-  });
-  return Object.entries(kategorieScores).sort((a,b) => b[1]-a[1])[0][0];
-}
-
 async function startMatching() {
   const query = document.getElementById('problemInput').value.trim();
   if (query.length < 15) {
@@ -1467,96 +1410,131 @@ async function startMatching() {
     return;
   }
 
-  const btn = document.getElementById('matchBtn');
-  const spinner = document.getElementById('spinner');
-  const btnText = document.getElementById('btnText');
+  const btn        = document.getElementById('matchBtn');
+  const spinner    = document.getElementById('spinner');
+  const btnText    = document.getElementById('btnText');
+  const container  = document.getElementById('resultsContainer');
+  const diagnoseBox = document.getElementById('diagnoseBox');
+
   btn.disabled = true;
   spinner.classList.add('visible');
-  btnText.innerHTML = `<span class="loading-dots"><span>·</span><span>·</span><span>·</span></span>`;
+  btnText.innerHTML = currentLang === 'de'
+    ? '<span class="loading-dots"><span>·</span><span>·</span><span>·</span></span>&nbsp;Claude analysiert'
+    : '<span class="loading-dots"><span>·</span><span>·</span><span>·</span></span>&nbsp;Claude analysing';
+  diagnoseBox.classList.remove('visible');
+  container.innerHTML = '';
 
-  // Simulierte Ladezeit für realistische UX
-  await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
+  try {
+    const res = await fetch(`${API_BASE}/api/match`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        challenge: query,
+        language:  currentLang,
+        count:     6,
+      }),
+    });
 
-  // Scores berechnen
-  const ergebnisse = STARTUPS.map(s => ({...s, matchScore: score(query, s)}))
-    .sort((a,b) => b.matchScore - a.matchScore)
-    .slice(0, 5)
-    .filter(s => s.matchScore > 0);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `HTTP ${res.status}`);
+    }
 
-  // Leichte Score-Anpassung für realistischere Werte
-  ergebnisse.forEach((s, i) => {
-    s.matchScore = Math.max(0.55 + (0.4 - i * 0.07) * (0.7 + s.matchScore * 0.3), 0.35);
-  });
+    const data = await res.json();
+    renderResults(data.results);
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-  // Kategorie ermitteln
-  const kat = bestKategorie(query);
-
-  // Diagnose anzeigen
-  const diagnoseBox = document.getElementById('diagnoseBox');
-  document.getElementById('diagnoseKat').textContent = `📂 ${kat}`;
-  document.getElementById('diagnoseLoesung').textContent = LOESUNG_TEXTE[kat] || '';
-  diagnoseBox.classList.add('visible');
-
-  // Ergebniskarten rendern
-  renderResults(ergebnisse);
-
-  btn.disabled = false;
-  spinner.classList.remove('visible');
-  btnText.innerHTML = `🎯 ${t('btn-match').replace('🎯 ','')}`;
-
-  // Scroll zu Ergebnissen
-  document.getElementById('resultsContainer').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  } catch (err) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:48px 20px;color:#666;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
+        <strong style="font-size:1rem;">${currentLang === 'de' ? 'Verbindungsfehler' : 'Connection error'}</strong><br/>
+        <small style="color:#999;margin-top:10px;display:block;">${err.message}</small>
+        <small style="color:#bbb;margin-top:6px;display:block;">
+          ${currentLang === 'de'
+            ? 'Bitte versuchen Sie es in einem Moment erneut.'
+            : 'Please try again in a moment.'}
+        </small>
+      </div>`;
+  } finally {
+    btn.disabled = false;
+    spinner.classList.remove('visible');
+    btnText.innerHTML = `🎯 ${t('btn-match').replace('🎯 ','')}`;
+  }
 }
 
 function renderResults(results) {
   const container = document.getElementById('resultsContainer');
 
-  const quelleName = {
-    dealroom: { label: '✓ Dealroom', cls: 'source-dealroom' },
-    angellist: { label: 'AngelList', cls: 'source-angellist' },
-    eu_startup_monitor: { label: 'EU Startup Monitor', cls: 'source-esm' },
-    demo: { label: 'Demo', cls: 'source-demo' },
-  };
+  if (!results || results.length === 0) {
+    container.innerHTML = `<p style="text-align:center;color:#888;padding:32px;">
+      ${currentLang === 'de' ? 'Keine Ergebnisse gefunden.' : 'No results found.'}
+    </p>`;
+    return;
+  }
 
   container.innerHTML = `<div class="results-grid" id="resultsGrid"></div>`;
   const grid = document.getElementById('resultsGrid');
 
   results.forEach((s, i) => {
-    const quelle = quelleName[s.quelle] || { label: s.quelle, cls: 'source-demo' };
-    const rankCls = i === 0 ? 'rank-1' : '';
-    const scorePercent = Math.round(s.matchScore * 100);
-    const isVerified = s.quelle === 'dealroom';
+    const rankCls      = i === 0 ? 'rank-1' : '';
+    const scorePercent = Math.max(0, Math.min(100, Math.round(s.match_score || 0)));
+    const scoreColor   = scorePercent >= 80 ? '#16a34a' : scorePercent >= 65 ? '#d97706' : '#6b7280';
+
+    const websiteUrl = s.website_final || s.website;
+    const hasLink    = websiteUrl && s.website_verified !== false;
+    const googleUrl  = `https://www.google.com/search?q=${encodeURIComponent(s.name + ' official website')}`;
+
+    const linkBtn = hasLink
+      ? `<a href="${websiteUrl}" target="_blank" rel="noopener" style="
+            display:inline-flex;align-items:center;gap:6px;
+            background:var(--ir-red);color:#fff;text-decoration:none;
+            padding:8px 16px;border-radius:7px;font-size:0.82rem;font-weight:700;
+            transition:all 0.2s ease;">
+           ✓ ${currentLang === 'de' ? 'Website öffnen' : 'Open website'} ↗
+         </a>`
+      : `<a href="${googleUrl}" target="_blank" rel="noopener" style="
+            display:inline-flex;align-items:center;gap:6px;
+            background:#f1f5f9;color:#475569;text-decoration:none;
+            padding:8px 16px;border-radius:7px;font-size:0.82rem;font-weight:700;
+            border:1px solid #e2e8f0;transition:all 0.2s ease;">
+           🔍 ${currentLang === 'de' ? 'Google-Suche' : 'Google search'} ↗
+         </a>`;
+
+    const meta = [];
+    if (s.land)          meta.push(`📍 ${s.land}`);
+    if (s.gruendungsjahr) meta.push(`📅 ${s.gruendungsjahr}`);
+    if (s.teamgroesse)   meta.push(`👥 ${s.teamgroesse}`);
 
     const card = document.createElement('div');
     card.className = `result-card ${rankCls}`;
     card.style.animationDelay = `${i * 0.1}s`;
     card.innerHTML = `
-      <span class="card-source-badge ${quelle.cls}">
-        ${isVerified ? '<span class="verified-dot"></span>' : ''}
-        ${quelle.label}
-      </span>
       <div class="card-name">${s.name}</div>
-      <div class="card-kategorie">📂 ${s.kat}</div>
-      <div class="card-desc">${s.desc}</div>
+      <div style="font-size:0.85rem;color:#888;margin-bottom:10px;">${s.tagline || ''}</div>
+      <div style="font-size:0.87rem;color:#555;margin-bottom:14px;font-style:italic;line-height:1.55;">
+        "${s.match_begruendung || ''}"
+      </div>
       <div class="score-bar-wrap">
         <div class="score-bar-label">
           <span>${t('score-label')}</span>
-          <strong>${scorePercent}%</strong>
+          <strong style="color:${scoreColor}">${scorePercent}%</strong>
         </div>
         <div class="score-bar-track">
-          <div class="score-bar-fill" data-width="${scorePercent}"></div>
+          <div class="score-bar-fill" data-width="${scorePercent}"
+               style="background:${scoreColor};width:0%"></div>
         </div>
       </div>
-      <div class="card-footer">
-        <span>📍 ${s.land}</span>
-        ${isVerified ? `<span style="color:#1D4ED8;font-weight:600;">${t('verified')}</span>` : ''}
+      <div class="card-footer" style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span style="font-size:0.8rem;color:#888;">${meta.join(' · ')}</span>
+        ${linkBtn}
       </div>
     `;
     grid.appendChild(card);
 
-    // Score-Balken animieren
     setTimeout(() => {
-      card.querySelector('.score-bar-fill').style.width = scorePercent + '%';
+      const fill = card.querySelector('.score-bar-fill');
+      if (fill) fill.style.width = scorePercent + '%';
     }, 100 + i * 80);
   });
 }
