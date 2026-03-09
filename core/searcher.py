@@ -25,8 +25,11 @@ Regeln:
    (USA, UK, EU), wenn kein gleichwertiger DACH-Anbieter existiert.
 3. match_score (0–100): Bewertet wie DIREKT der Anbieter die spezifische
    Herausforderung löst – nicht die allgemeine Branchennähe.
-4. website: Nenne nur bekannte, korrekte URLs. Lieber null als eine falsche URL.
-5. Antworte AUSSCHLIESSLICH mit einem validen JSON-Array. Kein Markdown. Kein Text.
+4. website: STRENGE REGEL – gib NUR die URL an, die du mit Sicherheit kennst
+   (z.B. celonis.com, personio.de). Bei der geringsten Unsicherheit: null setzen.
+   NIEMALS eine URL raten oder konstruieren. Falsche URLs schaden den Nutzern.
+5. kontakt_email: Nur wenn du die offizielle Kontakt-E-Mail sicher kennst, sonst null.
+6. Antworte AUSSCHLIESSLICH mit einem validen JSON-Array. Kein Markdown. Kein Text.
 
 Schema jedes Objekts:
 {
@@ -54,8 +57,11 @@ Rules:
    when no equivalent DACH provider exists.
 3. match_score (0–100): Rates how DIRECTLY the provider solves this specific
    challenge – not general industry proximity.
-4. website: Only provide known, correct URLs. Prefer null over a wrong URL.
-5. Respond ONLY with a valid JSON array. No markdown. No text.
+4. website: STRICT RULE – only provide a URL you know with certainty (e.g. celonis.com).
+   If there is any doubt about the exact URL, set it to null. NEVER guess or construct
+   a URL. Wrong URLs harm users.
+5. kontakt_email: Only if you know the official contact email with certainty, else null.
+6. Respond ONLY with a valid JSON array. No markdown. No text.
 
 Schema of each object:
 {

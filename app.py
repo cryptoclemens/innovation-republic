@@ -10,6 +10,7 @@ Secrets:    ANTHROPIC_API_KEY
 """
 
 import concurrent.futures
+import urllib.parse
 
 import streamlit as st
 
@@ -136,6 +137,11 @@ st.markdown("""
                   text-decoration: none !important; margin-left: 14px; }
 .ir-link-mail:hover { text-decoration: underline !important; }
 .ir-no-site     { color: #94a3b8; font-size: 0.85rem; }
+.ir-link-google { color: #6b7280 !important; font-size: 0.82rem;
+                  text-decoration: none !important; margin-left: 10px;
+                  border: 1px solid #e2e8f0; border-radius: 6px;
+                  padding: 2px 8px; }
+.ir-link-google:hover { background: #f1f5f9 !important; text-decoration: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -223,7 +229,7 @@ FLAGGEN = {
 }
 
 
-def render_karte(e: dict, tx: dict) -> None:
+def render_karte(e: dict, tx: dict, lang: str = "de") -> None:
     score   = e["match_score"]
     farbe   = score_farbe(score)
     verif   = e.get("_v", {})
@@ -234,6 +240,11 @@ def render_karte(e: dict, tx: dict) -> None:
     groesse = e.get("teamgroesse")
     email   = e.get("kontakt_email")
 
+    # Google-Fallback-URL (immer verfügbar als Backup)
+    firma_encoded = urllib.parse.quote_plus(f'{e["name"]} official website')
+    google_url    = f"https://www.google.com/search?q={firma_encoded}"
+    google_label  = "🔍 Google" if lang == "de" else "🔍 Google"
+
     # Website-Link
     if url:
         disp = url.replace("https://", "").replace("http://", "").rstrip("/")
@@ -242,8 +253,12 @@ def render_karte(e: dict, tx: dict) -> None:
         cls  = "ir-link-ok" if ok else "ir-link-un"
         icon = tx["verified"] if ok else tx["unverified"]
         link_html = f'<a href="{url}" target="_blank" class="{cls}">{icon} {disp} ↗</a>'
+        # Bei nicht verifizierbarer URL: Google-Fallback daneben zeigen
+        if not ok:
+            link_html += f' &nbsp;<a href="{google_url}" target="_blank" class="ir-link-google">{google_label}</a>'
     else:
-        link_html = f'<span class="ir-no-site">{tx["no_site"]}</span>'
+        # Keine URL bekannt → nur Google-Suche anbieten
+        link_html = f'<a href="{google_url}" target="_blank" class="ir-link-google">{google_label} – {e["name"]}</a>'
 
     mail_html = ""
     if email:
@@ -326,6 +341,6 @@ if suchen and herausforderung.strip():
     st.markdown("---")
 
     for e in ergebnisse:
-        render_karte(e, tx)
+        render_karte(e, tx, lang=lang)
 
     st.caption(tx["caption"])
