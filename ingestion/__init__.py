@@ -3,7 +3,7 @@ Ingestion-Modul für Innovation Republic.
 Verwaltet alle Datenquell-Konnektoren und startet die Pipeline.
 
 Priorisierung der Quellen:
-    Dealroom > EU Startup Monitor > AngelList > Crunchbase (nur Demo)
+    Dealroom > AngelList > EU Startup Monitor > Curated DACH (immer) > Crunchbase (nur Demo)
 """
 
 import os
@@ -51,7 +51,15 @@ def starte_alle_quellen():
     else:
         logger.info("ANGELLIST_API_KEY nicht gesetzt – AngelList wird übersprungen")
 
-    # 4. Crunchbase (nur wenn aktiviert – nur für Demo)
+    # 4. Kuratierter DACH-Datensatz (immer aktiv, kein API-Key nötig)
+    try:
+        from ingestion.curated_dach import CuratedDACHConnector
+        connector = CuratedDACHConnector()
+        ergebnisse["curated_dach"] = connector.importiere()
+    except Exception as e:
+        logger.warning(f"Curated-DACH-Ingestion fehlgeschlagen: {e}")
+
+    # 5. Crunchbase (nur wenn aktiviert – nur für Demo)
     crunchbase_enabled = os.getenv("CRUNCHBASE_ENABLED", "false").lower() == "true"
     if crunchbase_enabled and os.getenv("CRUNCHBASE_API_KEY"):
         try:
