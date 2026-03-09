@@ -12,6 +12,7 @@ from loguru import logger
 
 from core.embedding import erstelle_embedding, erstelle_embeddings_batch, get_model
 from core.matching import aehnliche_kmu_faelle
+from core.query_normalizer import normalisiere_query
 
 # Die 7 internen Innovationskategorien
 INNOVATIONSKATEGORIEN = [
@@ -110,6 +111,7 @@ class Diagnose:
     loesung: str
     aehnliche_faelle: List[Dict] = field(default_factory=list)
     alle_kategorien: Dict[str, float] = field(default_factory=dict)
+    query_normalisiert: bool = False   # True wenn Haiku die Query erweitert hat
 
 
 # Kategorie-Embeddings werden beim ersten Aufruf gecacht
@@ -153,8 +155,11 @@ def diagnose_problem(beschreibung: str) -> Diagnose:
 
     logger.debug(f"Diagnose für: '{beschreibung[:60]}...'")
 
-    # Eingabe-Embedding erstellen
-    eingabe_embedding = erstelle_embedding(beschreibung)
+    # Schritt 0: Query via Haiku in kanonische Industriesprache übersetzen
+    embedding_text, via_ki = normalisiere_query(beschreibung)
+
+    # Eingabe-Embedding erstellen (mit normalisiertem Text wenn verfügbar)
+    eingabe_embedding = erstelle_embedding(embedding_text)
 
     # Ähnlichkeit zu allen Kategorien berechnen (cosine similarity via Skalarprodukt
     # da alle Vektoren L2-normalisiert sind)
@@ -178,4 +183,5 @@ def diagnose_problem(beschreibung: str) -> Diagnose:
         loesung=LOESUNGSRICHTUNGEN.get(beste_kategorie, ""),
         aehnliche_faelle=aehnliche,
         alle_kategorien=scores,
+        query_normalisiert=via_ki,
     )
