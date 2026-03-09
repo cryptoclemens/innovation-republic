@@ -20,6 +20,7 @@ from pgvector.psycopg2 import register_vector
 
 from ingestion.base import StartupRohDaten
 from core.embedding import erstelle_embedding
+from core.startup_verifier import verifiziere_startup
 from db import get_db
 
 # Schwellwert für Duplikat-Erkennung (cosine similarity)
@@ -299,6 +300,7 @@ def normalisiere_und_speichere(batch: List[StartupRohDaten]) -> int:
                     continue
 
                 # Neuen Eintrag speichern
+                neues_startup_id: int | None = None
                 with conn.cursor() as cur:
                     cur.execute(
                         """
@@ -311,6 +313,7 @@ def normalisiere_und_speichere(batch: List[StartupRohDaten]) -> int:
                             beschreibung = EXCLUDED.beschreibung,
                             embedding = EXCLUDED.embedding,
                             zuletzt_aktualisiert = CURRENT_TIMESTAMP
+                        RETURNING id
                         """,
                         (
                             startup.name,
@@ -328,7 +331,20 @@ def normalisiere_und_speichere(batch: List[StartupRohDaten]) -> int:
                             startup.demo_only,
                         ),
                     )
+                    row = cur.fetchone()
+                    if row:
+                        neues_startup_id = row[0]
+
                 gespeichert += 1
+
+                # Website-Verifikation direkt nach dem Speichern
+                if neues_startup_id and startup.website:
+                    try:
+                        verifiziere_startup(neues_startup_id, startup.website)
+                    except Exception as e:
+                        logger.debug(
+                            f"Website-Verifikation für '{startup.name}' fehlgeschlagen: {e}"
+                        )
 
             except Exception as e:
                 logger.warning(

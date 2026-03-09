@@ -46,6 +46,7 @@ TEXTE = {
         "quelle_badge": "Quelle",
         "sprache_button": "🇬🇧 English",
         "website_label": "Website",
+        "website_verifiziert_tooltip": "Website geprüft und erreichbar",
         "konfidenz": "Konfidenz",
         "eingabe_zu_kurz": "Bitte beschreiben Sie Ihr Problem ausführlicher (mind. 20 Zeichen).",
         "laden": "Analysiere Problem und suche passende Startups...",
@@ -173,8 +174,16 @@ def zeige_startup_kachel(match: dict, rang: int, T: dict):
                 st.caption(f"📍 {land}")
         with meta_cols[2]:
             website = match.get("website")
+            website_verifiziert = match.get("website_verifiziert")
             if website:
-                st.caption(f"🔗 [{T['website_label']}]({website})")
+                # Verifikationsstatus-Indikator neben dem Link
+                if website_verifiziert is True:
+                    status_icon = "✅ "   # Geprüft & erreichbar
+                elif website_verifiziert is None:
+                    status_icon = "🔗 "  # Noch nicht geprüft
+                else:
+                    status_icon = "⚠️ "  # Sollte durch Filter ausgeblendet sein
+                st.caption(f"{status_icon}[{T['website_label']}]({website})")
 
         st.divider()
 

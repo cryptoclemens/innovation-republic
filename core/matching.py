@@ -44,6 +44,10 @@ def match_startup_to_kmu(kmu_problem: str, limit: int = 5) -> List[Dict]:
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
 
             # Semantische Suche via pgvector (<=> = cosine distance)
+            # website_verifiziert IS NOT FALSE:
+            #   NULL (ungeprüft) → wird angezeigt (innocent until proven guilty)
+            #   TRUE  (erreichbar) → wird angezeigt
+            #   FALSE (tot/Timeout) → wird ausgeblendet
             cur.execute(
                 """
                 SELECT
@@ -55,9 +59,11 @@ def match_startup_to_kmu(kmu_problem: str, limit: int = 5) -> List[Dict]:
                     quelle,
                     website,
                     land,
+                    website_verifiziert,
                     1 - (embedding <=> %s::vector) AS similarity_score
                 FROM startups
                 WHERE embedding IS NOT NULL
+                  AND (website_verifiziert IS NOT FALSE)
                 ORDER BY embedding <=> %s::vector
                 LIMIT %s
                 """,
