@@ -1,6 +1,6 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-18 (Meilensteine 6–8 abgeschlossen)
+> Zuletzt aktualisiert: 2026-03-18 (Meilensteine 6–8 abgeschlossen, Meilenstein 9 Graph RAG geplant)
 
 ---
 
@@ -108,18 +108,64 @@
 
 ## Zukünftige Meilensteine (nach Go-Live)
 
-### Meilenstein 9: Erweiterte Features
+### Meilenstein 9: Graph RAG – Wissensbasierte Suche
+
+**Motivation:** Aktuell liefert `lib/matcher.ts` Ergebnisse ausschließlich aus Claudes
+parametrischem Wissen. Graph RAG ergänzt dies um eine eigene, strukturierte Wissensbasis
+mit Beziehungen zwischen Startups, Technologien, Branchen und Problemfeldern.
+
+**Vorteile gegenüber reinem LLM-Wissen:**
+- Verifizierte, aktuelle Startup-Daten statt potenziell veraltetes Modellwissen
+- Multi-Hop-Reasoning: „AI-Startups im DACH-Raum für Supply-Chain-Optimierung"
+- Eigene Onboarding-Daten fließen automatisch in die Suche ein
+- Transparente Quellenangaben für jedes Ergebnis
+- Bessere Recall-Rate durch Graphtraversierung über Beziehungen
+
+**Graph-Schema (Knoten & Kanten):**
+```
+(Startup) --[LÖST]--> (Problem/Herausforderung)
+(Startup) --[NUTZT]--> (Technologie)
+(Startup) --[IN_BRANCHE]--> (Branche/Kategorie)
+(Startup) --[SITZT_IN]--> (Region/Land)
+(Startup) --[PARTNERSCHAFT]--> (Startup)
+(Problem) --[VERWANDT_MIT]--> (Problem)
+(Technologie) --[UNTERKATEGORIE_VON]--> (Technologie)
+```
+
+**Tasks:**
+- [ ] Graph-Datenbank evaluieren (Neo4j Aura Free vs. Memgraph vs. FalkorDB)
+- [ ] Graph-Schema definieren und Seed-Daten aus bestehenden Kategorien generieren
+- [ ] Ingestion-Pipeline: Onboarding-Einreichungen → Graph-Knoten + Kanten
+- [ ] Embedding-Layer: Startup-Beschreibungen vektorisieren (z.B. OpenAI Ada oder Cohere)
+- [ ] Retrieval-Schicht: Kombination aus Vektor-Ähnlichkeit + Graph-Traversierung
+- [ ] `lib/matcher.ts` erweitern: Graph-RAG-Kontext als zusätzlichen Claude-Prompt-Input
+- [ ] Quellen-Anzeige im Frontend: Woher stammt jedes Ergebnis (Graph vs. LLM-Wissen)
+- [ ] Evaluierung: Precision/Recall-Vergleich Graph RAG vs. reines LLM-Matching
+- [ ] Admin-Dashboard: Graph-Statistiken (Anzahl Knoten, Kanten, Kategorien)
+
+**Architektur-Entscheidung:**
+| Option | Pro | Contra |
+|---|---|---|
+| Neo4j Aura (Free Tier) | Ausgereiftes Ökosystem, Cypher-Abfragesprache | Vendor Lock-in, Free Tier begrenzt |
+| FalkorDB (Redis-basiert) | Leichtgewichtig, self-hosted möglich | Kleinere Community |
+| In-Memory Graph (JS) | Kein externer Service, einfaches Hosting | Skalierung begrenzt, kein persistenter Speicher |
+
+**Ergebnis:** Hybride Suche – Graph RAG liefert verifizierten Kontext, Claude ergänzt mit Weltwissen
+
+---
+
+### Meilenstein 10: Erweiterte Features
 - [ ] Such-Historie (LocalStorage)
 - [ ] Favoriten-Funktion
 - [ ] Filter nach Land, Branche, Teamgröße
 - [ ] Detailseiten für Startups (`/startup/[slug]`)
 
-### Meilenstein 10: Nutzerkonten & Personalisierung
+### Meilenstein 11: Nutzerkonten & Personalisierung
 - [ ] Registrierung / Login
 - [ ] Gespeicherte Suchen
 - [ ] Benachrichtigungen bei neuen passenden Anbietern
 
-### Meilenstein 11: Community & Bewertungen
+### Meilenstein 12: Community & Bewertungen
 - [ ] KMU-Erfahrungsberichte zu Anbietern
 - [ ] Bewertungssystem
 - [ ] Newsletter-Integration
@@ -136,3 +182,4 @@
 | AI | Anthropic SDK (server-side) | Bestehende Logik, API-Key bleibt server-side |
 | Deployment | Vercel | Optimiert für Next.js, Edge Functions |
 | DB (optional) | Supabase / PostgreSQL | Für Onboarding & Admin, wenn benötigt |
+| Graph DB | Neo4j Aura / FalkorDB (evaluieren) | Graph RAG für Startup-Beziehungen & hybride Suche |
