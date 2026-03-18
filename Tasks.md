@@ -1,19 +1,19 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-17
+> Zuletzt aktualisiert: 2026-03-18
 
 ---
 
-## Meilenstein 1: Projekt-Setup & Grundgerüst
+## Meilenstein 1: Projekt-Setup & Grundgerüst ✅
 
-- [ ] Next.js-Projekt initialisieren (TypeScript, App Router)
-- [ ] Tailwind CSS einrichten
-- [ ] Projektstruktur anlegen (`app/`, `components/`, `lib/`)
-- [ ] ESLint & Prettier konfigurieren
-- [ ] Environment-Variablen (.env.local) für `ANTHROPIC_API_KEY` einrichten
-- [ ] Basis-Layout mit Header, Footer, Sprachwahl (DE/EN)
+- [x] Next.js-Projekt initialisieren (TypeScript, App Router) → `frontend/` mit Next.js 16.1.7
+- [x] Tailwind CSS einrichten → Tailwind v4 via `@tailwindcss/postcss`
+- [x] Projektstruktur anlegen (`app/`, `components/`, `lib/`) → `src/app/`, `src/components/`, `src/lib/`
+- [x] ESLint & Prettier konfigurieren → `.eslintrc.json` (next), `.prettierrc`
+- [x] Environment-Variablen (.env.local) für `ANTHROPIC_API_KEY` einrichten → `.env.example`
+- [x] Basis-Layout mit Header, Footer, Sprachwahl (DE/EN) → `Header.tsx`, `Footer.tsx`, `SearchBox.tsx`, `i18n.ts`
 
-**Ergebnis:** Lauffähiges Next.js-Projekt mit Basis-Layout
+**Ergebnis:** Lauffähiges Next.js-Projekt mit Basis-Layout – Build erfolgreich ✅
 
 ---
 
@@ -126,7 +126,7 @@
 
 | Bereich | Entscheidung | Begründung |
 |---|---|---|
-| Framework | Next.js 15 (App Router) | SSR, API Routes, moderne Architektur |
+| Framework | Next.js 16 (App Router, Turbopack) | SSR, API Routes, moderne Architektur |
 | Styling | Tailwind CSS + shadcn/ui | Schnelle Entwicklung, konsistentes Design |
 | Sprache | TypeScript | Typsicherheit, bessere DX |
 | AI | Anthropic SDK (server-side) | Bestehende Logik, API-Key bleibt server-side |
