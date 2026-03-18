@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Locale, TranslationKey } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
 import { translations } from "@/lib/i18n";
 import type { MatchResponseItem } from "@/app/api/match/route";
 import Header from "@/components/Header";
@@ -74,7 +74,7 @@ export default function Home() {
 
         {/* Error */}
         {error && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-300">
             {error}
           </div>
         )}
@@ -82,7 +82,7 @@ export default function Home() {
         {/* Loading Skeletons */}
         {isLoading && (
           <div className="mt-8 space-y-4">
-            <p className="text-sm text-slate-500">{tx.step_ai}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400" aria-live="polite">{tx.step_ai}</p>
             {Array.from({ length: 3 }).map((_, i) => (
               <MatchSkeleton key={i} />
             ))}
@@ -92,12 +92,12 @@ export default function Home() {
         {/* Results */}
         {!isLoading && results.length > 0 && (
           <div className="mt-8">
-            <div className="mb-4 flex items-baseline justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">
+            <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                 {tx.results_for}{" "}
-                <span className="italic text-slate-600">{searchedQuery}</span>
+                <span className="italic text-slate-600 dark:text-slate-400">{searchedQuery}</span>
               </h2>
-              <span className="text-sm text-slate-500">
+              <span className="text-sm text-slate-500 dark:text-slate-400">
                 {results.length}{" "}
                 {locale === "de" ? "Anbieter" : "providers"}
                 {" · "}
@@ -112,7 +112,7 @@ export default function Home() {
               ))}
             </div>
 
-            <p className="mt-6 text-center text-xs text-slate-400">
+            <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500">
               {tx.caption}
             </p>
           </div>

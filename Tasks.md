@@ -1,6 +1,6 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 2 abgeschlossen)
+> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 3 abgeschlossen)
 
 ---
 
@@ -30,16 +30,16 @@
 
 ---
 
-## Meilenstein 3: UI/UX & Responsive Design
+## Meilenstein 3: UI/UX & Responsive Design ✅
 
-- [ ] Responsive Layout (Mobile, Tablet, Desktop)
-- [ ] Score-Visualisierung (Fortschrittsbalken, Farbkodierung)
-- [ ] Google-Fallback-Link bei nicht verifizierten URLs
-- [ ] Flaggen-Icons für Länder
-- [ ] Dark Mode (optional)
-- [ ] Barrierefreiheit (ARIA-Labels, Keyboard-Navigation)
+- [x] Responsive Layout – SearchBox stackt auf Mobile, MatchCard kompakter, Badges scrollen
+- [x] Score-Visualisierung – Fortschrittsbalken + Farbkodierung (grün/amber/grau) (in M2)
+- [x] Google-Fallback-Link bei nicht verifizierten URLs (in M2)
+- [x] Flaggen-Icons für Länder (in M2)
+- [x] Dark Mode – `DarkModeToggle.tsx`, CSS-Variablen, localStorage-Persistenz, FOUC-Schutz
+- [x] Barrierefreiheit – ARIA-Labels, role="search/alert/status/progressbar", sr-only Labels, focus-visible
 
-**Ergebnis:** Professionelles, mobiltaugliches UI
+**Ergebnis:** Professionelles, mobiltaugliches UI mit Dark Mode und Barrierefreiheit ✅
 
 ---
 
