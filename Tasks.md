@@ -1,6 +1,6 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-18
+> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 2 abgeschlossen)
 
 ---
 
@@ -17,16 +17,16 @@
 
 ---
 
-## Meilenstein 2: Kern-Feature – Matching-Seite
+## Meilenstein 2: Kern-Feature – Matching-Seite ✅
 
-- [ ] Eingabefeld für Herausforderung (Client Component)
-- [ ] API Route `POST /api/match` – Claude API anbinden (Logik aus `core/searcher.py` portieren)
-- [ ] Server-seitige Website-Verifikation (Logik aus `core/verifier.py` portieren)
-- [ ] Ergebniskarten-Komponente (`MatchCard`) mit Score, Begründung, Links
-- [ ] Ladeanimation / Skeleton während der Suche
-- [ ] Fehlerbehandlung (kein API-Key, API-Fehler, leere Ergebnisse)
+- [x] Eingabefeld für Herausforderung (Client Component) → `SearchBox.tsx` mit Enter-Support
+- [x] API Route `POST /api/match` – Claude API anbinden → `app/api/match/route.ts` + `lib/matcher.ts`
+- [x] Server-seitige Website-Verifikation → `lib/verifier.ts` (URL-Varianten-Fallback, HEAD→GET)
+- [x] Ergebniskarten-Komponente (`MatchCard`) mit Score, Begründung, Links → `MatchCard.tsx`
+- [x] Ladeanimation / Skeleton während der Suche → `MatchSkeleton.tsx`
+- [x] Fehlerbehandlung (kein API-Key, API-Fehler, leere Ergebnisse) → Error-Banner + API-Validierung
 
-**Ergebnis:** Funktionales Matching wie bisher, aber als Next.js-App
+**Ergebnis:** Funktionales Matching wie bisher, aber als Next.js-App – Build erfolgreich ✅
 
 ---
 
