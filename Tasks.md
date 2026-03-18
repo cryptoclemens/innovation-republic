@@ -1,6 +1,6 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 5 abgeschlossen)
+> Zuletzt aktualisiert: 2026-03-18 (Meilensteine 6–8 abgeschlossen)
 
 ---
 
@@ -66,39 +66,43 @@
 
 ---
 
-## Meilenstein 6: Admin-Dashboard
+## Meilenstein 6: Admin-Dashboard ✅
 
-- [ ] Authentifizierung (Passwort oder NextAuth)
-- [ ] Dashboard-Seite `/admin`
-- [ ] Pending-Einreichungen anzeigen, genehmigen, ablehnen
-- [ ] Statistiken (Anzahl Suchen, Top-Kategorien)
+- [x] Authentifizierung – Passwort via `ADMIN_PASSWORD` ENV, Bearer-Token, sessionStorage
+- [x] Dashboard-Seite `/admin` – Login-Screen + Moderation-Interface mit Tabs
+- [x] Pending-Einreichungen anzeigen, freischalten, ablehnen (PATCH `/api/admin`)
+- [x] Statistiken – Gesamt/Pending/Approved/Rejected Metriken + Top-Kategorien-Tags
 
-**Ergebnis:** Administrationsoberfläche für Moderation
-
----
-
-## Meilenstein 7: SEO & Performance
-
-- [ ] Meta-Tags & Open Graph für alle Seiten
-- [ ] Structured Data (JSON-LD) für Organisation
-- [ ] Sitemap generieren
-- [ ] Lighthouse-Optimierung (Core Web Vitals)
-- [ ] Caching-Strategie für häufige Suchanfragen
-
-**Ergebnis:** Optimale Auffindbarkeit und Ladezeiten
+**Ergebnis:** Administrationsoberfläche für Moderation ✅
 
 ---
 
-## Meilenstein 8: Deployment & Go-Live
+## Meilenstein 7: SEO & Performance ✅
 
-- [ ] Vercel-Deployment einrichten
+- [x] Meta-Tags & Open Graph – title template, description, OG, Twitter Card
+- [x] Structured Data (JSON-LD) – Organization Schema mit knowsAbout
+- [x] Sitemap generieren – `sitemap.ts` → `/sitemap.xml`
+- [x] robots.txt – `/admin` und `/api/` blockiert
+- [x] Seiten-spezifische Metadata – Onboarding (indexiert), Admin (noindex)
+- [ ] Lighthouse-Optimierung – nach Deployment (benötigt Live-URL)
+- [ ] Caching-Strategie – nach Deployment (benötigt produktive Last)
+
+**Ergebnis:** SEO-Grundlage vollständig, Performance-Tuning nach Go-Live ✅
+
+---
+
+## Meilenstein 8: Deployment & Go-Live (vorbereitet)
+
+- [x] `vercel.json` mit Security-Headers (nosniff, DENY, XSS-Protection)
+- [x] `.env.example` mit allen benötigten Variablen dokumentiert
+- [x] `.gitignore` – data/, .env.local geschützt, .env.example committet
+- [ ] Vercel-Deployment einrichten (manuell: `vercel` CLI oder Vercel Dashboard)
 - [ ] Environment-Variablen auf Vercel konfigurieren
 - [ ] Custom Domain einrichten
 - [ ] Monitoring & Error-Tracking (z.B. Sentry)
 - [ ] Alte Streamlit-App ablösen
-- [ ] README.md aktualisieren
 
-**Ergebnis:** Produktive Next.js-App unter eigener Domain
+**Ergebnis:** Deployment-Ready, manuelle Schritte auf Vercel nötig
 
 ---
 
