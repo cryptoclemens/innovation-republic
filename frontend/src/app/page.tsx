@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Locale } from "@/lib/i18n";
 import { translations } from "@/lib/i18n";
 import type { MatchResponseItem } from "@/app/api/match/route";
@@ -18,11 +18,25 @@ export default function Home() {
   const [searchedQuery, setSearchedQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  // Restore locale from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("locale");
+    if (saved === "en" || saved === "de") {
+      setLocale(saved);
+      document.documentElement.lang = saved;
+    }
+  }, []);
+
   const tx = translations[locale];
 
-  function toggleLocale() {
-    setLocale((prev) => (prev === "de" ? "en" : "de"));
-  }
+  const toggleLocale = useCallback(() => {
+    setLocale((prev) => {
+      const next = prev === "de" ? "en" : "de";
+      localStorage.setItem("locale", next);
+      document.documentElement.lang = next;
+      return next;
+    });
+  }, []);
 
   async function handleSearch() {
     const trimmed = query.trim();

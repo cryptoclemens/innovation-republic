@@ -1,6 +1,6 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 3 abgeschlossen)
+> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 5 abgeschlossen)
 
 ---
 
@@ -43,26 +43,26 @@
 
 ---
 
-## Meilenstein 4: Internationalisierung (i18n)
+## Meilenstein 4: Internationalisierung (i18n) ✅
 
-- [ ] i18n-Setup (next-intl oder eigene Lösung)
-- [ ] Deutsche Übersetzungen (aus bestehendem `T`-Dictionary)
-- [ ] Englische Übersetzungen
-- [ ] Sprachwahl im Header mit Persistenz
+- [x] i18n-Setup – eigene Lösung via `lib/i18n.ts` (leichtgewichtig, kein next-intl nötig)
+- [x] Deutsche Übersetzungen – vollständig (Suche + Onboarding)
+- [x] Englische Übersetzungen – vollständig (Suche + Onboarding)
+- [x] Sprachwahl im Header mit localStorage-Persistenz + html `lang`-Attribut
 
-**Ergebnis:** Vollständige Zweisprachigkeit DE/EN
+**Ergebnis:** Vollständige Zweisprachigkeit DE/EN ✅
 
 ---
 
-## Meilenstein 5: Startup-Self-Onboarding
+## Meilenstein 5: Startup-Self-Onboarding ✅
 
-- [ ] Formular-Seite `/onboarding` mit Validierung
-- [ ] API Route `POST /api/onboarding` – Daten speichern
-- [ ] Datenbank-Anbindung (z.B. Supabase oder PostgreSQL)
-- [ ] Bestätigungsseite nach Einreichung
-- [ ] E-Mail-Benachrichtigung an Admin (optional)
+- [x] Formular-Seite `/onboarding` – Name, Beschreibung, Tags (Toggle), E-Mail, Website, Consent
+- [x] API Route `POST /api/onboarding` – Server-Validierung + JSON-Datei-Speicher
+- [x] Datenspeicher via `data/startups_pending.json` (leicht austauschbar gegen DB)
+- [x] Bestätigungsseite mit Checkmark-Animation + "Weiteres Startup eintragen"
+- [ ] E-Mail-Benachrichtigung an Admin (offen – benötigt SMTP-/Sendgrid-Konfiguration)
 
-**Ergebnis:** Startups können sich selbst registrieren
+**Ergebnis:** Startups können sich selbst registrieren ✅
 
 ---
 
