@@ -133,13 +133,13 @@ mit Beziehungen zwischen Startups, Technologien, Branchen und Problemfeldern.
 ```
 
 **Tasks:**
-- [ ] Graph-Datenbank evaluieren (Neo4j Aura Free vs. Memgraph vs. FalkorDB)
-- [ ] Graph-Schema definieren und Seed-Daten aus bestehenden Kategorien generieren
-- [ ] Ingestion-Pipeline: Onboarding-Einreichungen → Graph-Knoten + Kanten
-- [ ] Embedding-Layer: Startup-Beschreibungen vektorisieren (z.B. OpenAI Ada oder Cohere)
-- [ ] Retrieval-Schicht: Kombination aus Vektor-Ähnlichkeit + Graph-Traversierung
-- [ ] `lib/matcher.ts` erweitern: Graph-RAG-Kontext als zusätzlichen Claude-Prompt-Input
-- [ ] Quellen-Anzeige im Frontend: Woher stammt jedes Ergebnis (Graph vs. LLM-Wissen)
+- [x] Graph-Datenbank evaluieren → In-Memory-Graph (TypeScript, kein ext. Service, Vercel-kompatibel)
+- [x] Graph-Schema definieren und Seed-Daten aus bestehenden Kategorien generieren → `lib/graph.ts` (25 DACH-Startups, 15 Probleme, 10 Branchen, 7 Technologien, 5 Regionen)
+- [x] Retrieval-Schicht: Keyword-Matching + Graph-Traversierung → `lib/graph-retriever.ts`
+- [x] `lib/matcher.ts` erweitern: Graph-RAG-Kontext als zusätzlichen Claude-Prompt-Input
+- [x] Quellen-Anzeige im Frontend: Badge "Wissensgraph" / "Knowledge Graph" in `MatchCard.tsx`
+- [ ] Ingestion-Pipeline: Onboarding-Einreichungen (approved) → Graph-Knoten + Kanten
+- [ ] Embedding-Layer: Startup-Beschreibungen vektorisieren für semantische Ähnlichkeit
 - [ ] Evaluierung: Precision/Recall-Vergleich Graph RAG vs. reines LLM-Matching
 - [ ] Admin-Dashboard: Graph-Statistiken (Anzahl Knoten, Kanten, Kategorien)
 
@@ -150,7 +150,7 @@ mit Beziehungen zwischen Startups, Technologien, Branchen und Problemfeldern.
 | FalkorDB (Redis-basiert) | Leichtgewichtig, self-hosted möglich | Kleinere Community |
 | In-Memory Graph (JS) | Kein externer Service, einfaches Hosting | Skalierung begrenzt, kein persistenter Speicher |
 
-**Ergebnis:** Hybride Suche – Graph RAG liefert verifizierten Kontext, Claude ergänzt mit Weltwissen
+**Ergebnis:** Hybride Suche implementiert ✅ – Graph RAG liefert verifizierten Kontext, Claude ergänzt mit Weltwissen. Badge "Wissensgraph" kennzeichnet Graph-Treffer im Frontend.
 
 ---
 

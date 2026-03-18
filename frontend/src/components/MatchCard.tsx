@@ -162,6 +162,14 @@ export default function MatchCard({ item, locale }: MatchCardProps) {
             {item.teamgroesse && (
               <span>Team: {item.teamgroesse}</span>
             )}
+            {item.quelle === "graph" && (
+              <span
+                className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                title={locale === "de" ? "Aus verifiziertem Wissensgraphen" : "From verified knowledge graph"}
+              >
+                {locale === "de" ? "Wissensgraph" : "Knowledge Graph"}
+              </span>
+            )}
           </div>
 
           {/* Links */}

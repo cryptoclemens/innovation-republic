@@ -7,6 +7,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import type { Locale } from "./i18n";
+import { retrieveGraphContext, formatGraphContextForPrompt } from "./graph-retriever";
 
 export interface MatchResult {
   name: string;
@@ -18,6 +19,7 @@ export interface MatchResult {
   kontakt_email: string | null;
   gruendungsjahr: number | null;
   teamgroesse: string | null;
+  quelle?: "graph" | "llm";
 }
 
 const SYSTEM_DE = `Du bist ein führender Experte für B2B-Lösungsanbieter, Startups und
@@ -84,11 +86,31 @@ Schema of each object:
   "teamgroesse":       "50-200"
 }`;
 
-const USER_DE = (challenge: string, n: number) =>
-  `Herausforderung eines KMU-Mitarbeiters:\n"${challenge}"\n\nFinde ${n} real existierende Unternehmen, die diese Herausforderung lösen.\nSortiere nach match_score absteigend. Nur JSON-Array:`;
+const USER_DE = (challenge: string, n: number, graphKontext: string) =>
+  [
+    `Herausforderung eines KMU-Mitarbeiters:\n"${challenge}"`,
+    graphKontext ? `\n${graphKontext}\n` : "",
+    `Finde ${n} real existierende Unternehmen, die diese Herausforderung lösen.`,
+    graphKontext
+      ? "Berücksichtige bevorzugt die verifizierten Anbieter aus dem Wissensgraphen oben, ergänze mit weiteren passenden Anbietern."
+      : "",
+    "Sortiere nach match_score absteigend. Nur JSON-Array:",
+  ]
+    .filter(Boolean)
+    .join("\n");
 
-const USER_EN = (challenge: string, n: number) =>
-  `Challenge described by an SME professional:\n"${challenge}"\n\nFind ${n} real companies that solve this challenge.\nSort by match_score descending. JSON array only:`;
+const USER_EN = (challenge: string, n: number, graphKontext: string) =>
+  [
+    `Challenge described by an SME professional:\n"${challenge}"`,
+    graphKontext ? `\n${graphKontext}\n` : "",
+    `Find ${n} real companies that solve this challenge.`,
+    graphKontext
+      ? "Prioritize the verified providers from the knowledge graph above, supplement with additional fitting providers."
+      : "",
+    "Sort by match_score descending. JSON array only:",
+  ]
+    .filter(Boolean)
+    .join("\n");
 
 export async function sucheLoesungsanbieter(
   herausforderung: string,
@@ -98,11 +120,15 @@ export async function sucheLoesungsanbieter(
 ): Promise<MatchResult[]> {
   const client = new Anthropic({ apiKey });
 
+  // Graph RAG: verifizierten Kontext aus dem Wissensgraphen holen
+  const graphKontext = retrieveGraphContext(herausforderung);
+  const graphKontextText = formatGraphContextForPrompt(graphKontext, sprache);
+
   const system = sprache === "en" ? SYSTEM_EN : SYSTEM_DE;
   const userMsg =
     sprache === "en"
-      ? USER_EN(herausforderung.trim(), anzahl)
-      : USER_DE(herausforderung.trim(), anzahl);
+      ? USER_EN(herausforderung.trim(), anzahl, graphKontextText)
+      : USER_DE(herausforderung.trim(), anzahl, graphKontextText);
 
   const nachricht = await client.messages.create({
     model: "claude-sonnet-4-6",
@@ -129,6 +155,14 @@ export async function sucheLoesungsanbieter(
     e.kontakt_email = e.kontakt_email ?? null;
     e.gruendungsjahr = e.gruendungsjahr ?? null;
     e.teamgroesse = e.teamgroesse ?? null;
+  }
+
+  // Quelle markieren: Graph-Treffer vs. reines LLM-Wissen
+  const graphNamen = new Set(
+    graphKontext.startups.map((s) => s.name.toLowerCase()),
+  );
+  for (const e of ergebnisse) {
+    e.quelle = graphNamen.has(e.name.toLowerCase()) ? "graph" : "llm";
   }
 
   ergebnisse.sort((a, b) => b.match_score - a.match_score);
