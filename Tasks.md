@@ -1,68 +1,68 @@
 # Innovation Republic – Umsetzungsplan Next.js-Migration
 
-> Zuletzt aktualisiert: 2026-03-17
+> Zuletzt aktualisiert: 2026-03-18 (Meilenstein 5 abgeschlossen)
 
 ---
 
-## Meilenstein 1: Projekt-Setup & Grundgerüst
+## Meilenstein 1: Projekt-Setup & Grundgerüst ✅
 
-- [ ] Next.js-Projekt initialisieren (TypeScript, App Router)
-- [ ] Tailwind CSS einrichten
-- [ ] Projektstruktur anlegen (`app/`, `components/`, `lib/`)
-- [ ] ESLint & Prettier konfigurieren
-- [ ] Environment-Variablen (.env.local) für `ANTHROPIC_API_KEY` einrichten
-- [ ] Basis-Layout mit Header, Footer, Sprachwahl (DE/EN)
+- [x] Next.js-Projekt initialisieren (TypeScript, App Router) → `frontend/` mit Next.js 16.1.7
+- [x] Tailwind CSS einrichten → Tailwind v4 via `@tailwindcss/postcss`
+- [x] Projektstruktur anlegen (`app/`, `components/`, `lib/`) → `src/app/`, `src/components/`, `src/lib/`
+- [x] ESLint & Prettier konfigurieren → `.eslintrc.json` (next), `.prettierrc`
+- [x] Environment-Variablen (.env.local) für `ANTHROPIC_API_KEY` einrichten → `.env.example`
+- [x] Basis-Layout mit Header, Footer, Sprachwahl (DE/EN) → `Header.tsx`, `Footer.tsx`, `SearchBox.tsx`, `i18n.ts`
 
-**Ergebnis:** Lauffähiges Next.js-Projekt mit Basis-Layout
-
----
-
-## Meilenstein 2: Kern-Feature – Matching-Seite
-
-- [ ] Eingabefeld für Herausforderung (Client Component)
-- [ ] API Route `POST /api/match` – Claude API anbinden (Logik aus `core/searcher.py` portieren)
-- [ ] Server-seitige Website-Verifikation (Logik aus `core/verifier.py` portieren)
-- [ ] Ergebniskarten-Komponente (`MatchCard`) mit Score, Begründung, Links
-- [ ] Ladeanimation / Skeleton während der Suche
-- [ ] Fehlerbehandlung (kein API-Key, API-Fehler, leere Ergebnisse)
-
-**Ergebnis:** Funktionales Matching wie bisher, aber als Next.js-App
+**Ergebnis:** Lauffähiges Next.js-Projekt mit Basis-Layout – Build erfolgreich ✅
 
 ---
 
-## Meilenstein 3: UI/UX & Responsive Design
+## Meilenstein 2: Kern-Feature – Matching-Seite ✅
 
-- [ ] Responsive Layout (Mobile, Tablet, Desktop)
-- [ ] Score-Visualisierung (Fortschrittsbalken, Farbkodierung)
-- [ ] Google-Fallback-Link bei nicht verifizierten URLs
-- [ ] Flaggen-Icons für Länder
-- [ ] Dark Mode (optional)
-- [ ] Barrierefreiheit (ARIA-Labels, Keyboard-Navigation)
+- [x] Eingabefeld für Herausforderung (Client Component) → `SearchBox.tsx` mit Enter-Support
+- [x] API Route `POST /api/match` – Claude API anbinden → `app/api/match/route.ts` + `lib/matcher.ts`
+- [x] Server-seitige Website-Verifikation → `lib/verifier.ts` (URL-Varianten-Fallback, HEAD→GET)
+- [x] Ergebniskarten-Komponente (`MatchCard`) mit Score, Begründung, Links → `MatchCard.tsx`
+- [x] Ladeanimation / Skeleton während der Suche → `MatchSkeleton.tsx`
+- [x] Fehlerbehandlung (kein API-Key, API-Fehler, leere Ergebnisse) → Error-Banner + API-Validierung
 
-**Ergebnis:** Professionelles, mobiltaugliches UI
-
----
-
-## Meilenstein 4: Internationalisierung (i18n)
-
-- [ ] i18n-Setup (next-intl oder eigene Lösung)
-- [ ] Deutsche Übersetzungen (aus bestehendem `T`-Dictionary)
-- [ ] Englische Übersetzungen
-- [ ] Sprachwahl im Header mit Persistenz
-
-**Ergebnis:** Vollständige Zweisprachigkeit DE/EN
+**Ergebnis:** Funktionales Matching wie bisher, aber als Next.js-App – Build erfolgreich ✅
 
 ---
 
-## Meilenstein 5: Startup-Self-Onboarding
+## Meilenstein 3: UI/UX & Responsive Design ✅
 
-- [ ] Formular-Seite `/onboarding` mit Validierung
-- [ ] API Route `POST /api/onboarding` – Daten speichern
-- [ ] Datenbank-Anbindung (z.B. Supabase oder PostgreSQL)
-- [ ] Bestätigungsseite nach Einreichung
-- [ ] E-Mail-Benachrichtigung an Admin (optional)
+- [x] Responsive Layout – SearchBox stackt auf Mobile, MatchCard kompakter, Badges scrollen
+- [x] Score-Visualisierung – Fortschrittsbalken + Farbkodierung (grün/amber/grau) (in M2)
+- [x] Google-Fallback-Link bei nicht verifizierten URLs (in M2)
+- [x] Flaggen-Icons für Länder (in M2)
+- [x] Dark Mode – `DarkModeToggle.tsx`, CSS-Variablen, localStorage-Persistenz, FOUC-Schutz
+- [x] Barrierefreiheit – ARIA-Labels, role="search/alert/status/progressbar", sr-only Labels, focus-visible
 
-**Ergebnis:** Startups können sich selbst registrieren
+**Ergebnis:** Professionelles, mobiltaugliches UI mit Dark Mode und Barrierefreiheit ✅
+
+---
+
+## Meilenstein 4: Internationalisierung (i18n) ✅
+
+- [x] i18n-Setup – eigene Lösung via `lib/i18n.ts` (leichtgewichtig, kein next-intl nötig)
+- [x] Deutsche Übersetzungen – vollständig (Suche + Onboarding)
+- [x] Englische Übersetzungen – vollständig (Suche + Onboarding)
+- [x] Sprachwahl im Header mit localStorage-Persistenz + html `lang`-Attribut
+
+**Ergebnis:** Vollständige Zweisprachigkeit DE/EN ✅
+
+---
+
+## Meilenstein 5: Startup-Self-Onboarding ✅
+
+- [x] Formular-Seite `/onboarding` – Name, Beschreibung, Tags (Toggle), E-Mail, Website, Consent
+- [x] API Route `POST /api/onboarding` – Server-Validierung + JSON-Datei-Speicher
+- [x] Datenspeicher via `data/startups_pending.json` (leicht austauschbar gegen DB)
+- [x] Bestätigungsseite mit Checkmark-Animation + "Weiteres Startup eintragen"
+- [ ] E-Mail-Benachrichtigung an Admin (offen – benötigt SMTP-/Sendgrid-Konfiguration)
+
+**Ergebnis:** Startups können sich selbst registrieren ✅
 
 ---
 
@@ -126,7 +126,7 @@
 
 | Bereich | Entscheidung | Begründung |
 |---|---|---|
-| Framework | Next.js 15 (App Router) | SSR, API Routes, moderne Architektur |
+| Framework | Next.js 16 (App Router, Turbopack) | SSR, API Routes, moderne Architektur |
 | Styling | Tailwind CSS + shadcn/ui | Schnelle Entwicklung, konsistentes Design |
 | Sprache | TypeScript | Typsicherheit, bessere DX |
 | AI | Anthropic SDK (server-side) | Bestehende Logik, API-Key bleibt server-side |
