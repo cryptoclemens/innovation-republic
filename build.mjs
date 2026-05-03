@@ -12,7 +12,7 @@ const watch = args.has("--watch");
 const serve = args.has("--serve");
 
 const DIST = "dist";
-const SITE_URL = "https://innovation-republic.eu";
+const SITE_URL = process.env.SITE_URL ?? "https://innovation-republic.de";
 
 if (existsSync(DIST)) await rm(DIST, { recursive: true });
 await mkdir(DIST, { recursive: true });

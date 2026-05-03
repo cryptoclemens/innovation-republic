@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "dev": "node build.mjs --watch --serve",
+    "build:staging": "SITE_URL=https://innovation-republic.eu node build.mjs",
+    "build:prod": "SITE_URL=https://innovation-republic.de node build.mjs",
+    "dev": "SITE_URL=https://innovation-republic.eu node build.mjs --watch --serve",
     "clean": "rm -rf dist",
     "deploy": "wrangler pages deploy dist"
   },
