@@ -75,6 +75,21 @@ Roadmap-Variation: nach schwächster Dimension. Mappt auf Robert (Bedarf), Konra
 - [ ] **SEO** — OG-Tags, Sitemap, robots.txt fehlen.
 - [ ] **Analytics** — Cloudflare Web Analytics aktivieren (Privacy-friendly, kein Cookie-Banner nötig).
 
+## Dual-Session-Workflow: Claude.ai (Design) ↔ Claude Code (Tech)
+
+**Claude.ai** und **Claude Code** arbeiten am selben Repo — Git ist die Synchronisation.
+
+| Session | Zuständigkeit |
+|---|---|
+| Claude.ai (Design) | `directionA/*.jsx`, `directionA/*.css` — visuelle Iterationen, UI-Varianten, Tweaks |
+| Claude Code | `build.mjs`, `package.json`, Worker-Verzeichnisse, Routing, Tests, Deploy-Pipeline |
+
+**Regeln:**
+- Niemals gleichzeitig dieselben Files in beiden Sessions editieren → Merge-Konflikte
+- Jede Session endet mit `git push`
+- Claude Code beginnt immer mit `git pull origin main`
+- Claude.ai: aktuellen Stand über den ZIP-Upload-Mechanismus einspielen, wenn parallel in Claude Code gearbeitet wurde
+
 ## Workflows für Claude Code
 
 ### Lokal entwickeln
