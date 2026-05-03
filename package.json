@@ -1,0 +1,15 @@
+{
+  "name": "innovation-republic-web",
+  "version": "0.1.0",
+  "description": "Innovation Republic — Website (statische Marketing-Seite, deploy auf Cloudflare Pages)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch --serve",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

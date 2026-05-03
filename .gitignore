@@ -1,0 +1,19 @@
+# Build artifacts
+dist/
+node_modules/
+
+# Generated during build
+__virtual_entry__.jsx
+_app.jsx.template
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

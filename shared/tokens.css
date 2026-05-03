@@ -1,0 +1,11 @@
+/* IR Brand Tokens — shared by both directions */
+:root {
+  /* Logo brand */
+  --ir-black: #0E0E10;
+  --ir-red: #DC2626;       /* slightly tuned for screen */
+  --ir-gold: #F4B83C;      /* slightly warmer than logo */
+
+  /* Logo exact */
+  --ir-logo-red: #E30613;
+  --ir-logo-gold: #FFCC00;
+}
