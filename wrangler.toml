@@ -1,0 +1,6 @@
+# Cloudflare Pages Konfiguration
+# Wird von `wrangler pages deploy` genutzt, falls manuell deployed wird.
+# Das normale Deployment läuft automatisch via Git-Push (kein Deploy-Command nötig).
+
+name = "innovation-republic"
+pages_build_output_dir = "dist"
