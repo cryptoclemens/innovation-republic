@@ -1,27 +1,19 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-.venv/
-venv/
-.env
-*.egg-info/
+# Build artifacts
+dist/
+node_modules/
 
-# IDE
+# Generated during build
+__virtual_entry__.jsx
+_app.jsx.template
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
 .vscode/
 .idea/
-*.swp
-
-# Datenbank
-*.sqlite3
-pgdata/
 
 # Logs
 *.log
-
-# macOS
-.DS_Store
-
-# Modell-Cache (wird lokal heruntergeladen)
-.cache/
-sentence_transformers_cache/
+npm-debug.log*
