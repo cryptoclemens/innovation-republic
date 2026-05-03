@@ -1,6 +1,6 @@
 # TASKS — Innovation Republic Web
 
-> Stand: 2026-05-03 | Letzte Session: Mobile-Pass v3 (Claude Design + Claude Code)
+> Stand: 2026-05-03 | Letzte Session: Routing-Verifikation + Cleanup
 
 ---
 
@@ -73,9 +73,9 @@
 ### Analytics
 - [x] Cloudflare Web Analytics aktiv (`innovation-republic.eu`, `auto_install: true`) — Beacon wird von Cloudflare am Edge injiziert, kein Code nötig
 
-### Routing & Subpages
-- [ ] Subpages-Routing verifizieren: alle 8 Hash-Routen im Browser testen
-- [ ] `directionB/` löschen — **erst nach Rückfrage**, ob noch Inhalte gebraucht werden
+### Routing & Cleanup
+- [x] Subpages-Routing verifiziert: alle 8 Hash-Routen gemappt, exportiert, in ROUTE_TITLE + sitemap
+- [x] `directionB/` gelöscht (4 Files, 1064 Zeilen entfernt)
 
 ### Features (separater Sprint)
 - [ ] PDF-Export in `check.jsx` (`downloadPdf()` ist aktuell `.txt`-Stub)
