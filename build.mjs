@@ -36,7 +36,8 @@ await writeFile(VIRTUAL_ENTRY, virtualContent);
 const buildOptions = {
   entryPoints: [VIRTUAL_ENTRY],
   bundle: true,
-  outfile: `${DIST}/bundle.js`,
+  outdir: DIST,
+  entryNames: watch ? "bundle" : "bundle.[hash]",
   format: "iife",
   loader: { ".jsx": "jsx" },
   jsx: "transform",
@@ -46,18 +47,24 @@ const buildOptions = {
   sourcemap: watch ? "inline" : false,
   target: ["es2020"],
   external: [],
+  metafile: true,
   define: {
     "process.env.NODE_ENV": watch ? '"development"' : '"production"',
   },
   banner: { js: "/* Innovation Republic — bundled */" },
 };
 
+let bundleFile = "bundle.js";
+
 async function build() {
-  await esbuild.build(buildOptions);
+  const result = await esbuild.build(buildOptions);
+  const outFiles = Object.keys(result.metafile.outputs);
+  const jsOut = outFiles.find(f => f.endsWith(".js"));
+  if (jsOut) bundleFile = path.basename(jsOut);
   await copyStaticFiles();
   await generateIndexHtml();
   await generateSeoFiles();
-  console.log(`✓ Build done → ${DIST}/`);
+  console.log(`✓ Build done → ${DIST}/ (bundle: ${bundleFile})`);
 }
 
 async function copyStaticFiles() {
@@ -81,7 +88,7 @@ async function copyStaticFiles() {
     "/assets/*",
     "  Cache-Control: public, max-age=31536000, immutable",
     "",
-    "/bundle.js",
+    "/bundle.*.js",
     "  Cache-Control: public, max-age=31536000, immutable",
     "",
     "/*.css",
@@ -196,7 +203,7 @@ async function generateIndexHtml() {
 <div id="app"></div>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="/bundle.js"></script>
+<script src="/${bundleFile}"></script>
 <!-- Cloudflare Web Analytics: nach Aktivierung im CF-Dashboard das beacon-Snippet hier einsetzen -->
 </body>
 </html>
@@ -207,6 +214,7 @@ async function generateIndexHtml() {
 if (watch) {
   const ctx = await esbuild.context(buildOptions);
   await ctx.watch();
+  bundleFile = "bundle.js";
   await copyStaticFiles();
   await generateIndexHtml();
   await generateSeoFiles();
