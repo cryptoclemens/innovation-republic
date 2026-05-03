@@ -230,7 +230,7 @@ function DevApp() {
   );
 }
 
-const isProd = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production');
+const isProd = process.env.NODE_ENV === 'production';
 const App = isProd ? ProductionApp : DevApp;
 
 ReactDOM.createRoot(document.getElementById("app")).render(<App />);
