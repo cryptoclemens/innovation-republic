@@ -1,3 +1,12 @@
+// _app.jsx — Innovation Republic Production-Mount
+// Wird sowohl im Dev (Babel-Standalone via index.html) als auch im Production-Build
+// (esbuild-Bundle, von build.mjs) verwendet.
+//
+// CHANGES (SEO-Pass 2026-05):
+// - Hash-Routing ergänzt: #/, #/plattform, #/kmu, #/anbieter, #/foerderung, #/ueber, #/impressum, #/datenschutz
+// - Production-Mount nutzt Single-Page-Layout (kein Design-Canvas mehr) sobald
+//   process.env.NODE_ENV === 'production'
+// - Design-Canvas + Tweaks-Panel bleiben für Dev/Reviews aktiv
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "showA": true,
@@ -8,13 +17,104 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "checkAutoOpenSeconds": 15
 }/*EDITMODE-END*/;
 
-function App() {
+// --- Hash-Router ---------------------------------------------------------
+function useHashRoute() {
+  const get = () => (typeof window !== 'undefined' ? window.location.hash.replace(/^#\/?/, '') : '');
+  const [route, setRoute] = React.useState(get());
+  React.useEffect(() => {
+    const onHash = () => setRoute(get());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  return route || 'home';
+}
+
+const ROUTE_TITLE = {
+  home:        'Innovation Republic — Innovation für KMU, kuratiert und gemeinnützig',
+  plattform:   'Plattform — Innovation Republic',
+  kmu:         'Für Bedarfsträger — Innovation Republic',
+  anbieter:    'Für Anbieter — Innovation Republic',
+  foerderung:  'Förderung — Innovation Republic',
+  ueber:       'Über uns — Innovation Republic',
+  impressum:   'Impressum — Innovation Republic',
+  datenschutz: 'Datenschutz — Innovation Republic',
+};
+
+const ROUTE_ROBOTS = {
+  impressum:   'index, nofollow',
+  datenschutz: 'index, nofollow',
+};
+
+function applyHeadForRoute(route) {
+  if (typeof document === 'undefined') return;
+  const t = ROUTE_TITLE[route] || ROUTE_TITLE.home;
+  if (document.title !== t) document.title = t;
+  // Canonical
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
+  link.href = route === 'home'
+    ? 'https://innovation-republic.eu/'
+    : `https://innovation-republic.eu/#/${route}`;
+  // Robots
+  let robots = document.querySelector('meta[name="robots"]');
+  if (!robots) { robots = document.createElement('meta'); robots.name = 'robots'; document.head.appendChild(robots); }
+  robots.content = ROUTE_ROBOTS[route] || 'index, follow';
+}
+
+function ProductionApp() {
+  const route = useHashRoute();
+  const [checkOpen, setCheckOpen] = React.useState(false);
+  const [checkResume, setCheckResume] = React.useState(false);
+  const [hasResult, setHasResult] = React.useState(false);
+
+  React.useEffect(() => { applyHeadForRoute(route); window.scrollTo(0, 0); }, [route]);
+
+  React.useEffect(() => {
+    setHasResult(!!localStorage.getItem(CHECK_LS_RESULT));
+  }, [checkOpen]);
+
+  React.useEffect(() => {
+    const open = (e) => {
+      setCheckResume(!!(e.detail && e.detail.resume));
+      setCheckOpen(true);
+    };
+    window.addEventListener('ir-open-check', open);
+    return () => window.removeEventListener('ir-open-check', open);
+  }, []);
+
+  let Page = ADirectionAHome;
+  if (route === 'plattform')   Page = ADirectionAPlatform;
+  if (route === 'kmu')         Page = ADirectionAKMU;
+  if (route === 'anbieter')    Page = ADirectionAAnbieter;
+  if (route === 'foerderung')  Page = ADirectionASpenden;
+  if (route === 'ueber')       Page = ADirectionAUeber;
+  if (route === 'impressum')   Page = ADirectionAImpressum;
+  if (route === 'datenschutz') Page = ADirectionADatenschutz;
+
+  return (
+    <>
+      <Page />
+      <CheckStickyPill
+        onOpen={() => { setCheckResume(false); setCheckOpen(true); }}
+        onResume={() => { setCheckResume(true); setCheckOpen(true); }}
+        hasResult={hasResult}
+      />
+      <CheckModal
+        open={checkOpen}
+        onClose={() => setCheckOpen(false)}
+        jumpToResult={checkResume}
+      />
+    </>
+  );
+}
+
+// --- Dev-App (Design-Canvas + Tweaks) — unverändert ----------------------
+function DevApp() {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [checkOpen, setCheckOpen] = React.useState(false);
   const [checkResume, setCheckResume] = React.useState(false);
   const [hasResult, setHasResult] = React.useState(false);
 
-  // Apply tweak: accent boost (logo colors more present)
   React.useEffect(() => {
     const root = document.documentElement;
     if (tweaks.accentBoost) {
@@ -26,68 +126,41 @@ function App() {
     }
   }, [tweaks.accentBoost]);
 
-  // Check auto-open: nach N Sekunden UND >50% Scroll-Tiefe (1x pro Browser)
   React.useEffect(() => {
     if (!tweaks.showA || !tweaks.checkAutoOpen) return;
     const seen = localStorage.getItem(CHECK_LS_SEEN);
     if (seen) return;
-
-    let timeReady = false;
-    let scrollReady = false;
-    let fired = false;
-
+    let timeReady = false, scrollReady = false, fired = false;
     const fire = () => {
-      if (fired) return;
-      if (!timeReady || !scrollReady) return;
+      if (fired || !timeReady || !scrollReady) return;
       fired = true;
-      setCheckResume(false);
-      setCheckOpen(true);
+      setCheckResume(false); setCheckOpen(true);
       try { localStorage.setItem(CHECK_LS_SEEN, String(Date.now())); } catch(e) {}
     };
-
-    // Scroll-Schwelle: 50% des scrollbaren Bereichs
-    // Design-Canvas hat einen eigenen Scroll-Container — wir hören auf window UND auf scroll im Canvas-Wrapper.
     const checkScroll = () => {
-      // 1) window scroll
       const docScroll = window.scrollY || document.documentElement.scrollTop;
       const docMax = (document.documentElement.scrollHeight || 0) - window.innerHeight;
       const winRatio = docMax > 0 ? docScroll / docMax : 0;
-
-      // 2) Canvas-interner Scroll (DesignCanvas pannt; bei DCArtboard "Focus" gibt es einen overflow-Container)
       let innerRatio = 0;
-      const scrollers = document.querySelectorAll('[data-dc-scroll], .dc-focus-scroll, .dc-canvas-scroll');
-      scrollers.forEach(s => {
+      document.querySelectorAll('[data-dc-scroll], .dc-focus-scroll, .dc-canvas-scroll').forEach(s => {
         const max = s.scrollHeight - s.clientHeight;
         if (max > 0) innerRatio = Math.max(innerRatio, s.scrollTop / max);
       });
-
-      if (Math.max(winRatio, innerRatio) >= 0.5) {
-        scrollReady = true;
-        fire();
-      }
+      if (Math.max(winRatio, innerRatio) >= 0.5) { scrollReady = true; fire(); }
     };
-
     const t = setTimeout(() => { timeReady = true; fire(); }, (tweaks.checkAutoOpenSeconds || 15) * 1000);
-
     window.addEventListener('scroll', checkScroll, { passive: true });
     document.addEventListener('scroll', checkScroll, { capture: true, passive: true });
-    // Initial check (falls bereits weit gescrollt vor dem Mount)
     const initCheck = setTimeout(checkScroll, 300);
-
     return () => {
-      clearTimeout(t);
-      clearTimeout(initCheck);
+      clearTimeout(t); clearTimeout(initCheck);
       window.removeEventListener('scroll', checkScroll);
       document.removeEventListener('scroll', checkScroll, { capture: true });
     };
   }, [tweaks.showA, tweaks.checkAutoOpen, tweaks.checkAutoOpenSeconds]);
 
-  // Detect existing result for sticky-pill resume button
-  React.useEffect(() => {
-    setHasResult(!!localStorage.getItem(CHECK_LS_RESULT));
-  }, [checkOpen]);
+  React.useEffect(() => { setHasResult(!!localStorage.getItem(CHECK_LS_RESULT)); }, [checkOpen]);
 
-  // Listen for hero-CTA clicks via custom event (so home.jsx can trigger)
   React.useEffect(() => {
     const open = (e) => {
       setCheckResume(!!(e.detail && e.detail.resume));
@@ -108,6 +181,8 @@ function App() {
             <DCArtboard id="a-anbieter" label="Für Anbieter" width={1440} height={1800}><ADirectionAAnbieter /></DCArtboard>
             <DCArtboard id="a-spenden" label="Förderung" width={1440} height={1900}><ADirectionASpenden /></DCArtboard>
             <DCArtboard id="a-ueber" label="Über uns / Kontakt" width={1440} height={1700}><ADirectionAUeber /></DCArtboard>
+            <DCArtboard id="a-impressum" label="Impressum" width={1440} height={1900}><ADirectionAImpressum /></DCArtboard>
+            <DCArtboard id="a-datenschutz" label="Datenschutz" width={1440} height={1500}><ADirectionADatenschutz /></DCArtboard>
           </DCSection>
         )}
         {tweaks.showB && (
@@ -154,5 +229,8 @@ function App() {
     </>
   );
 }
+
+const isProd = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production');
+const App = isProd ? ProductionApp : DevApp;
 
 ReactDOM.createRoot(document.getElementById("app")).render(<App />);

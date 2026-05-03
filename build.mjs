@@ -1,10 +1,5 @@
-// Build-Skript für Innovation Republic
-// Nutzt esbuild, um alle JSX-Files zu einem einzigen bundle.js zu kompilieren.
-// Output: dist/  →  direkt deployable auf Cloudflare Pages.
-//
-// Verwendung:
-//   npm run build         (Production-Build)
-//   npm run dev           (Watch + lokaler Dev-Server auf :8080)
+// build.mjs — Innovation Republic Production-Build
+// Bündelt JSX → dist/bundle.js, kopiert Assets, schreibt dist/index.html, robots.txt, sitemap.xml.
 
 import * as esbuild from "esbuild";
 import { mkdir, copyFile, readdir, rm, writeFile, readFile } from "node:fs/promises";
@@ -17,39 +12,26 @@ const watch = args.has("--watch");
 const serve = args.has("--serve");
 
 const DIST = "dist";
+const SITE_URL = "https://innovation-republic.eu";
 
-// ---- 1. Clean dist ----
 if (existsSync(DIST)) await rm(DIST, { recursive: true });
 await mkdir(DIST, { recursive: true });
 await mkdir(`${DIST}/assets`, { recursive: true });
 await mkdir(`${DIST}/directionA`, { recursive: true });
 
-// ---- 2. JSX-Bundle ----
-// Reihenfolge ist wichtig: shared.jsx vor home.jsx, etc.
+// Production-Bundle: nur Direction A, kein Design-Canvas, kein Tweaks-Panel.
 const ENTRY_FILES = [
-  "design-canvas.jsx",
-  "tweaks-panel.jsx",
   "directionA/shared.jsx",
   "directionA/check.jsx",
+  "directionA/legal.jsx",
   "directionA/home.jsx",
   "directionA/subpages.jsx",
 ];
 
-// Wir wrappen alle Files in einen virtuellen Entry-Point — dadurch teilen sie sich
-// einen Scope und globale Component-Definitionen funktionieren wie im Babel-Setup.
 const VIRTUAL_ENTRY = "__virtual_entry__.jsx";
 const virtualContent = ENTRY_FILES.map(f => `import "./${f}";`).join("\n") +
   `\nimport "./_app.jsx";\n`;
-
 await writeFile(VIRTUAL_ENTRY, virtualContent);
-
-// _app.jsx enthält den Mount-Code (vorher inline im index.html)
-const appJsx = await readFile("_app.jsx.template", "utf8").catch(() => null);
-if (!appJsx) {
-  // Beim ersten Run das Template aus index.html extrahieren
-  console.log("→ Erstelle _app.jsx.template aus index.html (einmalig)");
-  await extractAppFromIndex();
-}
 
 const buildOptions = {
   entryPoints: [VIRTUAL_ENTRY],
@@ -63,12 +45,10 @@ const buildOptions = {
   minify: !watch,
   sourcemap: watch ? "inline" : false,
   target: ["es2020"],
-  // React + ReactDOM bleiben als Globals (UMD-Builds via CDN) — wir bündeln sie nicht
   external: [],
   define: {
     "process.env.NODE_ENV": watch ? '"development"' : '"production"',
   },
-  // Treat React/ReactDOM as globals provided by CDN script tags
   banner: { js: "/* Innovation Republic — bundled */" },
 };
 
@@ -76,28 +56,21 @@ async function build() {
   await esbuild.build(buildOptions);
   await copyStaticFiles();
   await generateIndexHtml();
+  await generateSeoFiles();
   console.log(`✓ Build done → ${DIST}/`);
 }
 
 async function copyStaticFiles() {
-  // CSS
   await copyFile("directionA/style.css", `${DIST}/directionA/style.css`);
   await copyFile("directionA/check.css", `${DIST}/directionA/check.css`);
-  if (existsSync("directionB/style.css")) {
-    await mkdir(`${DIST}/directionB`, { recursive: true });
-    await copyFile("directionB/style.css", `${DIST}/directionB/style.css`);
-  }
   if (existsSync("shared/tokens.css")) {
     await mkdir(`${DIST}/shared`, { recursive: true });
     await copyFile("shared/tokens.css", `${DIST}/shared/tokens.css`);
   }
-
-  // Assets
   for (const f of await readdir("assets")) {
     await copyFile(`assets/${f}`, `${DIST}/assets/${f}`);
   }
 
-  // Cloudflare-spezifisch
   await writeFile(`${DIST}/_headers`, [
     "/*",
     "  X-Frame-Options: SAMEORIGIN",
@@ -117,21 +90,96 @@ async function copyStaticFiles() {
   ].join("\n"));
 
   await writeFile(`${DIST}/_redirects`, [
-    "# SPA-Fallback nicht nötig — wir haben aktuell nur eine Page.",
-    "# Falls später Subpages: /* /index.html 200",
+    "# Hash-Routing — alle Pfade auf index.html",
+    "/* /index.html 200",
+    "",
+  ].join("\n"));
+}
+
+async function generateSeoFiles() {
+  const ROUTES = ["", "plattform", "kmu", "anbieter", "foerderung", "ueber", "impressum"];
+  const today = new Date().toISOString().slice(0, 10);
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
+${ROUTES.map(r => {
+  const loc = r ? `${SITE_URL}/#/${r}` : `${SITE_URL}/`;
+  const prio = r === "" ? "1.0" : (r === "impressum" ? "0.3" : "0.8");
+  const cf = r === "" ? "weekly" : (r === "impressum" ? "yearly" : "monthly");
+  return `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${cf}</changefreq>
+    <priority>${prio}</priority>
+  </url>`;
+}).join("\n")}
+</urlset>
+`;
+  await writeFile(`${DIST}/sitemap.xml`, sitemap);
+
+  await writeFile(`${DIST}/robots.txt`, [
+    "# robots.txt — Innovation Republic",
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "User-agent: GPTBot",
+    "Allow: /",
+    "",
+    "User-agent: ClaudeBot",
+    "Allow: /",
+    "",
+    "User-agent: Google-Extended",
+    "Allow: /",
+    "",
+    "User-agent: PerplexityBot",
+    "Allow: /",
+    "",
+    "Disallow: /uploads/",
+    "",
+    `Sitemap: ${SITE_URL}/sitemap.xml`,
     "",
   ].join("\n"));
 }
 
 async function generateIndexHtml() {
+  // Produktions-Head: vollständige SEO-Tags + JSON-LD.
+  // Quelle für die FAQ-Antworten / Org-Daten: index.html (Dev) → identisch halten!
   const html = `<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Innovation Republic — Vom Bauchgefühl zum Ergebnis.</title>
-<meta name="description" content="Gemeinnütziger Innovations-Kurator. Vom unscharfen Bedarf über kuratierte Anbieter bis zum dokumentierten 100-Werktage-Sprint. Best-in-Class pro Phase — statt Eigenbau und Tool-Wildwuchs.">
-<link rel="icon" href="/assets/logo-ir.png" type="image/png">
+<title>Innovation Republic — Innovation für KMU, kuratiert und gemeinnützig</title>
+<meta name="description" content="Innovation Republic kuratiert Innovations-Vorhaben für kleine und mittlere Unternehmen — von Bedarfsklärung über Anbieter-Matching bis zur Sprint-Begleitung. Gemeinnützig, unabhängig, transparent." />
+<link rel="canonical" href="${SITE_URL}/" />
+<meta name="theme-color" content="#0E0E10" />
+<meta name="robots" content="index, follow" />
+<link rel="icon" href="/assets/logo-ir.png" type="image/png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="de_DE" />
+<meta property="og:site_name" content="Innovation Republic" />
+<meta property="og:title" content="Innovation Republic — Innovation für KMU, kuratiert und gemeinnützig" />
+<meta property="og:description" content="Bedarfsklärung, Anbieter-Matching, Sprint-Begleitung. Gemeinnützig, unabhängig, transparent." />
+<meta property="og:url" content="${SITE_URL}/" />
+<meta property="og:image" content="${SITE_URL}/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Innovation Republic — Innovation für KMU" />
+<meta name="twitter:description" content="Bedarfsklärung, Anbieter-Matching, Sprint-Begleitung. Gemeinnützig, unabhängig, transparent." />
+<meta name="twitter:image" content="${SITE_URL}/assets/og-image.png" />
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Innovation Republic","url":"${SITE_URL}/","logo":"${SITE_URL}/assets/logo-ir.png","image":"${SITE_URL}/assets/og-image.png","description":"Gemeinnützige Initiative, die Innovations-Vorhaben für kleine und mittlere Unternehmen kuratiert.","areaServed":["DE","AT","CH"],"email":"hello@innovationrepublic.de","address":{"@type":"PostalAddress","streetAddress":"Leopoldstraße 31","postalCode":"80802","addressLocality":"München","addressCountry":"DE"},"parentOrganization":{"@type":"Organization","name":"vencly GmbH","url":"https://www.vencly.com/"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Innovation Republic","url":"${SITE_URL}/","inLanguage":"de-DE"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Was ist Innovation Republic?","acceptedAnswer":{"@type":"Answer","text":"Innovation Republic ist eine gemeinnützige Initiative, die Innovations-Vorhaben für kleine und mittlere Unternehmen kuratiert."}},{"@type":"Question","name":"Für wen ist Innovation Republic gedacht?","acceptedAnswer":{"@type":"Answer","text":"Für kleine und mittlere Unternehmen im deutschsprachigen Raum, die Innovations- oder Digitalisierungsvorhaben umsetzen wollen."}},{"@type":"Question","name":"Was kostet Innovation Republic?","acceptedAnswer":{"@type":"Answer","text":"Bedarfsklärung und Matching sind für KMU kostenfrei. Sprint-Umsetzungen rechnen die Anbieter direkt mit dem KMU ab."}},{"@type":"Question","name":"Wie läuft ein Innovations-Sprint ab?","acceptedAnswer":{"@type":"Answer","text":"Bedarf klären (1–2 Wochen), Anbieter matchen (2–3 Wochen), Sprint umsetzen (4–12 Wochen) mit fester Begleitung."}},{"@type":"Question","name":"Welche Förderungen sind verfügbar?","acceptedAnswer":{"@type":"Answer","text":"Je nach Vorhaben: go-digital, Digital Jetzt oder regionale Innovationsgutscheine."}}]}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
@@ -143,40 +191,25 @@ async function generateIndexHtml() {
   body { font-family: "Inter Tight", system-ui, sans-serif; }
   #app { min-height: 100vh; }
 </style>
-<!-- OG / Twitter -->
-<meta property="og:title" content="Innovation Republic">
-<meta property="og:description" content="Vom Bauchgefühl zum Ergebnis. Gemeinnützig, kuratiert.">
-<meta property="og:type" content="website">
 </head>
 <body>
 <div id="app"></div>
-<!-- React via CDN (cached aggressively durch Cloudflare) -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="/bundle.js"></script>
+<!-- Cloudflare Web Analytics: nach Aktivierung im CF-Dashboard das beacon-Snippet hier einsetzen -->
 </body>
 </html>
 `;
   await writeFile(`${DIST}/index.html`, html);
 }
 
-async function extractAppFromIndex() {
-  // Extrahiert den App()-Block aus index.html → _app.jsx.template
-  // (Damit wir ihn beim Bundling als normales File haben.)
-  const idx = await readFile("index.html", "utf8");
-  const m = idx.match(/<script type="text\/babel">([\s\S]*?)<\/script>/);
-  if (!m) throw new Error("Konnte App-Code nicht aus index.html extrahieren");
-  await writeFile("_app.jsx", m[1]);
-  await writeFile("_app.jsx.template", "// auto-generated\n");
-  console.log("→ _app.jsx geschrieben. Bitte in Production manuell pflegen.");
-}
-
-// ---- Run ----
 if (watch) {
   const ctx = await esbuild.context(buildOptions);
   await ctx.watch();
   await copyStaticFiles();
   await generateIndexHtml();
+  await generateSeoFiles();
   console.log("👀 Watch-Mode aktiv");
 
   if (serve) {
@@ -191,18 +224,18 @@ if (watch) {
         const types = {
           ".html": "text/html", ".js": "application/javascript",
           ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml",
-          ".json": "application/json"
+          ".xml": "application/xml", ".txt": "text/plain", ".json": "application/json"
         };
         res.writeHead(200, { "Content-Type": types[ext] || "text/plain" });
         res.end(data);
       } catch {
-        res.writeHead(404);
-        res.end("Not found");
+        const idx = await readFile(`${DIST}/index.html`).catch(() => null);
+        if (idx) { res.writeHead(200, { "Content-Type": "text/html" }); res.end(idx); }
+        else { res.writeHead(404); res.end("Not found"); }
       }
     }).listen(PORT, () => console.log(`→ http://localhost:${PORT}`));
   }
 } else {
   await build();
-  // Cleanup
   await rm(VIRTUAL_ENTRY).catch(() => {});
 }

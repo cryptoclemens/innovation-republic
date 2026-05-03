@@ -1,8 +1,10 @@
-/* Direction A — Shared building blocks */
+/* Direction A — Shared building blocks
+ * SEO-Pass: alle href="#" durch echte Hash-Routes ersetzt.
+ */
 
 const ALogo = ({ small = false }) => (
-  <a href="#" className="dirA-nav-logo" style={{ textDecoration: "none", color: "inherit" }}>
-    <img src="assets/logo-ir.png" alt="Innovation Republic" style={{ height: small ? 22 : 28 }} />
+  <a href="#/" className="dirA-nav-logo" style={{ textDecoration: "none", color: "inherit" }}>
+    <img src="/assets/logo-ir.png" alt="Innovation Republic" style={{ height: small ? 22 : 28 }} />
   </a>
 );
 
@@ -10,11 +12,11 @@ const ANav = ({ active = "home" }) => (
   <nav className="dirA-nav">
     <ALogo />
     <div className="dirA-nav-links">
-      <a href="#" style={active === "platform" ? { color: "var(--accent-red)" } : {}}>Prozess</a>
-      <a href="#" style={active === "kmu" ? { color: "var(--accent-red)" } : {}}>Für Bedarfsträger</a>
-      <a href="#" style={active === "anbieter" ? { color: "var(--accent-red)" } : {}}>Für Anbieter</a>
-      <a href="#" style={active === "spenden" ? { color: "var(--accent-red)" } : {}}>Förderung</a>
-      <a href="#" style={active === "ueber" ? { color: "var(--accent-red)" } : {}}>Über uns</a>
+      <a href="#/plattform" style={active === "platform" ? { color: "var(--accent-red)" } : {}}>Prozess</a>
+      <a href="#/kmu" style={active === "kmu" ? { color: "var(--accent-red)" } : {}}>Für Bedarfsträger</a>
+      <a href="#/anbieter" style={active === "anbieter" ? { color: "var(--accent-red)" } : {}}>Für Anbieter</a>
+      <a href="#/foerderung" style={active === "spenden" ? { color: "var(--accent-red)" } : {}}>Förderung</a>
+      <a href="#/ueber" style={active === "ueber" ? { color: "var(--accent-red)" } : {}}>Über uns</a>
     </div>
     <div className="dirA-nav-actions">
       <span className="dirA-lang">
@@ -22,13 +24,12 @@ const ANav = ({ active = "home" }) => (
         <span>/</span>
         <span>EN</span>
       </span>
-      <a href="#" className="dirA-btn dirA-btn-ghost">Anmelden</a>
-      <a href="#" className="dirA-btn dirA-btn-primary">Prozess starten <span className="arr">→</span></a>
+      <a href="#/kmu" className="dirA-btn dirA-btn-ghost">Anmelden</a>
+      <a href="#/kmu" className="dirA-btn dirA-btn-primary">Prozess starten <span className="arr">→</span></a>
     </div>
   </nav>
 );
 
-// Tools — placeholder partner slots
 const TOOLS = [
   { code: "RB", name: "Robert", desc: "Ideation · Bedarfsformulierung", placeholder: "Partner-Slot offen", status: "soon" },
   { code: "KO", name: "Konrad", desc: "Scouting · Partner-Matching", placeholder: "Partner-Slot offen", status: "soon" },
@@ -56,7 +57,7 @@ const AFooter = () => (
   <footer className="dirA-footer">
     <div className="top">
       <div className="brand-block">
-        <img src="assets/logo-ir.png" alt="Innovation Republic" />
+        <img src="/assets/logo-ir.png" alt="Innovation Republic" />
         <p>Gemeinnütziger Innovations-Kurator. Best-in-Class pro Phase — statt Eigenbau und Tool-Wildwuchs.</p>
         <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
           <a href="#" style={{ color: "rgba(255,255,255,0.7)", fontSize: 12, fontFamily: "var(--f-mono)", textDecoration: "none" }}>LinkedIn ↗</a>
@@ -66,37 +67,37 @@ const AFooter = () => (
       <div>
         <h5>Prozess</h5>
         <ul>
-          <li><a href="#">Wie es funktioniert</a></li>
-          <li><a href="#">App-Store</a></li>
-          <li><a href="#">SpinIn Marktplatz</a></li>
-          <li><a href="#">Roadmap</a></li>
+          <li><a href="#/plattform">Wie es funktioniert</a></li>
+          <li><a href="#/plattform">App-Store</a></li>
+          <li><a href="#/plattform">SpinIn Marktplatz</a></li>
+          <li><a href="#/plattform">Roadmap</a></li>
         </ul>
       </div>
       <div>
         <h5>Mitwirken</h5>
         <ul>
-          <li><a href="#">Bedarf einreichen</a></li>
-          <li><a href="#">Anbieter werden</a></li>
-          <li><a href="#">Spenden & Fördern</a></li>
-          <li><a href="#">Partner werden</a></li>
+          <li><a href="#/kmu">Bedarf einreichen</a></li>
+          <li><a href="#/anbieter">Anbieter werden</a></li>
+          <li><a href="#/foerderung">Spenden & Fördern</a></li>
+          <li><a href="#/foerderung">Partner werden</a></li>
         </ul>
       </div>
       <div>
         <h5>Initiative</h5>
         <ul>
-          <li><a href="#">Über uns</a></li>
-          <li><a href="#">Vorstand</a></li>
-          <li><a href="#">Transparenz</a></li>
-          <li><a href="#">Kontakt</a></li>
+          <li><a href="#/ueber">Über uns</a></li>
+          <li><a href="#/ueber">Vorstand</a></li>
+          <li><a href="#/foerderung">Transparenz</a></li>
+          <li><a href="#/ueber">Kontakt</a></li>
         </ul>
       </div>
     </div>
     <div className="bottom">
       <span>© 2026 Innovation Republic · Gemeinnützige Initiative von Unternehmern (in Gründung)</span>
       <span>
-        <a href="#">Impressum</a>
-        <a href="#">Datenschutz</a>
-        <a href="#">Satzung</a>
+        <a href="#/impressum">Impressum</a>
+        <a href="#/datenschutz">Datenschutz</a>
+        <a href="#/ueber">Satzung</a>
       </span>
     </div>
   </footer>
@@ -110,8 +111,8 @@ const ACTAStrip = () => (
         <p style={{ marginTop: 16 }}>Sprechen Sie uns an. Wir kuratieren mit Ihnen den passenden Prozess — von der Bedarfsschärfung bis zum dokumentierten Sprint-Ergebnis. Kostenfrei, unverbindlich, gemeinnützig.</p>
       </div>
       <div className="actions">
-        <a href="#" className="dirA-btn dirA-btn-ghost">Demo ansehen</a>
-        <a href="#" className="dirA-btn dirA-btn-primary">Prozess starten <span className="arr">→</span></a>
+        <a href="#/plattform" className="dirA-btn dirA-btn-ghost">Demo ansehen</a>
+        <a href="#/kmu" className="dirA-btn dirA-btn-primary">Prozess starten <span className="arr">→</span></a>
       </div>
     </div>
   </section>

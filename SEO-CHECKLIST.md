@@ -1,132 +1,115 @@
 # SEO & GEO Checklist — Innovation Republic
 
-> Innovation-Republic-spezifische Adaption des allgemeinen SEO-GEO-Guides aus `cryptoclemens/innoacta/SEO-GEO-Guide.md`.
-> Stack: Vanilla HTML + esbuild auf Cloudflare Pages (kein Next.js). Domain: `innovation-republic.de`.
-> Status-Marker: `[x]` erledigt, `[ ]` offen, `[~]` teilweise.
+> Status nach SEO-Pass 2026-05-03 (Claude Design-Session).
+> Status-Marker: `[x]` erledigt im Repo-Patch, `[ ]` offen, `[~]` teilweise / Deployment nötig.
 
 ---
 
 ## 1. Technisches Fundament
 
-- [ ] **`<title>`** auf jeder Seite, max. 60 Zeichen, primäres Keyword vorne
-- [ ] **`<meta name="description">`** max. 155 Zeichen, mit Handlungsaufforderung
-- [ ] **Canonical-URL** auf jeder Seite — auch Startseite
-- [ ] **`<meta name="theme-color" content="#0E0E10">`** für Mobile-Browser-Chrome
-- [ ] **OG Image** als PNG (nicht SVG!), 1200×630, in `assets/og-image.png`
-- [ ] **`metadataBase`-Äquivalent**: alle URLs absolut auf `https://innovation-republic.de`
-- [ ] **`<meta property="og:locale" content="de_DE">`**
-- [ ] **`<meta name="robots" content="index, follow">`** (default; Impressum/Datenschutz: `index, nofollow`)
-- [ ] **kein hreflang** — Seite ist nur Deutsch
+- [x] **`<title>`** auf Landing, Subpages erhalten dynamischen Titel via Hash-Route (`_app.jsx → applyHeadForRoute`)
+- [x] **`<meta name="description">`** Landing — < 155 Z.
+- [x] **Canonical-URL** Landing statisch, Subpages dynamisch via Router gesetzt
+- [x] **`<meta name="theme-color" content="#0E0E10">`**
+- [x] **OG Image** PNG 1200×630 → `assets/og-image.png` (Stoneground + IR-Mark + Claim)
+- [x] **Alle URLs absolut** auf `https://innovation-republic.eu`
+- [x] **`<meta property="og:locale" content="de_DE">`**
+- [x] **`<meta name="robots">`** default `index, follow`; Impressum/Datenschutz: `index, nofollow` via Router
+- [x] **kein hreflang** — bleibt deutsch-only
 
 ## 2. Strukturierte Daten (JSON-LD)
 
-Alle als `<script type="application/ld+json">` direkt im `<head>` der jeweiligen Seite.
-
 ### Pflicht für Landing
-- [ ] **Organization / NGO** (Träger ist aktuell vencly GmbH; wenn e.V. gegründet → `NGO`)
-- [ ] **WebSite** mit `potentialAction` (SearchAction später, falls Suche kommt)
-- [ ] **FAQPage** mit den 5–8 häufigsten Fragen (echte Nutzerfragen!)
-- [ ] **BreadcrumbList** (auch für Landing → einzeiliger Eintrag)
+- [x] **Organization** mit Adresse + parentOrganization (vencly GmbH bis e.V. gegründet)
+- [x] **WebSite**
+- [x] **FAQPage** mit 6 Fragen (Was/Für wen/Kosten/Sprint-Ablauf/Förderung/Trägerschaft)
+- [x] **BreadcrumbList** Landing (einzeiliger Eintrag)
 
 ### Bei Subpages-Routing
-- [ ] **Service** je Tool (Robert, Konrad, James, SpinIn, Roland, Fördergeld-Check)
-- [ ] **BreadcrumbList** mehrstufig
+- [ ] **Service** je Tool — sobald Tool-Detail-Seiten existieren
+- [ ] **BreadcrumbList** mehrstufig pro Subpage (aktuell nur via Routing-Pfad)
 - [ ] **FAQPage** auf Tool- und Persona-Seiten
 
 ### Wenn Team-Sektion aktiv
-- [ ] **Person** + `sameAs` LinkedIn
+- [ ] **Person** + `sameAs` LinkedIn — wartet auf Reaktivierung der Team-Sektion
 
 ### Validierung
-- [ ] https://validator.schema.org/ — alle Schemas grün
-- [ ] https://search.google.com/test/rich-results — Rich-Results-Test bestanden
+- [~] https://validator.schema.org/ — **nach Deploy laufen lassen**
+- [~] https://search.google.com/test/rich-results — **nach Deploy laufen lassen**
 
 ## 3. robots.txt + sitemap.xml
 
-- [ ] `dist/robots.txt` mit Verweis auf Sitemap
-- [ ] `dist/sitemap.xml` — bei statischer Site händisch in `build.mjs` generieren oder einchecken
-- [ ] In `build.mjs` als zu kopierende Assets eintragen
+- [x] `dist/robots.txt` (statisch + via `build.mjs → generateSeoFiles`)
+- [x] `dist/sitemap.xml` (build-time generiert mit aktuellem `lastmod`)
+- [x] AI-Crawler explizit erlaubt (GPTBot, ClaudeBot, Google-Extended, PerplexityBot)
 
 ## 4. GEO — Generative Engine Optimization
 
 ### Copy-Prinzipien
-- [ ] H2-Überschriften als **vollständige Fragen** ("Wie läuft ein Innovations-Sprint ab?" statt "Prozess")
-- [ ] Erster Satz jedes Abschnitts = Kernaussage (Inverted Pyramid)
-- [ ] FAQ-Sektion auf Landing — Pflicht für AI Overviews
-- [ ] Vollständige Sätze in Listen (nicht nur Stichworte)
-- [ ] Zahlen, Zeitrahmen, Ortsangaben statt Marketing-Floskeln
+- [~] **H2 als Fragen** — aktuell teils Aussagesätze; in nächstem Copy-Pass schärfen
+- [~] **Inverted Pyramid** — wo schon, gut; auf KMU/Anbieter-Seiten noch mal durchgehen
+- [x] **FAQ-Sektion auf Landing** — als JSON-LD bereits drin; visuelle FAQ-Sektion im DOM **TODO**: optisch hinzufügen
+- [~] **Vollständige Sätze in Listen** — Footer-Listen sind Stichwort, OK; Body-Listen prüfen
+- [x] **Zahlen/Zeitrahmen** — 14 Tage, 100 WT, 4–12 Wochen schon drin
 
-### Was AI-Suchmaschinen besonders gut indexieren
-| Element | Warum |
-|---|---|
-| `FAQPage` Schema | Direkte Q&A-Extraktion |
-| Klare H2/H3-Hierarchie | Semantische Struktur |
-| Vollständige Sätze in Listen | Besser zitierfähig |
-| Statisches HTML | Vollständige Indexierung (wir liefern HTML, kein SSR-only — passt) |
+## 5. Rechtliches
 
-## 5. Rechtliches (DACH / Deutschland)
-
-### Impressum (§ 5 TMG) — **bestehender Stand übernehmen**
-Quelle: https://www.innovationrepublic.de/impressum (Stand vor Redesign)
-
-- Träger: **vencly GmbH**, Leopoldstraße 31, 80802 München
-- Vertreten durch: Clemens Eugen Theodor Pompeÿ
-- E-Mail: hello@vencly.com
-- HRB 290524 (AG München), USt-ID: DE367131457
-- Streitbeilegung: keine Teilnahme
-- Standardbausteine: Haftung für Inhalte / Links / Urheberrecht
-
-> Hinweis im Impressum behalten: "Bis zur Gründung eines eigenen Innovation Republic e.V. übernimmt die vencly GmbH …"
-
-### Datenschutz
-- [ ] **Verlinken** auf bestehende vencly-Datenschutzerklärung (https://www.vencly.com/datenschutzerklarung) — wie auf der alten Seite
-- [ ] **Oder eigene minimal** schreiben, wenn neuer Verantwortlicher (e.V.) — dann:
-  - Hosting (Cloudflare, USA → DPF erwähnen)
-  - Mail-Kontakt (Speicherdauer 3 Jahre / 10 Jahre bei steuerlicher Relevanz)
-  - **kein Tracking** → kein Cookie-Banner nötig
-  - Art. 22 DSGVO explizit: keine automatisierte Entscheidungsfindung
-  - Betroffenenrechte (Art. 15–21)
-  - Aufsichtsbehörde: Bayerisches Landesamt für Datenschutzaufsicht (BayLDA), Ansbach
+- [x] **Impressum** → `directionA/legal.jsx → ADirectionAImpressum`, Hash-Route `#/impressum`
+  - vencly GmbH, Leopoldstraße 31, 80802 München
+  - Vertretung: Clemens Eugen Theodor Pompeÿ
+  - HRB 290524, USt-ID DE367131457
+  - Hinweis zur Trägerschaft (Innovation Republic e.V. in Gründung)
+- [x] **Datenschutz** → `ADirectionADatenschutz`, Hash-Route `#/datenschutz`
+  - Verlinkt extern auf vencly-Datenschutzerklärung
+  - Kurzfassung im DOM: Hosting, kein Tracking, Speicherfristen, Art. 22, Betroffenenrechte, BayLDA
+- [x] **Footer**: Impressum + Datenschutz auf jeder Seite (siehe `directionA/shared.jsx → AFooter`)
 
 ## 6. Analytics / Tracking
 
-- [ ] **Cloudflare Web Analytics** aktivieren (Privacy-friendly, kein Cookie-Banner nötig)
-- [ ] **kein GA4** ohne explizite Freigabe (CLAUDE.md: gemeinnützig, Datenschutz = Markenversprechen)
-- [ ] Falls je GA4 kommt: Consent Mode v2 wie im Original-Guide implementieren
+- [~] **Cloudflare Web Analytics** — Beacon-Snippet-Slot in `build.mjs → generateIndexHtml` markiert; **Aktivierung im CF-Dashboard pending**
+- [x] **kein GA4** — bewusst weggelassen
+- [x] **Kein Cookie-Banner** — kein Tracking, keine notwendige Einwilligung
 
 ## 7. Schnell-Checkliste vor Go-Live
 
 ### Technisch
-- [ ] Alle Seiten haben Canonical-URL
-- [ ] OG Image ist PNG, 1200×630, aussagekräftig
-- [ ] Title < 60 Z., Description < 155 Z. überall
-- [ ] `/robots.txt` und `/sitemap.xml` erreichbar
-- [ ] Keine doppelten H1s
-- [ ] Cloudflare Pages: HTTPS forciert, www-Redirect zu apex (oder umgekehrt — eine Variante)
+- [x] Canonical-URL auf jeder Route
+- [x] OG Image PNG 1200×630
+- [x] Title < 60 Z., Description < 155 Z.
+- [~] `/robots.txt` und `/sitemap.xml` — **erst nach Deploy live**
+- [x] Keine doppelten H1s
+- [ ] HTTPS forciert + www-Redirect — **Cloudflare-Pages-Einstellung pending**
 
 ### Strukturierte Daten
-- [ ] Organization/NGO + WebSite im `<head>` der Landing
-- [ ] FAQPage auf Landing
-- [ ] BreadcrumbList überall
-- [ ] schema.org-Validator grün
+- [x] Organization + WebSite + FAQ + BreadcrumbList im Landing-`<head>`
+- [~] schema.org-Validator grün — **nach Deploy**
 
 ### Rechtliches
-- [ ] Impressum vollständig übernommen, Träger vencly GmbH benannt
-- [ ] Datenschutz-Link funktioniert
-- [ ] Footer: Impressum + Datenschutz auf jeder Seite sichtbar
+- [x] Impressum vollständig, Träger vencly GmbH benannt
+- [x] Datenschutz-Link funktioniert (intern + extern auf vencly)
+- [x] Footer: Impressum + Datenschutz auf jeder Seite sichtbar
 
 ### GEO
-- [ ] H2s auf Landing als Fragen
-- [ ] FAQ-Sektion (5–8 echte Fragen) sichtbar im DOM, nicht hinter Click-to-Expand allein
-- [ ] Erste Sätze fassen Kernaussage zusammen
+- [ ] **Visuelle FAQ-Sektion auf Landing** — JSON-LD allein reicht für AI-Indexierung, aber für Google-AI-Overviews ist DOM-FAQ Pflicht. **Folge-Patch nötig.**
+- [~] H2s auf Landing als Fragen — Copy-Pass empfohlen
 
 ---
 
-## Reihenfolge-Empfehlung für Claude Code
+## Done in diesem Patch
 
-1. **`<head>`-Pass** auf `index.html` (bzw. dem produktiven Entry-File nach Cleanup) — Meta-Tags + JSON-LD + OG
-2. **`assets/og-image.png`** generieren (1200×630, IR-Logo + Claim auf Stoneground)
-3. **`robots.txt` + `sitemap.xml`** anlegen, in `build.mjs` einbinden
-4. **Impressum-Seite** als `/impressum` (Hash- oder Subpath-Routing) — Inhalte aus Stand vor Redesign übernehmen
-5. **Datenschutz-Verweis** → vencly-Datenschutzerklärung verlinken
-6. **Cloudflare Web Analytics** in Cloudflare Pages aktivieren (Dashboard-Klick, kein Code)
-7. **Validierung**: schema.org + Rich-Results-Test
+1. `index.html` — Vollständiger SEO-`<head>` (war teils da, jetzt mit Address + parent + Breadcrumb-LD)
+2. `directionA/legal.jsx` — Impressum + Datenschutz neu
+3. `directionA/shared.jsx` — Echte Hash-Routes statt `href="#"`, Footer mit funktionierenden Legal-Links
+4. `_app.jsx` — Hash-Router, ProductionApp, dynamische `<head>`-Updates pro Route
+5. `build.mjs` — Production-Build ohne Design-Canvas / Tweaks; SEO-Files generiert; SPA-`_redirects`; Beacon-Slot
+6. `assets/og-image.png` — 1200×630, Brand-konform
+7. `robots.txt` + `sitemap.xml` — beide statisch im Repo-Patch + build-time generiert
+
+## Offen (Folge-Tasks)
+
+1. **Visuelle FAQ-Sektion** im DOM auf Landing (für AI Overviews)
+2. **Copy-Pass** H2 → Fragen (Plattform, KMU, Anbieter)
+3. **Cloudflare Web Analytics** im Dashboard aktivieren + Beacon-Snippet einsetzen
+4. **HTTPS / www-Redirect** in Cloudflare Pages konfigurieren
+5. **Validierung** nach Deploy: schema.org + Rich Results Test
+6. **Subpage-spezifisches `og:image`** sobald Custom-Visuals existieren

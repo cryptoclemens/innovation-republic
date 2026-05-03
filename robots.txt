@@ -1,0 +1,23 @@
+# robots.txt — Innovation Republic
+# https://innovation-republic.eu/robots.txt
+
+User-agent: *
+Allow: /
+
+# AI crawlers — bewusst erlaubt (gemeinnützig, Sichtbarkeit gewollt)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Nicht indexieren
+Disallow: /uploads/
+
+Sitemap: https://innovation-republic.eu/sitemap.xml
