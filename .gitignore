@@ -1,3 +1,6 @@
+# Claude Code local settings (may contain secrets)
+.claude/settings.json
+
 # Build artifacts
 dist/
 node_modules/
