@@ -1,6 +1,6 @@
 # TASKS — Innovation Republic Web
 
-> Stand: 2026-05-03 | Letzte Session: SEO-Pass v2 — FAQ + Copy (Claude Design + Claude Code)
+> Stand: 2026-05-03 | Letzte Session: Mobile-Pass v3 (Claude Design + Claude Code)
 
 ---
 
@@ -34,6 +34,7 @@
 - [x] `<meta robots="index, nofollow">` für Impressum + Datenschutz via `applyHeadForRoute()`
 
 ### SEO-Pass v2 — FAQ + Copy (Claude Design)
+
 - [x] `AFAQBlock`-Komponente in `directionA/subpages.jsx` (wiederverwendbar, Microdata FAQPage/Question/Answer)
 - [x] Home: `AHomeFAQ` mit 6 Karten (1:1 Spiegel der FAQPage-JSON-LD aus `index.html`)
 - [x] Microdata `schema.org/FAQPage` zusätzlich zur JSON-LD (doppelte Absicherung für Google AI Overviews)
@@ -43,6 +44,18 @@
 - [x] `directionA/subpages.jsx` — Plattform, KMU, Anbieter, Förderung, Über uns (jeweils H2-als-Frage + 4 FAQ-Karten)
 - [x] Hash-Routing-Fixes in `subpages.jsx` (Breadcrumb `#/`, mailto-Links für Spendentiers + Tool-Vorschlag, Form-Submit auf mailto)
 - [x] Domain-Reste fixiert: `www.innovationrepublic.de` → `www.innovation-republic.eu` (Über-uns-Kontaktblock)
+
+### Mobile-Pass v3 (Claude Design + Claude Code)
+- [x] `directionA/style.responsive.css` (neu) — Breakpoints 960/880/640px, fluid padding + type via `clamp()`, Touch-Targets ≥44px, iOS-Zoom-Fix, `prefers-reduced-motion`
+- [x] `directionA/shared.jsx` — `ANav` Hamburger-Toggle mit Scroll-Lock + Auto-Close bei `hashchange`
+- [x] `index.html` + `build.mjs` — `style.responsive.css` nach `style.css` eingebunden (Desktop unverändert)
+- [x] Hero-Grid: Desktop 2-spaltig → Mobile 1-spaltig, OS-Widget unterhalb Text
+- [x] Navigation: Hamburger-Menü ab < 880px, auf Desktop per CSS versteckt
+- [x] App-Tile-Grid: Auto-fit Grid auf Mobile
+- [x] Fluid Type H1/H2/Hero/Stats via `clamp()`
+- [x] Touch-Targets ≥ 44px, Form-Inputs `font-size: 16px`
+- [x] Check-Modal + Sticky-Pill mobile-fit
+- [x] Bundle-Hash invalidiert → Browser-Cache automatisch aktualisiert
 
 ### App-Architektur
 - [x] Hash-Router in `_app.jsx` (#/, #/plattform, #/kmu, #/anbieter, #/foerderung, #/ueber, #/impressum, #/datenschutz)
@@ -85,16 +98,6 @@
 ---
 
 ## Claude Design — Offen
-
-### Mobile ⚡ HÖCHSTE PRIORITÄT — aktuelle Version nicht lesbar auf iOS Safari
-- [ ] Responsive Breakpoints für alle Sektionen in `directionA/style.css`
-- [ ] Hero-Grid: Desktop 2-spaltig → Mobile 1-spaltig, OS-Widget unterhalb Text
-- [ ] Navigation: Hamburger-Menü oder Collapsed Nav auf Mobile
-- [ ] `dirA-os` App-Tile-Grid: horizontales Scrollen oder 2-Spalten-Grid auf Mobile
-- [ ] Schriftgrößen anpassen (h1 zu groß für Mobile)
-- [ ] Touch-Targets: Buttons mind. 44×44px
-- [ ] Check-Modal: vollständig scrollbar auf Mobile, kein Overflow
-- [ ] Sticky-Pill: Position + Größe auf Mobile prüfen
 
 ### GEO — noch offen
 - [ ] Erste Sätze jedes Abschnitts = Kernaussage (Inverted Pyramid) — Fließtext-Pass
