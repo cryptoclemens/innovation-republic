@@ -1,6 +1,6 @@
 # TASKS — Innovation Republic Web
 
-> Stand: 2026-05-03 | Letzte Session: Claude Code (Cloudflare-Deploy-Debug + SEO-Pass)
+> Stand: 2026-05-03 | Letzte Session: SEO-Pass v2 — FAQ + Copy (Claude Design + Claude Code)
 
 ---
 
@@ -19,15 +19,30 @@
 - [x] Cloudflare MCP-Server konfiguriert (`.claude/settings.json`, Token hinterlegt)
 - [x] `.claude/settings.json` in `.gitignore` (Token bleibt lokal)
 
-### SEO-Pass
+### SEO-Pass v1
 - [x] `index.html` (Dev-Entry): vollständiger SEO-Head (title, description, canonical, theme-color, robots)
 - [x] Open Graph + Twitter Card Tags
 - [x] JSON-LD: Organization, WebSite, FAQPage (5 Fragen)
 - [x] `assets/og-image.png` (1200×630) angelegt
 - [x] `robots.txt` mit KI-Bot-Erlaubnis (GPTBot, ClaudeBot, Google-Extended, PerplexityBot)
-- [x] `sitemap.xml` mit allen Hash-Routen
+- [x] `sitemap.xml` mit allen Hash-Routen inkl. `#/datenschutz`
 - [x] `SEO-CHECKLIST.md` aus Claude Design-Session übernommen
 - [x] `build.mjs` generiert `robots.txt` + `sitemap.xml` dynamisch mit `SITE_URL`
+- [x] `BreadcrumbList` JSON-LD dynamisch per Route in `applyHeadForRoute()` (`_app.jsx`)
+- [x] `Service`-Schema für Plattform, KMU, Anbieter, Förderung — dynamisch per Route
+- [x] `dateModified` in WebSite JSON-LD (Freshness-Signal für Google)
+- [x] `<meta robots="index, nofollow">` für Impressum + Datenschutz via `applyHeadForRoute()`
+
+### SEO-Pass v2 — FAQ + Copy (Claude Design)
+- [x] `AFAQBlock`-Komponente in `directionA/subpages.jsx` (wiederverwendbar, Microdata FAQPage/Question/Answer)
+- [x] Home: `AHomeFAQ` mit 6 Karten (1:1 Spiegel der FAQPage-JSON-LD aus `index.html`)
+- [x] Microdata `schema.org/FAQPage` zusätzlich zur JSON-LD (doppelte Absicherung für Google AI Overviews)
+- [x] Subpages: 4 seitenspezifische FAQ-Karten pro Persona (Plattform, KMU, Anbieter, Förderung, Über uns)
+- [x] H2-Überschriften auf Landing als vollständige Fragen formuliert
+- [x] `directionA/home.jsx` — Copy-Pass nach GEO-Prinzipien (H2-Pass + FAQ-Sektion)
+- [x] `directionA/subpages.jsx` — Plattform, KMU, Anbieter, Förderung, Über uns (jeweils H2-als-Frage + 4 FAQ-Karten)
+- [x] Hash-Routing-Fixes in `subpages.jsx` (Breadcrumb `#/`, mailto-Links für Spendentiers + Tool-Vorschlag, Form-Submit auf mailto)
+- [x] Domain-Reste fixiert: `www.innovationrepublic.de` → `www.innovation-republic.eu` (Über-uns-Kontaktblock)
 
 ### App-Architektur
 - [x] Hash-Router in `_app.jsx` (#/, #/plattform, #/kmu, #/anbieter, #/foerderung, #/ueber, #/impressum, #/datenschutz)
@@ -41,13 +56,6 @@
 ---
 
 ## Claude Code — Noch offen
-
-### SEO (nächste Priorität)
-- [x] `BreadcrumbList` JSON-LD dynamisch per Route in `applyHeadForRoute()` (`_app.jsx`)
-- [x] `Service`-Schema für Plattform, KMU, Anbieter, Förderung — dynamisch per Route
-- [x] `#/datenschutz` in `sitemap.xml` ergänzt
-- [x] `dateModified` in WebSite JSON-LD (Freshness-Signal für Google)
-- [x] `<meta robots="index, nofollow">` für Impressum + Datenschutz via `applyHeadForRoute()`
 
 ### Analytics
 - [ ] Cloudflare Web Analytics Beacon-Snippet in `build.mjs → generateIndexHtml()` einsetzen
@@ -78,34 +86,27 @@
 
 ## Claude Design — Offen
 
-### GEO / Copy-Pass (nächste Design-Session)
-- [ ] H2-Überschriften auf Landing als vollständige Fragen formulieren
-  (z. B. „Wie läuft ein Innovations-Sprint ab?" statt „Prozess")
-- [ ] FAQ-Sektion sichtbar im DOM auf Landing (nicht hinter Click-to-Expand)
-  → mind. 5–8 echte Nutzerfragen + Antworten in vollständigen Sätzen
-- [ ] Erste Sätze jedes Abschnitts = Kernaussage (Inverted Pyramid)
-- [ ] Zahlen, Zeitrahmen, Ortsangaben statt Marketing-Floskeln
-
-### Inhaltliche Copy-Anpassungen
-- [ ] `directionA/home.jsx` — Copy-Pass nach GEO-Prinzipien
-- [ ] `directionA/subpages.jsx` — Plattform, KMU, Anbieter, Förderung, Über uns
-- [ ] `directionA/check.jsx` — Check-Modal Texte prüfen
-
-### Mobile (Priorität — aktuelle Version nicht lesbar auf iOS Safari)
+### Mobile ⚡ HÖCHSTE PRIORITÄT — aktuelle Version nicht lesbar auf iOS Safari
 - [ ] Responsive Breakpoints für alle Sektionen in `directionA/style.css`
 - [ ] Hero-Grid: Desktop 2-spaltig → Mobile 1-spaltig, OS-Widget unterhalb Text
 - [ ] Navigation: Hamburger-Menü oder Collapsed Nav auf Mobile
-- [ ] dirA-os (App-Tile-Grid): horizontales Scrollen oder 2-Spalten-Grid auf Mobile
+- [ ] `dirA-os` App-Tile-Grid: horizontales Scrollen oder 2-Spalten-Grid auf Mobile
 - [ ] Schriftgrößen anpassen (h1 zu groß für Mobile)
 - [ ] Touch-Targets: Buttons mind. 44×44px
 - [ ] Check-Modal: vollständig scrollbar auf Mobile, kein Overflow
 - [ ] Sticky-Pill: Position + Größe auf Mobile prüfen
+
+### GEO — noch offen
+- [ ] Erste Sätze jedes Abschnitts = Kernaussage (Inverted Pyramid) — Fließtext-Pass
+- [ ] Zahlen, Zeitrahmen, Ortsangaben statt Marketing-Floskeln — Fließtext-Pass
+- [ ] `directionA/check.jsx` — Check-Modal Texte prüfen
 
 ### UI / Design
 - [ ] Team-Sektion in `ADirectionAUeber` reaktivieren (`{false && …}` → sichtbar)
   → sobald 2–3 Personen / Beirat öffentlich kommunizierbar
 - [ ] EN-Toggle: aktuell nur visuell angedeutet — Entscheidung: implementieren oder entfernen?
 - [ ] OG Image für Subpages (aktuell nur Landing hat OG Image)
+- [ ] Subpage-spezifische FAQPage-JSON-LD (sobald File-basiertes Routing kommt)
 
 ### Workflow
 - [ ] Änderungen aus Design-Session als ZIP oder API-Link übergeben
@@ -115,9 +116,9 @@
 
 ## Cloudflare Dashboard — Manuelle Schritte
 
-- [ ] **Deploy Command** leer lassen (Build command: `npm run build`, Output: `dist`) — bereits gesetzt?
+- [ ] **Deploy Command** leer lassen (Build command: `npm run build`, Output: `dist`)
 - [ ] **HTTPS Force** aktiviert? (sollte Cloudflare-Default sein)
-- [ ] **www → apex Redirect** festlegen (Vorschlag: www.innovation-republic.de → innovation-republic.de)
+- [ ] **www → apex Redirect** festlegen (Vorschlag: `www.innovation-republic.de` → `innovation-republic.de`)
 - [ ] **Cloudflare Web Analytics** aktivieren → Beacon-Snippet an Claude Code übergeben
 
 ---
