@@ -45,20 +45,83 @@ const ROUTE_ROBOTS = {
   datenschutz: 'index, nofollow',
 };
 
+const SITE = typeof process !== 'undefined' && process.env && process.env.SITE_URL
+  ? process.env.SITE_URL
+  : (typeof window !== 'undefined' ? window.location.origin : 'https://innovation-republic.de');
+
+const ROUTE_BREADCRUMB = {
+  plattform:   'Plattform',
+  kmu:         'Für Bedarfsträger',
+  anbieter:    'Für Anbieter',
+  foerderung:  'Förderung',
+  ueber:       'Über uns',
+  impressum:   'Impressum',
+  datenschutz: 'Datenschutz',
+};
+
+const ROUTE_SERVICE = {
+  plattform:  { name: 'Innovation Republic Plattform', type: 'Innovationsplattform' },
+  kmu:        { name: 'Innovations-Begleitung für KMU', type: 'Beratungsdienstleistung' },
+  anbieter:   { name: 'Anbieter-Matching', type: 'Vermittlungsdienstleistung' },
+  foerderung: { name: 'Fördergeld-Check', type: 'Förderberatung' },
+};
+
+function setJsonLd(id, data) {
+  let el = document.getElementById(id);
+  if (!el) {
+    el = document.createElement('script');
+    el.type = 'application/ld+json';
+    el.id = id;
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(data);
+}
+
 function applyHeadForRoute(route) {
   if (typeof document === 'undefined') return;
   const t = ROUTE_TITLE[route] || ROUTE_TITLE.home;
   if (document.title !== t) document.title = t;
+
   // Canonical
   let link = document.querySelector('link[rel="canonical"]');
   if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
-  link.href = route === 'home'
-    ? 'https://innovation-republic.eu/'
-    : `https://innovation-republic.eu/#/${route}`;
+  link.href = route === 'home' ? `${SITE}/` : `${SITE}/#/${route}`;
+
   // Robots
   let robots = document.querySelector('meta[name="robots"]');
   if (!robots) { robots = document.createElement('meta'); robots.name = 'robots'; document.head.appendChild(robots); }
   robots.content = ROUTE_ROBOTS[route] || 'index, follow';
+
+  // BreadcrumbList
+  if (route === 'home') {
+    const el = document.getElementById('ld-breadcrumb');
+    if (el) el.remove();
+  } else {
+    setJsonLd('ld-breadcrumb', {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: ROUTE_BREADCRUMB[route] || route, item: `${SITE}/#/${route}` },
+      ],
+    });
+  }
+
+  // Service-Schema für relevante Seiten
+  if (ROUTE_SERVICE[route]) {
+    setJsonLd('ld-service', {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: ROUTE_SERVICE[route].name,
+      serviceType: ROUTE_SERVICE[route].type,
+      provider: { '@type': 'Organization', name: 'Innovation Republic', url: `${SITE}/` },
+      url: `${SITE}/#/${route}`,
+      areaServed: ['DE', 'AT', 'CH'],
+    });
+  } else {
+    const el = document.getElementById('ld-service');
+    if (el) el.remove();
+  }
 }
 
 function ProductionApp() {

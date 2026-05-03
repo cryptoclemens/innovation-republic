@@ -104,7 +104,7 @@ async function copyStaticFiles() {
 }
 
 async function generateSeoFiles() {
-  const ROUTES = ["", "plattform", "kmu", "anbieter", "foerderung", "ueber", "impressum"];
+  const ROUTES = ["", "plattform", "kmu", "anbieter", "foerderung", "ueber", "impressum", "datenschutz"];
   const today = new Date().toISOString().slice(0, 10);
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
@@ -148,8 +148,7 @@ ${ROUTES.map(r => {
 }
 
 async function generateIndexHtml() {
-  // Produktions-Head: vollständige SEO-Tags + JSON-LD.
-  // Quelle für die FAQ-Antworten / Org-Daten: index.html (Dev) → identisch halten!
+  const TODAY = new Date().toISOString().slice(0, 10);
   const html = `<!DOCTYPE html>
 <html lang="de">
 <head>
@@ -181,7 +180,7 @@ async function generateIndexHtml() {
 {"@context":"https://schema.org","@type":"Organization","name":"Innovation Republic","url":"${SITE_URL}/","logo":"${SITE_URL}/assets/logo-ir.png","image":"${SITE_URL}/assets/og-image.png","description":"Gemeinnützige Initiative, die Innovations-Vorhaben für kleine und mittlere Unternehmen kuratiert.","areaServed":["DE","AT","CH"],"email":"hello@innovationrepublic.de","address":{"@type":"PostalAddress","streetAddress":"Leopoldstraße 31","postalCode":"80802","addressLocality":"München","addressCountry":"DE"},"parentOrganization":{"@type":"Organization","name":"vencly GmbH","url":"https://www.vencly.com/"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Innovation Republic","url":"${SITE_URL}/","inLanguage":"de-DE"}
+{"@context":"https://schema.org","@type":"WebSite","name":"Innovation Republic","url":"${SITE_URL}/","inLanguage":"de-DE","dateModified":"${TODAY}"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Was ist Innovation Republic?","acceptedAnswer":{"@type":"Answer","text":"Innovation Republic ist eine gemeinnützige Initiative, die Innovations-Vorhaben für kleine und mittlere Unternehmen kuratiert."}},{"@type":"Question","name":"Für wen ist Innovation Republic gedacht?","acceptedAnswer":{"@type":"Answer","text":"Für kleine und mittlere Unternehmen im deutschsprachigen Raum, die Innovations- oder Digitalisierungsvorhaben umsetzen wollen."}},{"@type":"Question","name":"Was kostet Innovation Republic?","acceptedAnswer":{"@type":"Answer","text":"Bedarfsklärung und Matching sind für KMU kostenfrei. Sprint-Umsetzungen rechnen die Anbieter direkt mit dem KMU ab."}},{"@type":"Question","name":"Wie läuft ein Innovations-Sprint ab?","acceptedAnswer":{"@type":"Answer","text":"Bedarf klären (1–2 Wochen), Anbieter matchen (2–3 Wochen), Sprint umsetzen (4–12 Wochen) mit fester Begleitung."}},{"@type":"Question","name":"Welche Förderungen sind verfügbar?","acceptedAnswer":{"@type":"Answer","text":"Je nach Vorhaben: go-digital, Digital Jetzt oder regionale Innovationsgutscheine."}}]}

@@ -43,11 +43,11 @@
 ## Claude Code — Noch offen
 
 ### SEO (nächste Priorität)
-- [ ] `BreadcrumbList` JSON-LD auf allen Subpages (in `subpages.jsx` und `legal.jsx`)
-- [ ] `Service`-Schema für jedes Tool: Robert, Konrad, SpinIn, James, Roland, Fördergeld-Check
-- [ ] `#/datenschutz` in `sitemap.xml` ergänzen (aktuell fehlt diese Route)
-- [ ] `dateModified` in JSON-LD Schemas (Freshness-Signal für Google)
-- [ ] `<meta robots="index, nofollow">` für Impressum + Datenschutz in `_app.jsx` bereits via `applyHeadForRoute()` — verifizieren ob korrekt gesetzt wird
+- [x] `BreadcrumbList` JSON-LD dynamisch per Route in `applyHeadForRoute()` (`_app.jsx`)
+- [x] `Service`-Schema für Plattform, KMU, Anbieter, Förderung — dynamisch per Route
+- [x] `#/datenschutz` in `sitemap.xml` ergänzt
+- [x] `dateModified` in WebSite JSON-LD (Freshness-Signal für Google)
+- [x] `<meta robots="index, nofollow">` für Impressum + Datenschutz via `applyHeadForRoute()`
 
 ### Analytics
 - [ ] Cloudflare Web Analytics Beacon-Snippet in `build.mjs → generateIndexHtml()` einsetzen
@@ -90,6 +90,16 @@
 - [ ] `directionA/home.jsx` — Copy-Pass nach GEO-Prinzipien
 - [ ] `directionA/subpages.jsx` — Plattform, KMU, Anbieter, Förderung, Über uns
 - [ ] `directionA/check.jsx` — Check-Modal Texte prüfen
+
+### Mobile (Priorität — aktuelle Version nicht lesbar auf iOS Safari)
+- [ ] Responsive Breakpoints für alle Sektionen in `directionA/style.css`
+- [ ] Hero-Grid: Desktop 2-spaltig → Mobile 1-spaltig, OS-Widget unterhalb Text
+- [ ] Navigation: Hamburger-Menü oder Collapsed Nav auf Mobile
+- [ ] dirA-os (App-Tile-Grid): horizontales Scrollen oder 2-Spalten-Grid auf Mobile
+- [ ] Schriftgrößen anpassen (h1 zu groß für Mobile)
+- [ ] Touch-Targets: Buttons mind. 44×44px
+- [ ] Check-Modal: vollständig scrollbar auf Mobile, kein Overflow
+- [ ] Sticky-Pill: Position + Größe auf Mobile prüfen
 
 ### UI / Design
 - [ ] Team-Sektion in `ADirectionAUeber` reaktivieren (`{false && …}` → sichtbar)
