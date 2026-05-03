@@ -1,5 +1,6 @@
 /* Direction A — Shared building blocks
  * SEO-Pass: alle href="#" durch echte Hash-Routes ersetzt.
+ * Mobile-Pass v3 (2026-05): ANav mit Hamburger-Toggle ab < 880px.
  */
 
 const ALogo = ({ small = false }) => (
@@ -8,27 +9,61 @@ const ALogo = ({ small = false }) => (
   </a>
 );
 
-const ANav = ({ active = "home" }) => (
-  <nav className="dirA-nav">
-    <ALogo />
-    <div className="dirA-nav-links">
-      <a href="#/plattform" style={active === "platform" ? { color: "var(--accent-red)" } : {}}>Prozess</a>
-      <a href="#/kmu" style={active === "kmu" ? { color: "var(--accent-red)" } : {}}>Für Bedarfsträger</a>
-      <a href="#/anbieter" style={active === "anbieter" ? { color: "var(--accent-red)" } : {}}>Für Anbieter</a>
-      <a href="#/foerderung" style={active === "spenden" ? { color: "var(--accent-red)" } : {}}>Förderung</a>
-      <a href="#/ueber" style={active === "ueber" ? { color: "var(--accent-red)" } : {}}>Über uns</a>
-    </div>
-    <div className="dirA-nav-actions">
-      <span className="dirA-lang">
-        <span className="active">DE</span>
-        <span>/</span>
-        <span>EN</span>
-      </span>
-      <a href="#/kmu" className="dirA-btn dirA-btn-ghost">Anmelden</a>
-      <a href="#/kmu" className="dirA-btn dirA-btn-primary">Prozess starten <span className="arr">→</span></a>
-    </div>
-  </nav>
-);
+const ANav = ({ active = "home" }) => {
+  const [open, setOpen] = React.useState(false);
+
+  // Menü beim Wechsel der Hash-Route schließen
+  React.useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("hashchange", close);
+    return () => window.removeEventListener("hashchange", close);
+  }, []);
+
+  // Body-Scroll-Lock solange Mobile-Menü offen
+  React.useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [open]);
+
+  const linkStyle = (key) => active === key ? { color: "var(--accent-red)" } : {};
+
+  return (
+    <nav className="dirA-nav">
+      <ALogo />
+      <div className={"dirA-nav-links" + (open ? " open" : "")}>
+        <a href="#/plattform" style={linkStyle("platform")} onClick={() => setOpen(false)}>Prozess</a>
+        <a href="#/kmu" style={linkStyle("kmu")} onClick={() => setOpen(false)}>Für Bedarfsträger</a>
+        <a href="#/anbieter" style={linkStyle("anbieter")} onClick={() => setOpen(false)}>Für Anbieter</a>
+        <a href="#/foerderung" style={linkStyle("spenden")} onClick={() => setOpen(false)}>Förderung</a>
+        <a href="#/ueber" style={linkStyle("ueber")} onClick={() => setOpen(false)}>Über uns</a>
+      </div>
+      <div className="dirA-nav-actions">
+        <span className="dirA-lang">
+          <span className="active">DE</span>
+          <span>/</span>
+          <span>EN</span>
+        </span>
+        <a href="#/kmu" className="dirA-btn dirA-btn-ghost">Anmelden</a>
+        <a href="#/kmu" className="dirA-btn dirA-btn-primary">Prozess starten <span className="arr">→</span></a>
+        <button
+          type="button"
+          className="dirA-nav-toggle"
+          aria-label={open ? "Menü schließen" : "Menü öffnen"}
+          aria-expanded={open}
+          aria-controls="dirA-nav-mobile"
+          onClick={() => setOpen(o => !o)}
+        >
+          <span className="bars" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+      </div>
+    </nav>
+  );
+};
 
 const TOOLS = [
   { code: "RB", name: "Robert", desc: "Ideation · Bedarfsformulierung", placeholder: "Partner-Slot offen", status: "soon" },

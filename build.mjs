@@ -69,6 +69,7 @@ async function build() {
 
 async function copyStaticFiles() {
   await copyFile("directionA/style.css", `${DIST}/directionA/style.css`);
+  await copyFile("directionA/style.responsive.css", `${DIST}/directionA/style.responsive.css`);
   await copyFile("directionA/check.css", `${DIST}/directionA/check.css`);
   if (existsSync("shared/tokens.css")) {
     await mkdir(`${DIST}/shared`, { recursive: true });
@@ -191,6 +192,7 @@ async function generateIndexHtml() {
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shared/tokens.css">
 <link rel="stylesheet" href="/directionA/style.css">
+<link rel="stylesheet" href="/directionA/style.responsive.css">
 <link rel="stylesheet" href="/directionA/check.css">
 <style>
   html, body { margin: 0; padding: 0; background: #F6F5F1; }
