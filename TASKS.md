@@ -71,9 +71,7 @@
 ## Claude Code — Noch offen
 
 ### Analytics
-- [ ] Cloudflare Web Analytics Beacon-Snippet in `build.mjs → generateIndexHtml()` einsetzen
-  → Slot ist markiert: `<!-- Cloudflare Web Analytics: … -->`
-  → Snippet kommt aus dem Cloudflare Dashboard nach Aktivierung (manuelle Übergabe nötig)
+- [x] Cloudflare Web Analytics aktiv (`innovation-republic.eu`, `auto_install: true`) — Beacon wird von Cloudflare am Edge injiziert, kein Code nötig
 
 ### Routing & Subpages
 - [ ] Subpages-Routing verifizieren: alle 8 Hash-Routen im Browser testen

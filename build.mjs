@@ -205,7 +205,7 @@ async function generateIndexHtml() {
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="/${bundleFile}"></script>
-<!-- Cloudflare Web Analytics: nach Aktivierung im CF-Dashboard das beacon-Snippet hier einsetzen -->
+<!-- Cloudflare Web Analytics: auto_install=true, Beacon wird von Cloudflare am Edge injiziert -->
 </body>
 </html>
 `;

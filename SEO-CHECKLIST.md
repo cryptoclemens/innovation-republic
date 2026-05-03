@@ -68,7 +68,7 @@
 
 ## 6. Analytics / Tracking
 
-- [~] **Cloudflare Web Analytics** — Beacon-Snippet-Slot in `build.mjs → generateIndexHtml` markiert; **Aktivierung im CF-Dashboard pending**
+- [x] **Cloudflare Web Analytics** — aktiv auf `innovation-republic.eu`, `auto_install: true`, Beacon wird am Edge injiziert
 - [x] **kein GA4** — bewusst weggelassen
 - [x] **Kein Cookie-Banner** — kein Tracking, keine notwendige Einwilligung
 
